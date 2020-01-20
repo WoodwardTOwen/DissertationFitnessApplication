@@ -269,8 +269,9 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     public ArrayList<Float> plateConfig () {
 
         ArrayList<Float> configList = new ArrayList<>();
-
-
+        // This is to test for a commit
+        int i = 0;
+        int sdasdasdasdasdas = i;
 
         return configList;
     }

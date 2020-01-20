@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="CalculatePMC">Calculate Result</string>
+    <string name="InputWeightPMC">Input Weight (e.g. 100)</string>
+    <string name="OneTwoFiveWeight">1.25Kg</string>
+    <string name="TwoFiveWeightSmall">2.5kg</string>
+    <string name="FiveWeight">5kg</string>
+    <string name="TenWeight">10kg</string>
+    <string name="FifteenWeight">15kg</string>
+    <string name="TwentyWeight">20kg</string>
+    <string name="TwentyFiveWeight">25kg</string>
+
+
+    <string-array name="BarbellSelection">
+        <item name="Standard">Standard Barbell - 20kg</item>
+        <item name="EzBar">Ez-Bar - 10kg</item>
+        <item name="TrapBar">Hex Trap Bar - 25kg</item>
+        <item name="SafetyBar">Safety Squat Bar - 30kg</item>
+        <item name="SquatBar">Squat Bar - 25kg</item>
+        <item name="Axel">Axel Barbell -20kg</item>
+        <item name="Log">Log - 35kg</item>
+    </string-array>
+
+</resources>

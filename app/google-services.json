@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "740146605554",
+    "firebase_url": "https://fitnessapplicationdissertation.firebaseio.com",
+    "project_id": "fitnessapplicationdissertation",
+    "storage_bucket": "fitnessapplicationdissertation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740146605554:android:818e0066d6643f6f914f6b",
+        "android_client_info": {
+          "package_name": "woodward.owen.fitnessapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740146605554-3bu58kukoaijp4grotdmnqemncubdk5a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "woodward.owen.fitnessapplication",
+            "certificate_hash": "546599109f75b039363a6f35f36ca51fad72292a"
+          }
+        },
+        {
+          "client_id": "740146605554-iv7m98ujnk82eee4eafqdbijsb0b343d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjdNEZJ64AwBwe7Nagk8tG9huXLSneyLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740146605554-iv7m98ujnk82eee4eafqdbijsb0b343d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

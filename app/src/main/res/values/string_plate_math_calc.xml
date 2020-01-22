@@ -21,4 +21,11 @@
         <item name="Log">Log - 35kg</item>
     </string-array>
 
+    <string name="BarbellName">Barbell Type</string>
+    <string name="BarbellWeight">Barbell Weight (Kg)</string>
+    <string name="AddBarbellBnt">Add Barbell</string>
+
+    <string name="OptionsMenuEditBarbell">Edit Barbell</string>
+    <string name="OptionsMenuTestingTab">Testing Tab</string>
+
 </resources>

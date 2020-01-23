@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import woodward.owen.fitnessapplication.HomePage;
 import woodward.owen.fitnessapplication.R;
 
 public class PlateMathBarbellEditPop extends Activity {
@@ -30,7 +31,7 @@ public class PlateMathBarbellEditPop extends Activity {
         setContentView(R.layout.barbell_edit_popup);
 
         Bundle bundle = getIntent().getExtras();
-        ArrayList<BarbellType> retrievedListofBarbells = bundle.getParcelableArrayList("barbellList");
+        final ArrayList<BarbellType> retrievedListOfBarbells = bundle.getParcelableArrayList("barbellList");
 
 
         DisplayMetrics displayMetrics = new DisplayMetrics(); getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -60,8 +61,31 @@ public class PlateMathBarbellEditPop extends Activity {
 
                 if(isValidBarbell && isValidWeightNumber) {
                     //Perform addition to spinner
-                    //and output toast
-                    ToastMsgSuccess();
+
+                    try {
+                        String barbellNameStr = barbellName.getText().toString();
+                        float barbellWeightStr = Float.parseFloat(barbellWeight.getText().toString());
+
+                        boolean checker = CheckIfExists(barbellNameStr, retrievedListOfBarbells);
+
+                        if(checker) {
+                            BarbellType tempBarbell = new BarbellType(barbellNameStr, barbellWeightStr);
+                            retrievedListOfBarbells.add(tempBarbell);
+                            ToastMsgSuccess();
+
+                            Intent intent = new Intent();
+                            intent.putExtra("AddedBarbellList", retrievedListOfBarbells);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                        else {
+                            ToastMsgAlreadyExists();
+                        }
+
+                    }
+                    catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 else {
                     //send toast message that it has failed -> dont add item to spinner
@@ -94,12 +118,31 @@ public class PlateMathBarbellEditPop extends Activity {
         }
     }
 
+
+    //May need potentially altering so its more accurate -> doesn't count spaces in comparing -> more accurate in comparisons
+    public boolean CheckIfExists (String barbellName, ArrayList<BarbellType> arrayList) {
+        for(BarbellType str : arrayList) {
+            String tempStr = str.getBarbellName().toLowerCase();
+            barbellName = barbellName.toLowerCase();
+
+            if(tempStr.equals(barbellName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     public void ToastMsgSuccess () {
         Toast.makeText(this, "Barbell Added", Toast.LENGTH_SHORT).show();
     }
 
     public void ToastMsgDenied () {
         Toast.makeText(this, "This barbell cannot be added, a field has been entered incorrectly", Toast.LENGTH_SHORT).show();
+    }
+
+    public void ToastMsgAlreadyExists() {
+        Toast.makeText(this, "This barbell name already exists", Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -26,18 +26,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import woodward.owen.fitnessapplication.R;
@@ -125,6 +116,20 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                barbellList.clear();
+                barbellList = data.getParcelableArrayListExtra("AddedBarbellList");
+                saveBarbellData();
+                setSpinnerData();
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate((R.menu.options_menu_plate_math), menu);
@@ -142,7 +147,8 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("barbellList", barbellList);
                 intent.putExtras(bundle);
-                this.startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivityForResult(intent, 1);
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Item 2 selected (test)", Toast.LENGTH_SHORT).show();

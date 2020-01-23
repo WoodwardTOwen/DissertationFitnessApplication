@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlateMathCalcActivity" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".PlateMathCalc.PlateMathCalcActivity" android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".ExerciseItemList" />
         <activity android:name=".HomePage">
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PlateMathBarbellEditPop" android:theme="@style/AppTheme.CustomTheme"></activity>
+        <activity android:name=".PlateMathCalc.PlateMathBarbellEditPop" android:theme="@style/AppTheme.CustomTheme"></activity>
     </application>
 
 </manifest>

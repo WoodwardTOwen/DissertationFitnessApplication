@@ -9,6 +9,8 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 
+import woodward.owen.fitnessapplication.PlateMathCalc.PlateMathCalcActivity;
+
 public class HomePage extends AppCompatActivity {
 
     ConstraintLayout constraintLayout;

@@ -1,23 +1,23 @@
-package woodward.owen.fitnessapplication;
+package woodward.owen.fitnessapplication.PlateMathCalc;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.List;
+
+import woodward.owen.fitnessapplication.R;
 
 public class PlateMathBarbellEditPop extends Activity {
 
@@ -28,6 +28,10 @@ public class PlateMathBarbellEditPop extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.barbell_edit_popup);
+
+        Bundle bundle = getIntent().getExtras();
+        ArrayList<BarbellType> retrievedListofBarbells = bundle.getParcelableArrayList("barbellList");
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics(); getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
@@ -50,23 +54,21 @@ public class PlateMathBarbellEditPop extends Activity {
 
                 barbellName = findViewById(R.id.barbellTypeTB);
                 barbellWeight = findViewById(R.id.barbellWeightTb);
-                String tempStringName = barbellName.getText().toString();
-                String tempStringWeight = barbellWeight.getText().toString();
 
-                boolean isValidBarbell = ValidateBarbell(tempStringName);
-                boolean isValidWeightNumber = ValidateWeightNumber(tempStringWeight);
+                boolean isValidBarbell = ValidateBarbell(barbellName.getText().toString());
+                boolean isValidWeightNumber = ValidateWeightNumber(barbellWeight.getText().toString());
 
                 if(isValidBarbell && isValidWeightNumber) {
                     //Perform addition to spinner
                     //and output toast
+                    ToastMsgSuccess();
                 }
                 else {
                     //send toast message that it has failed -> dont add item to spinner
-
+                    ToastMsgDenied();
                 }
             }
         });
-
 
     }
 
@@ -90,6 +92,14 @@ public class PlateMathBarbellEditPop extends Activity {
         else {
             return false;
         }
+    }
+
+    public void ToastMsgSuccess () {
+        Toast.makeText(this, "Barbell Added", Toast.LENGTH_SHORT).show();
+    }
+
+    public void ToastMsgDenied () {
+        Toast.makeText(this, "This barbell cannot be added, a field has been entered incorrectly", Toast.LENGTH_SHORT).show();
     }
 
 }

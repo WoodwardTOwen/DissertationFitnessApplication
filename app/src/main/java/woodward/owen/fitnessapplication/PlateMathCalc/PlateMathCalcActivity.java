@@ -1,43 +1,46 @@
-package woodward.owen.fitnessapplication;
+package woodward.owen.fitnessapplication.PlateMathCalc;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
+
+import woodward.owen.fitnessapplication.R;
 
 
 public class PlateMathCalcActivity extends AppCompatActivity {
@@ -50,6 +53,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
 
     private ArrayList<String> tempArrayList = new ArrayList<>();
+    private ArrayList<BarbellType> barbellList;
 
    //endregion
 
@@ -68,6 +72,56 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plate_math_calc);
+
+        //Need to populate HashMap with values straight away
+        //Could call the read in function if the file exists
+        mBarbellSelectorCb = findViewById(R.id.barbellSelectorCb);
+        setSpinnerData();
+
+    }
+
+    private void setSpinnerData() {
+        loadBarbellData();
+
+        ArrayAdapter<BarbellType> barbellTypeArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, barbellList);
+        barbellTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mBarbellSelectorCb.setAdapter(barbellTypeArrayAdapter);
+
+        //Set onlick listender doesnt work here
+
+    }
+
+    private void saveBarbellData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(barbellList);
+        editor.putString("Barbell List", json);
+        editor.apply();
+
+    }
+
+    private void loadBarbellData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("Barbell List", null);
+        Type type = new TypeToken<ArrayList<BarbellType>>() {}.getType();
+        barbellList = gson.fromJson(json, type);
+
+        if(barbellList == null) {
+            barbellList = new ArrayList<>();
+
+            BarbellType barbellStandard = new BarbellType("Standard Barbell 20kg", 20f);
+            BarbellType barbellHex = new BarbellType("Hex Bar 25kg", 25f);
+            BarbellType barbellSafety = new BarbellType("Safety Squat Bar 30kg", 30f);
+            BarbellType barbellEz = new BarbellType("Ez Curl Bar", 10f);
+
+            barbellList.add(barbellStandard);
+            barbellList.add(barbellHex);
+            barbellList.add(barbellSafety);
+            barbellList.add(barbellEz);
+            saveBarbellData();
+        }
     }
 
     @Override
@@ -84,8 +138,11 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.item1:
                 Toast.makeText(this, "Item 1 selected (test)", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), PlateMathBarbellEditPop.class);
-                startActivity(intent);
+                Intent intent = new Intent(this, PlateMathBarbellEditPop.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("barbellList", barbellList);
+                intent.putExtras(bundle);
+                this.startActivity(intent);
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Item 2 selected (test)", Toast.LENGTH_SHORT).show();
@@ -105,7 +162,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         //region Setting variable data
         mCalculateResultBnt = findViewById(R.id.calculatePMCBnt);
         mInputWeightValueTb = findViewById(R.id.inputWeightTxtBox);
-        mBarbellSelectorCb = findViewById(R.id.barbellSelectorCb);
         mOneTwoFiveCb = findViewById(R.id.weight125Cb);
         mTwoFiveCb = findViewById(R.id.weight25SmallCb);
         mFiveCb = findViewById(R.id.weight5Cb);
@@ -301,47 +357,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
             plateStack.set(plateStack.size() - i - 1, temp);
         }
         return plateStack;
-    }
-
-    private void writeToFile(String data, Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("BarbellTypes.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
-
-    private String readFromFile(Context context) {
-
-        String returnVal = "";
-
-        try {
-            InputStream inputStream = context.openFileInput("config.txt");
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                returnVal = stringBuilder.toString();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        }
-
-        return returnVal;
     }
 
 

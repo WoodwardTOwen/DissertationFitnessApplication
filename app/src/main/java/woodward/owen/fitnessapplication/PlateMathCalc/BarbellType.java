@@ -5,18 +5,18 @@ import android.os.Parcelable;
 
 public class BarbellType implements Parcelable {
     private String barbellName;
-    private Float barbellWeight;
+    private int barbellWeight;
 
-    public BarbellType (String pBarbellName, Float pBarbellWeight) {
+    public BarbellType (String pBarbellName, int pBarbellWeight) {
         this.barbellName = pBarbellName;
         this.barbellWeight = pBarbellWeight;
     }
 
     public String getBarbellName () { return barbellName; }
-    public Float getBarbellWeight() { return barbellWeight; }
+    public int getBarbellWeight() { return barbellWeight; }
 
     public void setBarbellName(String pBarbellName) { this.barbellName = pBarbellName; }
-    public void setBarbellWeight(Float pBarbellWeight) { this.barbellWeight = pBarbellWeight; }
+    public void setBarbellWeight(int pBarbellWeight) { this.barbellWeight = pBarbellWeight; }
 
     @Override
     public String toString() {
@@ -31,12 +31,12 @@ public class BarbellType implements Parcelable {
     @Override
     public void writeToParcel(Parcel destination, int argument1) {
         destination.writeString(barbellName);
-        destination.writeFloat(barbellWeight);
+        destination.writeInt(barbellWeight);
     }
 
     public BarbellType (Parcel in) {
         barbellName = in.readString();
-        barbellWeight = in.readFloat();
+        barbellWeight = in.readInt();
     }
 
     public static final Parcelable.Creator<BarbellType> CREATOR = new Parcelable.Creator<BarbellType>() {

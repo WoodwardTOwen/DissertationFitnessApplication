@@ -29,6 +29,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import woodward.owen.fitnessapplication.R;
@@ -63,26 +65,22 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plate_math_calc);
-
-        //Need to populate HashMap with values straight away
-        //Could call the read in function if the file exists
         mBarbellSelectorCb = findViewById(R.id.barbellSelectorCb);
+        listView = findViewById(R.id.resultsListView);
         setSpinnerData();
-
     }
 
     private void setSpinnerData() {
         loadBarbellData();
 
+        //Create adapter to place to create bridge between data and View
         ArrayAdapter<BarbellType> barbellTypeArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, barbellList);
         barbellTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mBarbellSelectorCb.setAdapter(barbellTypeArrayAdapter);
-
-        //Set onlick listender doesnt work here
-
     }
 
     private void saveBarbellData() {
+        //Saves data to shared preferences
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -93,19 +91,21 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     }
 
     private void loadBarbellData() {
+        // load the data to be displayed within the spinner from shared preferences
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("Barbell List", null);
         Type type = new TypeToken<ArrayList<BarbellType>>() {}.getType();
         barbellList = gson.fromJson(json, type);
 
+        //If a saved file cannot be found, then create default values for spinner
         if(barbellList == null) {
             barbellList = new ArrayList<>();
 
-            BarbellType barbellStandard = new BarbellType("Standard Barbell 20kg", 20f);
-            BarbellType barbellHex = new BarbellType("Hex Bar 25kg", 25f);
-            BarbellType barbellSafety = new BarbellType("Safety Squat Bar 30kg", 30f);
-            BarbellType barbellEz = new BarbellType("Ez Curl Bar", 10f);
+            BarbellType barbellStandard = new BarbellType("Standard Barbell 20kg", 20);
+            BarbellType barbellHex = new BarbellType("Hex Bar 25kg", 25);
+            BarbellType barbellSafety = new BarbellType("Safety Squat Bar 30kg", 30);
+            BarbellType barbellEz = new BarbellType("Ez Curl Bar 10kg", 10);
 
             barbellList.add(barbellStandard);
             barbellList.add(barbellHex);
@@ -119,6 +119,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //bringing back the data if a new barbell has been made -> apply the new changes
         if(requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 barbellList.clear();
@@ -133,7 +134,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate((R.menu.options_menu_plate_math), menu);
-
         return true;
     }
 
@@ -142,7 +142,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
 
         switch(item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected (test)", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, PlateMathBarbellEditPop.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("barbellList", barbellList);
@@ -151,7 +150,12 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                 this.startActivityForResult(intent, 1);
                 return true;
             case R.id.item2:
-                Toast.makeText(this, "Item 2 selected (test)", Toast.LENGTH_SHORT).show();
+                Intent intentDelete = new Intent(this, PlateMathBarbellDeletePopUp.class);
+                Bundle bundleDelete = new Bundle();
+                bundleDelete.putParcelableArrayList("barbellList", barbellList);
+                intentDelete.putExtras(bundleDelete);
+                intentDelete.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivityForResult(intentDelete, 1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -161,9 +165,8 @@ public class PlateMathCalcActivity extends AppCompatActivity {
 
     public void calcPlates (View view) {
 
-        adapter=new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tempArrayList);
-        listView = findViewById(R.id.resultsListView);
-        listView.setAdapter(adapter);
+//        adapter=new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tempArrayList);
+//        listView.setAdapter(adapter);
 
         //region Setting variable data
         mCalculateResultBnt = findViewById(R.id.calculatePMCBnt);
@@ -184,17 +187,18 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                 try {
 
                     float inputVal = Float.parseFloat(mInputWeightValueTb.getText().toString());
-                    String barbellChoice = mBarbellSelectorCb.getSelectedItem().toString();
-                    int barbell = BarWeightDecider(barbellChoice);
+                    BarbellType barbellObj = (BarbellType) mBarbellSelectorCb.getSelectedItem();
+                    int barbell = (barbellObj.getBarbellWeight());
+
                     int response = Validation(inputVal, barbell);
 
                     switch(response) {
                         case 1:
-                            int counterList = 0;
 
                             float mathWeight = inputVal - barbell;
                             ArrayList<Float> plateStack = new ArrayList<>();
-                            Map<Float,Integer> PlateDictionary = new HashMap<>();
+                            Map<Float,Integer> PlateDictionary = new LinkedHashMap<>();
+                            List<Map.Entry<Float, Integer>> mListofPlateDictionaryItems;
 
                             plateStack = SelectedPlates();
                             plateStack = reverseArrayList(plateStack);
@@ -210,7 +214,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                                     if(mathWeight / plateStack.get(x) == 1) {
 
                                         if(PlateDictionary.containsKey(weightToAdd)){
-                                            counterList++;
                                             PlateDictionary.put(weightToAdd, PlateDictionary.get(weightToAdd) + 2);
                                             found = true;
                                             counter = 0;
@@ -218,7 +221,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                                         }
                                         else {
                                             PlateDictionary.put(weightToAdd, 2);
-                                            counterList++;
                                             found = true;
                                             counter = 0;
                                             break;
@@ -226,14 +228,12 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                                     }
                                     else if (mathWeight - plateStack.get(x) != 0 && mathWeight > plateStack.get(x)) {
                                         if(PlateDictionary.containsKey(weightToAdd)) {
-                                            counterList++;
                                             mathWeight = mathWeight - plateStack.get(x);
                                             PlateDictionary.put(weightToAdd, PlateDictionary.get(weightToAdd) + 2);
                                             counter  =0;
                                             x = -1;
                                         }
                                         else {
-                                            counterList++;
                                             mathWeight = mathWeight - plateStack.get(x);
                                             PlateDictionary.put(plateStack.get(x) /2, 2);
                                             counter = 0;
@@ -249,28 +249,25 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                                     break;
                                 }
                             }
-
                             if(found) {
                                 Toast.makeText(getApplicationContext(),"Found a weight", Toast.LENGTH_SHORT).show();
-
-                                tempArrayList.add("Clicked : "+ counterList++);
-                                adapter.notifyDataSetChanged();
-
+                                PlateMathCustomAdapter mPlateDictionaryAdapter;
+                                mListofPlateDictionaryItems = new ArrayList<>(PlateDictionary.entrySet());
+                                mPlateDictionaryAdapter = new PlateMathCustomAdapter(getApplicationContext(), mListofPlateDictionaryItems);
+                                listView.setAdapter(mPlateDictionaryAdapter);
                             }
                             else {
                                 Toast.makeText(getApplicationContext(),"Please ensure plates are selected and the input weight is valid", Toast.LENGTH_SHORT).show();
                             }
-
-
                             break;
                         case 2:
 
-                            Toast.makeText(getApplicationContext(),"No weight required, just barbell", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"No weight required, just barbell", Toast.LENGTH_LONG).show();
 
                             break;
                         default:
 
-                            Toast.makeText(getApplicationContext(),"UNRACKABLE BRO", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"The Desired Weight Cannot be Loaded", Toast.LENGTH_LONG).show();
                             break;
                     }
                 }
@@ -280,7 +277,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
             }
         });
     }
-
 
     /**
      *
@@ -303,29 +299,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         }
         else {
             return 0;
-        }
-    }
-
-
-    private int BarWeightDecider(String barbell)
-    {
-        switch (barbell){
-            case "Standard Barbell - 20kg":
-                return 20;
-            case "Ez-Bar - 10kg":
-                return 10;
-            case "Hex Trap Bar - 25kg":
-                return 25;
-            case "Safety Squat Bar - 30kg":
-                return 30;
-            case "Squat Bar - 25kg":
-                return 25;
-            case "Axel Barbell -20kg":
-                return 20;
-            case "Log - 35kg":
-                return 35;
-            default:
-                return 0;
         }
     }
 
@@ -355,8 +328,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         return plateStack;
     }
 
-    public ArrayList<Float> reverseArrayList(ArrayList<Float> plateStack)
-    {
+    public ArrayList<Float> reverseArrayList(ArrayList<Float> plateStack) {
         for (int i = 0; i < plateStack.size() / 2; i++) {
             Float temp = plateStack.get(i);
             plateStack.set(i, plateStack.get(plateStack.size() - i - 1));

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/CalculatePMC"
         android:onClick="calcPlates"
+        android:focusedByDefault="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
@@ -144,13 +145,14 @@
 
     <ListView
         android:id="@+id/resultsListView"
-        android:layout_width="161dp"
-        android:layout_height="274dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="382dp"
+        android:layout_height="192dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.064"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.829" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,7 +25,7 @@
     <string name="BarbellWeight">Barbell Weight (Kg)</string>
     <string name="AddBarbellBnt">Add Barbell</string>
 
-    <string name="OptionsMenuEditBarbell">Edit Barbell</string>
-    <string name="OptionsMenuTestingTab">Testing Tab</string>
+    <string name="OptionsMenuEditBarbell">Add New Barbell</string>
+    <string name="OptionsMenuRemoveBarbell">Remove Barbell</string>
 
 </resources>

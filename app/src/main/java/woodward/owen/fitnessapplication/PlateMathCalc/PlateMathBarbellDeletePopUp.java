@@ -1,4 +1,7 @@
 package woodward.owen.fitnessapplication.PlateMathCalc;
 
-public class PlateMathBarbellDeletePopUp {
+import android.app.Activity;
+
+public class PlateMathBarbellDeletePopUp extends Activity {
+
 }

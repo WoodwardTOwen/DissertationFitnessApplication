@@ -6,6 +6,6 @@
         app:showAsAction="never" />
 
     <item android:id="@+id/item2"
-        android:title="@string/OptionsMenuTestingTab"
+        android:title="@string/OptionsMenuRemoveBarbell"
         app:showAsAction="never" />
 </menu>

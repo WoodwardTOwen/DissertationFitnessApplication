@@ -61,17 +61,16 @@ public class PlateMathBarbellEditPop extends Activity {
 
                 if(isValidBarbell && isValidWeightNumber) {
                     //Perform addition to spinner
-
                     try {
                         String barbellNameStr = barbellName.getText().toString();
-                        float barbellWeightStr = Float.parseFloat(barbellWeight.getText().toString());
+                        int barbellWeightStr = Integer.parseInt(barbellWeight.getText().toString());
 
                         boolean checker = CheckIfExists(barbellNameStr, retrievedListOfBarbells);
 
                         if(checker) {
                             BarbellType tempBarbell = new BarbellType(barbellNameStr, barbellWeightStr);
                             retrievedListOfBarbells.add(tempBarbell);
-                            ToastMsgSuccess();
+                            ToastMsgSuccess(tempBarbell);
 
                             Intent intent = new Intent();
                             intent.putExtra("AddedBarbellList", retrievedListOfBarbells);
@@ -109,8 +108,8 @@ public class PlateMathBarbellEditPop extends Activity {
 
     public boolean ValidateWeightNumber (String barbellWeight){
 
-        float inputVal = Float.parseFloat(barbellWeight);
-        if (inputVal % 2.5 == 0) {
+        int inputVal = Integer.parseInt(barbellWeight);
+        if (inputVal % 2.5 == 0 || inputVal > 100) {
             return true;
         }
         else {
@@ -133,8 +132,11 @@ public class PlateMathBarbellEditPop extends Activity {
     }
 
 
-    public void ToastMsgSuccess () {
-        Toast.makeText(this, "Barbell Added", Toast.LENGTH_SHORT).show();
+    public void ToastMsgSuccess (BarbellType barbell) {
+        String name = barbell.getBarbellName();
+        int weight = barbell.getBarbellWeight();
+
+        Toast.makeText(this, "Barbell Added Successfully added: " + "\nBarbell: " + name + "\nWeight: " + weight, Toast.LENGTH_LONG).show();
     }
 
     public void ToastMsgDenied () {

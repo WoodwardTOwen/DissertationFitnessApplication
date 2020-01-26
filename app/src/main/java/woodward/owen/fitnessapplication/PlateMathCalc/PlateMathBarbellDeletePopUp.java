@@ -26,7 +26,7 @@ public class PlateMathBarbellDeletePopUp extends Activity {
 
     private Spinner mBarbellSpinnerRemover;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) { //Changed from NoNull to Nullable
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.barbell_delete_pop_up);
@@ -35,20 +35,7 @@ public class PlateMathBarbellDeletePopUp extends Activity {
         Bundle bundle = getIntent().getExtras();
         retrievedListOfBarbells = bundle.getParcelableArrayList("barbellList");
         setSpinnerData();
-
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        int width = displayMetrics.widthPixels, height = displayMetrics.heightPixels;
-        int screenOrientation = getResources().getConfiguration().orientation;
-
-        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In landscape
-        } else {
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In portrait
-        }
-
+        Display();
 
         Button b = findViewById(R.id.deleteRemoveBarbellBnt);
         b.setOnClickListener(new View.OnClickListener() {
@@ -66,8 +53,8 @@ public class PlateMathBarbellDeletePopUp extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
 
-                        for(BarbellType str : retrievedListOfBarbells) {
-                            if(str.getBarbellName() == barbellName) {
+                        for (BarbellType str : retrievedListOfBarbells) {
+                            if (str.getBarbellName().equals(barbellName)) {
                                 retrievedListOfBarbells.remove(str);
                                 break;
                             }
@@ -98,6 +85,21 @@ public class PlateMathBarbellDeletePopUp extends Activity {
         });
 
     }
+
+    private void Display() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int width = displayMetrics.widthPixels, height = displayMetrics.heightPixels;
+        int screenOrientation = getResources().getConfiguration().orientation;
+
+        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In landscape
+        } else {
+            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In portrait
+        }
+    }
+
     private void setSpinnerData() {
         //Create adapter to place to create bridge between data and View
         ArrayAdapter<BarbellType> barbellTypeArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, retrievedListOfBarbells);

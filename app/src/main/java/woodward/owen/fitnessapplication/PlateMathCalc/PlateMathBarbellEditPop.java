@@ -27,18 +27,7 @@ public class PlateMathBarbellEditPop extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         final ArrayList<BarbellType> retrievedListOfBarbells = bundle.getParcelableArrayList("barbellList");
-
-
-        DisplayMetrics displayMetrics = new DisplayMetrics(); getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        int width = displayMetrics.widthPixels, height = displayMetrics.heightPixels;
-        int screenOrientation = getResources().getConfiguration().orientation;
-
-        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getWindow().setLayout((int)(width*.8),(int)(height*.7));  // In landscape
-        } else {
-            getWindow().setLayout((int)(width*.8),(int)(height*.7));  // In portrait
-        }
+        Display();
 
 
         Button b = (findViewById(R.id.SubmitBarbellBnt));
@@ -88,6 +77,21 @@ public class PlateMathBarbellEditPop extends Activity {
         });
 
     }
+
+    private void Display() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int width = displayMetrics.widthPixels, height = displayMetrics.heightPixels;
+        int screenOrientation = getResources().getConfiguration().orientation;
+
+        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In landscape
+        } else {
+            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In portrait
+        }
+    }
+
 
     public boolean ValidateBarbell (String barbell){
 

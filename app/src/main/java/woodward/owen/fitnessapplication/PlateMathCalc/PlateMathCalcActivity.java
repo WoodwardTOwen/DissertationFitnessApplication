@@ -33,6 +33,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import woodward.owen.fitnessapplication.ExerciseItemList;
 import woodward.owen.fitnessapplication.R;
 
 
@@ -43,9 +44,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     private Spinner mBarbellSelectorCb;
     private Button mCalculateResultBnt;
     private ListView listView;
-    private ArrayAdapter<String> adapter;
-
-    private ArrayList<String> tempArrayList = new ArrayList<>();
     private ArrayList<BarbellType> barbellList;
 
    //endregion
@@ -60,6 +58,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     private CheckBox mTwentyFiveCb;
 //endregion
 
+    private int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +67,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         mBarbellSelectorCb = findViewById(R.id.barbellSelectorCb);
         listView = findViewById(R.id.resultsListView);
         setSpinnerData();
+        CheckSelectedItem();
     }
 
     private void setSpinnerData() {
@@ -165,9 +165,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
 
     public void calcPlates (View view) {
 
-//        adapter=new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, tempArrayList);
-//        listView.setAdapter(adapter);
-
         //region Setting variable data
         mCalculateResultBnt = findViewById(R.id.calculatePMCBnt);
         mInputWeightValueTb = findViewById(R.id.inputWeightTxtBox);
@@ -189,6 +186,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                     float inputVal = Float.parseFloat(mInputWeightValueTb.getText().toString());
                     BarbellType barbellObj = (BarbellType) mBarbellSelectorCb.getSelectedItem();
                     int barbell = (barbellObj.getBarbellWeight());
+
 
                     int response = Validation(inputVal, barbell);
 
@@ -335,6 +333,28 @@ public class PlateMathCalcActivity extends AppCompatActivity {
             plateStack.set(plateStack.size() - i - 1, temp);
         }
         return plateStack;
+    }
+
+    public void CheckSelectedItem() {
+        mBarbellSelectorCb.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                BarbellType selectedItemText = (BarbellType) parent.getItemAtPosition(position);
+                ToastMsgSuccess(selectedItemText);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    public void ToastMsgSuccess (BarbellType barbell) {
+        String name = barbell.getBarbellName();
+        int weight = barbell.getBarbellWeight();
+
+        Toast.makeText(this, "Barbell: " + name + "\nWeight: " + weight + "kg", Toast.LENGTH_SHORT).show();
     }
 
 

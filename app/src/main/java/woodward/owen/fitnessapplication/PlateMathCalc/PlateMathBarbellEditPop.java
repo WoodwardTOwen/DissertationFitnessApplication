@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,10 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import woodward.owen.fitnessapplication.HomePage;
 import woodward.owen.fitnessapplication.R;
 
 public class PlateMathBarbellEditPop extends Activity {
@@ -52,7 +47,6 @@ public class PlateMathBarbellEditPop extends Activity {
             public void onClick(View v) {
 
                 //Call methods to check whether values are valid for input and assign it to the boolean values below
-
                 barbellName = findViewById(R.id.barbellTypeTB);
                 barbellWeight = findViewById(R.id.barbellWeightTb);
 
@@ -108,13 +102,14 @@ public class PlateMathBarbellEditPop extends Activity {
 
     public boolean ValidateWeightNumber (String barbellWeight){
 
-        int inputVal = Integer.parseInt(barbellWeight);
-        if (inputVal % 2.5 == 0 || inputVal > 100) {
-            return true;
+        try {
+            int inputVal = Integer.parseInt(barbellWeight);
+            return inputVal % 2.5 == 0 && inputVal <= 100;
         }
-        else {
-            return false;
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
+        return false;
     }
 
 
@@ -136,7 +131,7 @@ public class PlateMathBarbellEditPop extends Activity {
         String name = barbell.getBarbellName();
         int weight = barbell.getBarbellWeight();
 
-        Toast.makeText(this, "Barbell Added Successfully added: " + "\nBarbell: " + name + "\nWeight: " + weight, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Barbell Added Successfully added: " + "\nBarbell: " + name + "\nWeight: " + weight + "kg", Toast.LENGTH_LONG).show();
     }
 
     public void ToastMsgDenied () {

@@ -28,4 +28,7 @@
     <string name="OptionsMenuEditBarbell">Add New Barbell</string>
     <string name="OptionsMenuRemoveBarbell">Remove Barbell</string>
 
+    <string name="RemoveBarbellButton">Remove Barbell</string>
+    <string name="OptionsMenuHelp">Help</string>
+
 </resources>

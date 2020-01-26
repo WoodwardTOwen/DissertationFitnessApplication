@@ -31,8 +31,8 @@ public class HomePage extends AppCompatActivity {
         }
 
         animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(7000);
-        animationDrawable.setExitFadeDuration(7000);
+        animationDrawable.setEnterFadeDuration(5000);
+        animationDrawable.setExitFadeDuration(5000);
         animationDrawable.start();
     }
 

@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.PlateMathCalc;
+package woodward.owen.fitnessapplication.PlateMathCalculatorPackage;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -93,7 +93,7 @@ public class PlateMathBarbellEditPop extends Activity {
     }
 
 
-    public boolean ValidateBarbell (String barbell){
+    private boolean ValidateBarbell (String barbell){
 
         char[] chBarbell = barbell.toCharArray();
         for (char c : chBarbell) {
@@ -104,7 +104,7 @@ public class PlateMathBarbellEditPop extends Activity {
         return true;
     }
 
-    public boolean ValidateWeightNumber (String barbellWeight){
+    private boolean ValidateWeightNumber (String barbellWeight){
 
         try {
             int inputVal = Integer.parseInt(barbellWeight);
@@ -118,7 +118,7 @@ public class PlateMathBarbellEditPop extends Activity {
 
 
     //May need potentially altering so its more accurate -> doesn't count spaces in comparing -> more accurate in comparisons
-    public boolean CheckIfExists (String barbellName, ArrayList<BarbellType> arrayList) {
+    private boolean CheckIfExists (String barbellName, ArrayList<BarbellType> arrayList) {
         for(BarbellType str : arrayList) {
             String tempStr = str.getBarbellName().toLowerCase();
             barbellName = barbellName.toLowerCase();
@@ -131,18 +131,18 @@ public class PlateMathBarbellEditPop extends Activity {
     }
 
 
-    public void ToastMsgSuccess (BarbellType barbell) {
+    private void ToastMsgSuccess (BarbellType barbell) {
         String name = barbell.getBarbellName();
         int weight = barbell.getBarbellWeight();
 
         Toast.makeText(this, "Barbell Added Successfully added: " + "\nBarbell: " + name + "\nWeight: " + weight + "kg", Toast.LENGTH_LONG).show();
     }
 
-    public void ToastMsgDenied () {
+    private void ToastMsgDenied () {
         Toast.makeText(this, "This barbell cannot be added, a field has been entered incorrectly", Toast.LENGTH_SHORT).show();
     }
 
-    public void ToastMsgAlreadyExists() {
+    private void ToastMsgAlreadyExists() {
         Toast.makeText(this, "This barbell name already exists", Toast.LENGTH_SHORT).show();
     }
 

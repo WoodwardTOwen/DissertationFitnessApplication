@@ -1,15 +1,12 @@
-package woodward.owen.fitnessapplication.PlateMathCalc;
+package woodward.owen.fitnessapplication.PlateMathCalculatorPackage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,12 +25,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import woodward.owen.fitnessapplication.ExerciseItemList;
 import woodward.owen.fitnessapplication.R;
 
 
@@ -58,14 +54,14 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     private CheckBox mTwentyFiveCb;
 //endregion
 
-    private int counter = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plate_math_calc);
         mBarbellSelectorCb = findViewById(R.id.barbellSelectorCb);
         listView = findViewById(R.id.resultsListView);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         setSpinnerData();
         CheckSelectedItem();
     }
@@ -194,7 +190,8 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                         case 1:
 
                             float mathWeight = inputVal - barbell;
-                            ArrayList<Float> plateStack = new ArrayList<>();
+                            float secondTime = mathWeight;
+                            ArrayList<Float> plateStack; //Might throw n error here -> change back to New ArrayList if error is thrown
                             Map<Float,Integer> PlateDictionary = new LinkedHashMap<>();
                             List<Map.Entry<Float, Integer>> mListofPlateDictionaryItems;
 
@@ -202,6 +199,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                             plateStack = reverseArrayList(plateStack);
 
                             boolean found = false;
+                            int doubleChecker =0;
 
                             while(true) {
                                 int counter = 0;
@@ -244,7 +242,14 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                                     break;
                                 }
                                 else if (counter == plateStack.size()) {
-                                    break;
+                                    mathWeight = secondTime;
+                                    PlateDictionary.clear();
+                                    Collections.reverse(plateStack);
+                                    doubleChecker++;
+                                    if(doubleChecker == 2)
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                             if(found) {
@@ -353,7 +358,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     public void ToastMsgSuccess (BarbellType barbell) {
         String name = barbell.getBarbellName();
         int weight = barbell.getBarbellWeight();
-
         Toast.makeText(this, "Barbell: " + name + "\nWeight: " + weight + "kg", Toast.LENGTH_SHORT).show();
     }
 

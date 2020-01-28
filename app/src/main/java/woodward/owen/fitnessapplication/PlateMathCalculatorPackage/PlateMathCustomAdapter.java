@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.PlateMathCalc;
+package woodward.owen.fitnessapplication.PlateMathCalculatorPackage;
 
 
 import android.content.Context;
@@ -6,16 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import woodward.owen.fitnessapplication.R;
 
 public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Integer>> {
 
@@ -34,7 +30,7 @@ public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Intege
         TextView textViewValue = currentItemView.findViewById(android.R.id.text2);
 
         textViewKey.setText(String.valueOf(currentEntry.getKey()) + "kg");
-        textViewValue.setText("Number of plates: " + String.valueOf(currentEntry.getValue()));
+        textViewValue.setText("Number of plates: " + String.valueOf(currentEntry.getValue()) + " (" +currentEntry.getValue() / 2 + " Plates Each side)" );
 
         return currentItemView;
     }

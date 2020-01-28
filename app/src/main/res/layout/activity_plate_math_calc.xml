@@ -6,16 +6,17 @@
     android:layout_height="match_parent"
     android:id="@+id/plateMathLayout"
     android:background="@drawable/second_gradient_home_background"
-    tools:context=".PlateMathCalc.PlateMathCalcActivity">
+    tools:context=".PlateMathCalculatorPackage.PlateMathCalcActivity">
 
 
     <Button
         android:id="@+id/calculatePMCBnt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/CalculatePMC"
-        android:onClick="calcPlates"
+        android:layout_width="163dp"
+        android:layout_height="43dp"
+        android:background="@drawable/button_home_menu_design"
         android:focusedByDefault="true"
+        android:onClick="calcPlates"
+        android:text="@string/CalculatePMC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
@@ -25,6 +26,7 @@
 
     <EditText
         android:id="@+id/inputWeightTxtBox"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -39,6 +41,8 @@
 
     <CheckBox
         android:id="@+id/weight125Cb"
+        android:buttonTint="#3f7dd6"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/OneTwoFiveWeight"
@@ -52,6 +56,8 @@
 
     <CheckBox
         android:id="@+id/weight25SmallCb"
+        android:buttonTint="#3f7dd6"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/TwoFiveWeightSmall"
@@ -65,6 +71,8 @@
 
     <CheckBox
         android:id="@+id/weight5Cb"
+        android:buttonTint="#3f7dd6"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/FiveWeight"
@@ -78,6 +86,8 @@
 
     <CheckBox
         android:id="@+id/weight10Cb"
+        android:buttonTint="#3f7dd6"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/TenWeight"
@@ -91,6 +101,8 @@
 
     <CheckBox
         android:id="@+id/weight15Cb"
+        android:buttonTint="#3f7dd6"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/FifteenWeight"
@@ -104,6 +116,8 @@
 
     <CheckBox
         android:id="@+id/weight20Cb"
+        android:buttonTint="#3f7dd6"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/TwentyWeight"
@@ -117,6 +131,8 @@
 
     <CheckBox
         android:id="@+id/weight25Cb"
+        android:buttonTint="#3f7dd6"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/TwentyFiveWeight"
@@ -130,6 +146,7 @@
 
     <Spinner
         android:id="@+id/barbellSelectorCb"
+        android:textStyle="bold"
         android:layout_width="244dp"
         android:layout_height="31dp"
         android:layout_marginStart="1dp"
@@ -146,6 +163,7 @@
 
     <ListView
         android:id="@+id/resultsListView"
+        android:textStyle="bold"
         android:layout_width="382dp"
         android:layout_height="192dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.PlateMathCalc;
+package woodward.owen.fitnessapplication.PlateMathCalculatorPackage;
 
 import android.os.Parcel;
 import android.os.Parcelable;

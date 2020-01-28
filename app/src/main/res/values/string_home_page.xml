@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">FitnessApplication</string>
-    <string name="HomePageTitle">Big Phat Gainz</string>
+    <string name="HomePageTitle">GainzTracker</string>
     <string name="ExerciseList">Exercise List</string>
     <string name="plateMathBtn">Plate Math Calculator</string>
     <string name="workoutGenBtn">Workout Generator</string>
+
+
+    //options menu
+    <string name="HomePageOption1">Help</string>
+    <string name="HomePageOption2">Settings</string>
 </resources>

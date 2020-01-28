@@ -1,10 +1,9 @@
-package woodward.owen.fitnessapplication.PlateMathCalc;
+package woodward.owen.fitnessapplication.PlateMathCalculatorPackage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -52,14 +50,12 @@ public class PlateMathBarbellDeletePopUp extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
-
                         for (BarbellType str : retrievedListOfBarbells) {
                             if (str.getBarbellName().equals(barbellName)) {
                                 retrievedListOfBarbells.remove(str);
                                 break;
                             }
                         }
-
                         Toast.makeText(getApplicationContext(), "Successfully Removed " + barbellName, Toast.LENGTH_SHORT).show();
 
                         dialog.dismiss();

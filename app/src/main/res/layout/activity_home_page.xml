@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_page_background_animation"
-    tools:context=".HomePage">
+    tools:context=".HomePagePackage.HomePage">
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/HomePageTitle"
-        android:textSize="30sp"
+        android:textSize="40sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintLeft_toLeftOf="parent"

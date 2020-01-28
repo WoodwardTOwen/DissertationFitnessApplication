@@ -1,9 +1,10 @@
-package woodward.owen.fitnessapplication;
+package woodward.owen.fitnessapplication.ExcerisePackage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
+
+import woodward.owen.fitnessapplication.R;
 
 public class ExerciseItemList extends AppCompatActivity {
 

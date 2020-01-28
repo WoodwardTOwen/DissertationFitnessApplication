@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.rpc.Help;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -153,6 +154,10 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                 intentDelete.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 this.startActivityForResult(intentDelete, 1);
                 return true;
+            case R.id.item3:
+                Intent intentHelp = new Intent(this, HelpClass.class);
+                startActivity(intentHelp);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -264,7 +269,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                             }
                             break;
                         case 2:
-                            //Hi
                             Toast.makeText(getApplicationContext(),"No weight required, just barbell", Toast.LENGTH_LONG).show();
 
                             break;

@@ -31,4 +31,6 @@
     <string name="RemoveBarbellButton">Remove Barbell</string>
     <string name="OptionsMenuHelp">Help</string>
 
+    <string name="HelpGoBack">Return</string>
+
 </resources>

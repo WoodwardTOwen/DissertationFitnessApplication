@@ -27,6 +27,9 @@
         <activity
             android:name=".PlateMathCalculatorPackage.PlateMathBarbellDeletePopUp"
             android:theme="@style/AppTheme.CustomTheme" />
+        <activity
+            android:name=".PlateMathCalculatorPackage.HelpClass"
+            android:theme="@style/AppTheme.CustomTheme" />
     </application>
 
 </manifest>

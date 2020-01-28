@@ -264,7 +264,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                             }
                             break;
                         case 2:
-
+                            //Hi
                             Toast.makeText(getApplicationContext(),"No weight required, just barbell", Toast.LENGTH_LONG).show();
 
                             break;

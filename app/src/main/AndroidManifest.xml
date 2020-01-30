@@ -9,11 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrackingPackage.Calender"></activity>
+        <activity android:name=".TrackingPackage.ExerciseList"></activity>
+        <activity android:name=".TrackingPackage.CategoryList" />
+        <activity android:name=".TrackingPackage.Calender" />
         <activity
             android:name=".PlateMathCalculatorPackage.PlateMathCalcActivity"
-            android:windowSoftInputMode="adjustPan" android:parentActivityName=".HomePagePackage.HomePage"></activity>
-        <activity android:name=".ExcerisePackage.ExerciseItemList" />
+            android:parentActivityName=".HomePagePackage.HomePage"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".HomePagePackage.HomePage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

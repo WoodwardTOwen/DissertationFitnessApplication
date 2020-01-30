@@ -14,9 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import woodward.owen.fitnessapplication.ExcerisePackage.ExerciseItemList;
 import woodward.owen.fitnessapplication.PlateMathCalculatorPackage.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.TrackingPackage.ExerciseList;
 
 public class HomePage extends AppCompatActivity {
 
@@ -66,7 +66,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void openExerciseItems (View view) {
-        Intent intent = new Intent(getApplicationContext(), ExerciseItemList.class);
+        Intent intent = new Intent(getApplicationContext(), ExerciseList.class);
         startActivity(intent);
     }
 

@@ -26,7 +26,6 @@ public class Category implements ICategory{
 
     //private isWeighLifting
     //Type of exercise has been removed for now -> redundant boolean -> isWeightLifting
-
     private static final Map<CategoryType, Category> Categories = new HashMap<>();
     private ArrayList<Exercise> exercises;
 

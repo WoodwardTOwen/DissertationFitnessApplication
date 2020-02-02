@@ -35,4 +35,5 @@ public class Exercise {
     public void setWeight (double pWeight) { if(pWeight % 2.5 == 0 && pWeight != 0){ mWeight = pWeight; }else { throw new IllegalArgumentException(); } }
     public void setRPE (int pRPE) {mRPE = pRPE; }
     public void setmSets (int pSets) {mSets = pSets; }
+    public void setCategory (Category categoryType) { this.mCategory = categoryType; }
 }

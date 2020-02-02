@@ -272,6 +272,9 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"No weight required, just barbell", Toast.LENGTH_LONG).show();
 
                             break;
+                        case 3:
+                            Toast.makeText(getApplicationContext(),"The Input needs to be 1000kg or under", Toast.LENGTH_LONG).show();
+                            break;
                         default:
 
                             Toast.makeText(getApplicationContext(),"The Desired Weight Cannot be Loaded", Toast.LENGTH_LONG).show();
@@ -297,7 +300,10 @@ public class PlateMathCalcActivity extends AppCompatActivity {
 
     public int Validation (float input, float barbell) {
         if(input >= barbell && input % 2.5 == 0) {
-            if (input > barbell) {
+            if(input > 1000){
+                return 3;
+            }
+            else if (input > barbell) {
                 return 1;
             }
             else {

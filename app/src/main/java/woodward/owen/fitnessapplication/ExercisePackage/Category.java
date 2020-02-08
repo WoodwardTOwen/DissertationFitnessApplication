@@ -1,78 +1,51 @@
 package woodward.owen.fitnessapplication.ExercisePackage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 
-interface ICategory {
-    void AddExercise (Exercise e);
-    void RemoveExercise(Exercise e);
-}
 
-enum CategoryType {
-    CHEST,
-    BACK,
-    SHOULDERS,
-    FOREARMS,
-    BICEPS,
-    TRICEPS,
-    LEGS,
-    ABS,
-    CARDIO,
-}
-
-public class Category implements ICategory{
+public class Category {
 
     //private isWeighLifting
     //Type of exercise has been removed for now -> redundant boolean -> isWeightLifting
-    private static final Map<CategoryType, Category> Categories = new HashMap<>();
-    private ArrayList<Exercise> exercises;
+    private CategoryType type;
+    private Map<String, List<Exercise>> exercises;
+    private boolean isWeightlifting;
 
-    private Category (boolean pIsWeightlifting) {
-        this.exercises = new ArrayList<>();
+
+    public Category(CategoryType type, boolean weightlifting) {
+        this.type = type;
+        this.isWeightlifting = weightlifting;
+        this.exercises = new HashMap<>();
     }
 
-    public static Category getCategory(CategoryType type) {
-        return Category.Categories.get(type);
+    public static Category GetCategory(CategoryType type){
+        //HERE SHOULD REFERENCE WHERE THE MAIN CATEGORIES MAP SHOULD BE PLACED
+
+        return null;
     }
 
-    public void AddExercise(Exercise e) {
-        String tempName = e.getExerciseName();
-        if(CheckIfExists(tempName, exercises)) {
-            this.exercises.add(e);
+    public void AddExercise(String name, Exercise e) {
+        if(exercises.containsKey(name)) {
+            this.exercises.put(name, exercises.get(e));
+        }
+        else {
+            List<Exercise> temp = new ArrayList<>();
+            this.exercises.put(name, temp);
+            this.exercises.put(name, exercises.get(e));
         }
     }
 
-    public void RemoveExercise(Exercise e){
-        this.exercises.remove(e);
-    }
+    public void RemoveExercise(String name, Exercise e){
 
-    private boolean CheckIfExists (String exerciseName, ArrayList<Exercise> arrayList) {
-
-        if(ValidateExercise(exerciseName)){
-            for(Exercise str : arrayList) {
-                String tempStr = str.getExerciseName().toLowerCase();
-                exerciseName = exerciseName.toLowerCase();
-
-                if(tempStr.equals(exerciseName)) {
-                    return false;
-                }
-            }
-            return true;
+        if(exercises.containsKey(name)) {
+            this.exercises.remove(e);
         }
-        return false;
     }
-
-    private boolean ValidateExercise (String exercise){
-
-        char[] chExercise = exercise.toCharArray();
-        for (char c : chExercise) {
-            if(!Character.isLetter(c) && !Character.isDigit(c) && !Character.isSpaceChar(c)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }

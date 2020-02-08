@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".TrackingPackage.ExerciseList"></activity>
         <activity android:name=".TrackingPackage.CategoryList" />
-        <activity android:name=".TrackingPackage.Calender" />
+        <activity android:name=".TrackingPackage.MainTrackingUI" />
         <activity
             android:name=".PlateMathCalculatorPackage.PlateMathCalcActivity"
             android:parentActivityName=".HomePagePackage.HomePage"

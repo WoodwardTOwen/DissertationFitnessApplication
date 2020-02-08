@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    //Menu Stuff
+    <string name="openCalender">Open Calender</string>]
+    <string name="deleteAllExercises">Delete Exercises</string>
+
+
+</resources>

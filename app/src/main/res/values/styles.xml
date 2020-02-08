@@ -14,4 +14,10 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="DialogTheme" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorDatePicker</item>
+    </style>
+
 </resources>

@@ -1,9 +1,12 @@
 package woodward.owen.fitnessapplication.ExercisePackage;
 
 
+import androidx.room.Entity;
+
 import java.util.Calendar;
 import java.util.Date;
 
+@Entity(tableName = "exercise_table")
 public class Exercise implements Cloneable{
     private Date date;
     private int reps;

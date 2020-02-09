@@ -5,5 +5,7 @@
     <string name="openCalender">Open Calender</string>]
     <string name="deleteAllExercises">Delete Exercises</string>
 
+    <string name="Navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="Navigation_drawer_close">Close Navigation Drawer</string>
 
 </resources>

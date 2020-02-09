@@ -33,4 +33,8 @@
 
     <string name="HelpGoBack">Return</string>
 
+
+    <string name="HelpTitlePlateMath">Help Page</string>
+    <string name="HelpPageInformationPlateMath">Input input input input input input \n input input input input \n input input input input input</string>
+
 </resources>

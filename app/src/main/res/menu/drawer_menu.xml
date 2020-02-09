@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_addExercise"
+            android:icon="@drawable/add_black"
+            android:title="Add Exercise"/>
+        <item android:id="@+id/nav_help"
+            android:icon="@drawable/nav_help"
+            android:title="Help"/>
+        <item android:id="@+id/nav_graphical"
+            android:icon="@drawable/nav_graphical"
+            android:title="Graphical Analysis"/>
+    </group>
+
+    <item android:title="Navigation" >
+
+        <menu>
+            <item android:id="@+id/nav_home"
+                android:icon="@drawable/nav_home"
+                android:title="Home"/>
+            <item android:id="@+id/nav_plateMath"
+                android:icon="@drawable/plate_math_navigation"
+                android:title="Plate Math Calculator"/>
+        </menu>
+
+    </item>
+</menu>

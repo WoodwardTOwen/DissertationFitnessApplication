@@ -74,4 +74,12 @@ public class HomePage extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), PlateMathCalcActivity.class);
         startActivity(intent);
     }
+
+    private void screenConfig () {
+
+    }
+
+    private void screenAnimation() {
+
+    }
 }

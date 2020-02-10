@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.drm.DrmStore;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,13 +37,14 @@ import woodward.owen.fitnessapplication.R;
 public class MainTrackingUI extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
 
     private TextView dateDisplayTV;
-    private Toolbar toolbar;
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tracking_ui);
+        drawer = findViewById(R.id.drawer_layout);
+
         setToolBar();
 
         dateDisplayTV = findViewById(R.id.dateDisplayTV);
@@ -57,6 +59,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
             case R.id.nav_addExercise:
                 Intent intentAdd = new Intent(MainTrackingUI.this, AddExercise.class);
                 startActivity(intentAdd);
+                drawer.closeDrawer(GravityCompat.START);
             case R.id.nav_help:
                 Toast.makeText(MainTrackingUI.this, "You interacted with the Help Page", Toast.LENGTH_SHORT).show();
                 return true;
@@ -111,7 +114,6 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
     public void onDateSet (DatePicker view, int year, int month, int day) {
 
         //Can populate Data from given date in here potentially?
-
         String currentDate = "Date - " + day + "-" + month + "-" + year;
         dateDisplayTV.setText(currentDate);
     }
@@ -121,7 +123,6 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
         Toolbar toolbar = findViewById(R.id.tracking_toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -143,7 +144,5 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
         else {
             super.onBackPressed(); // Means the drawer was not open on the back press command
         }
-
-
     }
 }

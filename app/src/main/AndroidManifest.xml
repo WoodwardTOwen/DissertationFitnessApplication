@@ -32,7 +32,7 @@
             android:theme="@style/AppTheme.CustomTheme" />
 
         <activity android:name=".TrackingPackage.AddExercise"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

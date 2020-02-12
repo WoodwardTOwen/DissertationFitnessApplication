@@ -8,4 +8,9 @@
     <string name="Navigation_drawer_open">Open Navigation Drawer</string>
     <string name="Navigation_drawer_close">Close Navigation Drawer</string>
 
+    <string name="AddExerciseTitle">Add Exercise</string>
+    <string name="WeightKGTitle"><u>Weight (Kg)</u></string>
+
+    <string name="repTitle"><u>Reps</u></string>
+
 </resources>

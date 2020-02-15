@@ -1,5 +1,6 @@
 package woodward.owen.fitnessapplication.ExercisePackage;
 
+import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -20,15 +22,28 @@ import woodward.owen.fitnessapplication.R;
 
 public class IO {
 
-    private Context context;
+    //private Context context;
 
-    public IO(Context context) {
-        this.context = context;
+   // public IO(Context context) {
+      //  this.context = context;
+    //}
+
+    private static IO single_Instance = null;
+    private static Application context;
+
+    private IO(Application application){
+        IO.context = application;
     }
 
-    public Map<CategoryType, String[]> ReadData() {
+    public static void setInstance(Application app){
+        if(single_Instance == null){
+            single_Instance = new IO(app);
+        }
+    }
 
-        Map<CategoryType, String[]> dict = new HashMap<>();
+    public static Map<CategoryType, String[]> ReadData() {
+
+        Map<CategoryType, String[]> dict = new Hashtable<>();
         InputStream IS = context.getResources().openRawResource(R.raw.list_of_exercises);
         BufferedReader reader = new BufferedReader(new InputStreamReader(IS, Charset.forName("UTF-8")));
 
@@ -48,12 +63,14 @@ public class IO {
                     list.add(columns[x]);
                 }
 
-                String[] array = list.toArray(new String[list.size()]);
+                String[] array = new String[list.size()];
+
+                for(int i = 0; i< list.size(); i++){
+                    array[i] = list.get(i);
+                }
+
                 if (dict.containsKey(type)) {
-                    for (String item : dict.get(type)) {
-                        list.add(item);
-                    }
-                    //dict[type] = list.toArray();
+                    dict.replace(type, array);
 
                 } else {
                     dict.put(type, array);

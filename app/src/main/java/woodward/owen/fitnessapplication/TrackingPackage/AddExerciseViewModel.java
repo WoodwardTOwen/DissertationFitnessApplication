@@ -10,14 +10,13 @@ import java.util.List;
 
 import woodward.owen.fitnessapplication.ExercisePackage.Exercise;
 
-public class ExerciseViewModel extends AndroidViewModel {
+public class AddExerciseViewModel extends AndroidViewModel {
     private ExerciseRepository repository;
     private LiveData<List<Exercise>> allExercises;
 
-    public ExerciseViewModel(@NonNull Application application) {
+    public AddExerciseViewModel(@NonNull Application application) {
         super(application);
         repository = new ExerciseRepository(application);
-        allExercises = repository.getAllExercises();
     }
 
     //Wrapper methods for the repository from the ViewModel
@@ -28,17 +27,4 @@ public class ExerciseViewModel extends AndroidViewModel {
     public void Update(Exercise exercise) {
         repository.Update(exercise);
     }
-
-    public void Delete(Exercise exercise){
-        repository.Delete(exercise);
-    }
-
-    public void DeleteAllExercises(){
-        repository.DeleteAllExercises();
-    }
-
-    public LiveData<List<Exercise>> getAllExercises() {
-        return allExercises;
-    }
-
 }

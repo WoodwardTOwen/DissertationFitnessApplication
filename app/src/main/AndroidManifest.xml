@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrackingPackage.MainTrackingUI" android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TrackingPackage.MainTrackingUI" android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".PlateMathCalculatorPackage.PlateMathCalcActivity"
             android:parentActivityName=".HomePagePackage.HomePage"
@@ -31,8 +32,7 @@
             android:name=".PlateMathCalculatorPackage.HelpClass"
             android:theme="@style/AppTheme.CustomTheme" />
 
-        <activity android:name=".TrackingPackage.AddExercise"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".TrackingPackage.AddEditExercise" android:parentActivityName=".TrackingPackage.MainTrackingUI"/>
     </application>
 
 </manifest>

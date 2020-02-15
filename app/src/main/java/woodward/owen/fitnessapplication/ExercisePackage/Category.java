@@ -1,5 +1,7 @@
 package woodward.owen.fitnessapplication.ExercisePackage;
 
+import androidx.room.Entity;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -9,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 
-
+@Entity (tableName = "category_table")
 public class Category {
 
     //private isWeighLifting
@@ -17,7 +19,6 @@ public class Category {
     private CategoryType type;
     private Map<String, List<Exercise>> exercises;
     private boolean isWeightlifting;
-
 
     public Category(CategoryType type, boolean weightlifting) {
         this.type = type;

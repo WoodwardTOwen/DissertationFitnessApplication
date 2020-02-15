@@ -20,11 +20,11 @@ public interface ExerciseDao {
     void Update (Exercise exercise);
 
     @Delete
-    void delete (Exercise exercise);
+    void Delete (Exercise exercise);
 
-    @Query("DElETE FROM exercise_table") //This will have to be delete all from current date -> starting don't change
-    void deleteAllNotes();
+    @Query("DElETE FROM exercise_table") //WHERE [date] = GETDATE()
+    void deleteAllExercises();
 
-    @Query("SELECT * FROM exercise_table")
+    @Query("SELECT * FROM exercise_table") //WHERE [date] = GETDATE()
     LiveData<List<Exercise>> getAllExercises();
 }

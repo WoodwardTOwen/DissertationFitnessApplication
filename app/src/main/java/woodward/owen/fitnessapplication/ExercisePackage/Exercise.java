@@ -2,50 +2,95 @@ package woodward.owen.fitnessapplication.ExercisePackage;
 
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity(tableName = "exercise_table")
 public class Exercise implements Cloneable{
-    private Date date;
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    private String exerciseName;
+    private String date;
     private int reps;
     private double weight;
     private int rpe;
     private int sets;
 
-    private Exercise ( int pReps, double pWeight, int pRPE){
-        this.date = Calendar.getInstance().getTime(); //Might need reformatting -> might get unneeded time
+    public Exercise (String exerciseName, int pReps, double pWeight, int pRPE){
+        this.exerciseName = exerciseName;
+        this.date = Calendar.getInstance().getTime().toString(); //Might need reformatting -> might get unneeded time
         this.reps = pReps;
         this.weight = pWeight;
         this.rpe = pRPE;
     }
 
+    public Exercise() {
+
+    }
+
     public Object Clone() {
-        return new Exercise(reps, weight, rpe);
+        return new Exercise(exerciseName, reps, weight, rpe);
     }
 
     //Getters
-    public int getReps() {return reps; }
-    public double getWeights() { return weight; }
-    public int getRPE() { return rpe; }
-    public int getSets() { return sets; }
+
+
+    public String getExerciseName() { return exerciseName; }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public int getRpe() {
+        return rpe;
+    }
+
+    public int getSets() {
+        return sets;
+    }
+
     //Setters
-    public void setReps (int pReps) { reps = pReps; }
-    public void setWeight (double pWeight) {
-        if(pWeight % 2.5 == 0 && pWeight != 0) {
-            weight = pWeight;
-        }
-        else {
-            throw new IllegalArgumentException();
-        }
+
+
+    public void setExerciseName(String exerciseName) { this.exerciseName = exerciseName; }
+
+    public void setId(int id) {
+        this.id = id;
     }
-    public void setRPE (int pRPE) {
-        if(pRPE < 10) {
-            throw new IllegalArgumentException();
-        }
-        rpe = pRPE;
+
+    public void setReps(int reps) {
+        this.reps = reps;
     }
-    public void setSets(int pSets) {
-        sets = pSets; }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setRpe(int rpe) {
+        this.rpe = rpe;
+    }
+
+    public void setSets(int sets) {
+        this.sets = sets;
+    }
 }

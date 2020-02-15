@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
     <TextView
         android:layout_width="219dp"
@@ -16,27 +17,103 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/weightTitleTV"
+        android:id="@+id/repTitleTV"
+        style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="321dp"
         android:layout_height="20dp"
-        android:layout_marginBottom="56dp"
-        android:text="@string/WeightKGTitle"
-        style="?android:attr/listSeparatorTextViewStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/editWeightInputET"
+        android:layout_marginBottom="44dp"
+        android:text="@string/repTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/editRepInputET"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
+        app:layout_constraintHorizontal_bias="0.422"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/decrementWeightBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="288dp"
+        android:drawableTop="@drawable/remove"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.816"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/incrementRepBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="156dp"
+        android:drawableTop="@drawable/add_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.129"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editWeightInputET"
+        android:layout_width="132dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="288dp"
+        android:autofillHints="Weight - Kg"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="0"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/decrementWeightBnt"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toEndOf="@+id/incrementWeightBnt" />
+
+    <EditText
+        android:id="@+id/editRepInputET"
+        android:layout_width="132dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="156dp"
+        android:autofillHints="Weight - Kg"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="0"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/decrementWeightBnt"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toEndOf="@+id/incrementWeightBnt" />
+
+    <Button
+        android:id="@+id/decrementRepBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="156dp"
+        android:drawableTop="@drawable/remove"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.822"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/incrementWeightBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="292dp"
+        android:drawableTop="@drawable/add_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/repTitleTV"
+        android:id="@+id/weightTitleTV"
+        style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="321dp"
         android:layout_height="20dp"
-        android:layout_marginBottom="52dp"
-        android:text="@string/repTitle"
-        style="?android:attr/listSeparatorTextViewStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/editRepInputET"
+        android:layout_marginBottom="48dp"
+        android:text="@string/WeightKGTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/editWeightInputET"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
+        app:layout_constraintHorizontal_bias="0.422"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
@@ -44,98 +121,39 @@
         android:layout_width="241dp"
         android:layout_height="36dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="28dp"
         android:autofillHints="Category"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.174" />
+        app:layout_constraintVertical_bias="0.269" />
 
     <Spinner
         android:id="@+id/spinner_Exercises_Tracking"
         android:layout_width="241dp"
         android:layout_height="36dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="28dp"
         android:autofillHints="Exercises"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.247" />
-
-    <Button
-        android:id="@+id/incrementWeightBnt"
-        android:layout_width="78dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="360dp"
-        android:drawableTop="@drawable/add_black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.096"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/incrementRepBnt"
-        android:layout_width="78dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="224dp"
-        android:drawableTop="@drawable/add_black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.097"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/decrementWeightBnt"
-        android:layout_width="78dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="356dp"
-        android:drawableTop="@drawable/remove"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.819"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/decrementRepBnt"
-        android:layout_width="78dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="224dp"
-        android:drawableTop="@drawable/remove"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.825"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintVertical_bias="0.372" />
 
     <EditText
-        android:id="@+id/editWeightInputET"
+        android:id="@+id/editRPEInput"
         android:layout_width="132dp"
         android:layout_height="49dp"
-        android:layout_marginBottom="356dp"
+        android:layout_marginBottom="52dp"
         android:autofillHints="Weight - Kg"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:inputType="number"
         android:text="0"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/decrementWeightBnt"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toEndOf="@+id/incrementWeightBnt" />
-
-    <EditText
-        android:id="@+id/editRepInputET"
-        android:layout_width="132dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="224dp"
-        android:autofillHints="Weight - Kg"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="0"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/decrementWeightBnt"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toEndOf="@+id/incrementWeightBnt" />
 
 

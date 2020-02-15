@@ -13,4 +13,10 @@
 
     <string name="repTitle"><u>Reps</u></string>
 
+    //Recycler View Stuff
+    <string name="recycleWeight">Kg</string>
+    <string name="recycleReps"><b>Reps: </b></string>
+    <string name="recycleRPE"><b>RPE: </b></string>
+    <string name="recycleDate"><b>Date: </b></string>
+
 </resources>

@@ -32,6 +32,7 @@ public class Exercise implements Cloneable{
 
     }
 
+
     public Object Clone() {
         return new Exercise(exerciseName, reps, weight, rpe);
     }

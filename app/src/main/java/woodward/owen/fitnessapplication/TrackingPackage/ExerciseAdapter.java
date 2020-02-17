@@ -10,19 +10,37 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuWrapperICS;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.opencensus.resource.Resource;
 import woodward.owen.fitnessapplication.ExercisePackage.Exercise;
 import woodward.owen.fitnessapplication.R;
 
-public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseHolder> {
-
-    private List<Exercise> exerciseList = new ArrayList<>();
+public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder> {
     private onItemClickListener listener;
+
+    //Defines Comparison Logic between two lists
+    public ExerciseAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    private static final DiffUtil.ItemCallback<Exercise> DIFF_CALLBACK = new DiffUtil.ItemCallback<Exercise>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Exercise oldItem, @NonNull Exercise newItem) {
+            return oldItem.getId() == newItem.getId(); //return if id's are the same
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Exercise oldItem, @NonNull Exercise newItem) {
+            return oldItem.getExerciseName().equals(newItem.getExerciseName()) &&
+                    oldItem.getWeight() == newItem.getWeight() && oldItem.getReps() == newItem.getReps() &&
+                    oldItem.getRpe() == newItem.getRpe();
+        }
+    };
 
     @NonNull
     @Override
@@ -34,7 +52,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     //Takes care of data from the Data objects and placing them in the exercise holder
     @Override
     public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
-        Exercise currentExercise = exerciseList.get(position);
+        Exercise currentExercise = getItem(position);
 
         String sourceStringRPE = "<b>" + "RPE: " + "</b>" + currentExercise.getRpe();
         String sourceStringReps = "<b>" + "Reps: " + "</b>" + currentExercise.getReps();
@@ -48,18 +66,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         holder.textViewDate.setText(Html.fromHtml(sourceStringDate));
     }
 
-    @Override
-    public int getItemCount() {
-        return exerciseList.size();
-    }
-
-    public void setExercise(List<Exercise> exercise) {
-        this.exerciseList = exercise;
-        notifyDataSetChanged();
-    }
-
     public Exercise getExercisePosition(int position) {
-        return exerciseList.get(position);
+        return getItem(position);
     }
 
     class ExerciseHolder extends RecyclerView.ViewHolder {
@@ -83,7 +91,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if (listener != null && pos != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(exerciseList.get(pos));
+                        listener.onItemClick(getItem(pos));
                     }
                 }
             });

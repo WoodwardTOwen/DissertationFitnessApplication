@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="100dp"
+    tools:context=".TrackingPackage.EditExercise">
+
+
+    <TextView
+        android:id="@+id/editActivityExerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
+        android:text="ExerciseNameHere"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/weightTitleTV"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_below="@id/editActivityExerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="5dp"
+        android:includeFontPadding="false"
+        android:text="@string/WeightKGTitle" />
+
+    <TextView
+        android:id="@+id/repTitleTV"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weightTitleTV"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/repTitle" />
+
+    <TextView
+        android:id="@+id/rpeTitleTV"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weightTitleTV"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="127dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/rpeTitle" />
+
+    <Button
+        android:id="@+id/incrementWeightEditButton"
+        android:drawableEnd="@drawable/add_black"
+        android:paddingEnd="22dp"
+        android:paddingStart="22dp"
+        android:layout_below="@id/weightTitleTV"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/inputWeightTxtBox" />
+
+    <Button
+        android:id="@+id/decrementWeightEditButton"
+        android:drawableEnd="@drawable/remove"
+        android:paddingEnd="22dp"
+        android:paddingStart="22dp"
+        android:layout_below="@id/weightTitleTV"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_toStartOf="@id/inputWeightTxtBox"/>
+
+    <EditText
+        android:id="@+id/inputWeightTxtBox"
+        android:layout_below="@id/weightTitleTV"
+        android:layout_width="100dp"
+        android:hint="@string/hintForEditTextBoxes"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="25dp" />
+
+    <Button
+        android:id="@+id/incrementRepEditButton"
+        android:drawableEnd="@drawable/add_black"
+        android:paddingEnd="22dp"
+        android:paddingStart="22dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/incrementWeightEditButton"
+        android:layout_toEndOf="@id/inputRepTxtBox" />
+
+    <Button
+        android:id="@+id/decrementRepEditButton"
+        android:drawableEnd="@drawable/remove"
+        android:paddingEnd="22dp"
+        android:paddingStart="22dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/decrementWeightEditButton"
+        android:layout_toStartOf="@id/inputRepTxtBox"/>
+
+    <EditText
+        android:id="@+id/inputRepTxtBox"
+        android:textAlignment="center"
+        android:hint="@string/hintForEditTextBoxes"
+        android:inputType="number"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputWeightTxtBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp" />
+
+    <Button
+        android:id="@+id/incrementRPEEditButton"
+        android:drawableEnd="@drawable/add_black"
+        android:paddingEnd="22dp"
+        android:paddingStart="22dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/incrementRepEditButton"
+        android:layout_toEndOf="@id/inputRepTxtBox" />
+
+    <Button
+        android:id="@+id/decrementRPEEditButton"
+        android:drawableEnd="@drawable/remove"
+        android:paddingEnd="22dp"
+        android:paddingStart="22dp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/decrementRepEditButton"
+        android:layout_toStartOf="@id/inputRepTxtBox"/>
+
+    <EditText
+        android:id="@+id/inputRPETxtBox"
+        android:textAlignment="center"
+        android:hint="@string/hintForEditTextBoxes"
+        android:inputType="number"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputRepTxtBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp" />
+
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package woodward.owen.fitnessapplication.TrackingPackage;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -43,6 +45,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
     private DrawerLayout drawer;
     private ExerciseViewModel exerciseViewModel;
     public static final int EDIT_EXERCISE_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +55,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(MainTrackingUI.this, AddEditExercise.class);
+                Intent intent = new Intent(MainTrackingUI.this, AddExercise.class);
                 startActivity(intent);
             }
         });
@@ -70,7 +73,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
             @Override
             public void onChanged(List<Exercise> exercises) {
                 //Updating Recycler View
-                adapter.setExercise(exercises);
+                adapter.submitList(exercises);
             }
         });
 
@@ -90,12 +93,12 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
         adapter.setOnItemClickListener(new ExerciseAdapter.onItemClickListener() { //Implemented Adapter Listener
             @Override
             public void onItemClick(Exercise exercise) {
-                Intent intent = new Intent(MainTrackingUI.this, AddEditExercise.class);
-                intent.putExtra(AddEditExercise.EXTRA_ID, exercise.getId());
-                intent.putExtra(AddEditExercise.EXTRA_EXERCISE_NAME, exercise.getExerciseName());
-                intent.putExtra(AddEditExercise.EXTRA_WEIGHT, exercise.getWeight());
-                intent.putExtra(AddEditExercise.EXTRA_REPS, exercise.getReps());
-                intent.putExtra(AddEditExercise.EXTRA_RPE, exercise.getRpe());
+                Intent intent = new Intent(MainTrackingUI.this, EditExercise.class);
+                intent.putExtra(EditExercise.EXTRA_ID, exercise.getId());
+                intent.putExtra(EditExercise.EXTRA_EXERCISE_NAME, exercise.getExerciseName());
+                intent.putExtra(EditExercise.EXTRA_WEIGHT, exercise.getWeight());
+                intent.putExtra(EditExercise.EXTRA_REPS, exercise.getReps());
+                intent.putExtra(EditExercise.EXTRA_RPE, exercise.getRpe());
 
                 startActivityForResult(intent, EDIT_EXERCISE_REQUEST);
             }
@@ -106,11 +109,39 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == EDIT_EXERCISE_REQUEST && resultCode == RESULT_OK){
+
+            int id = data.getIntExtra(EditExercise.EXTRA_ID, -1);
+            if(id == -1) {
+                Toast.makeText(MainTrackingUI.this, "Exercise Cannot be Updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String name = data.getStringExtra(EditExercise.EXTRA_EXERCISE_NAME);
+            String weight = data.getStringExtra(EditExercise.EXTRA_WEIGHT);
+            String reps = data.getStringExtra(EditExercise.EXTRA_REPS);
+            String RPE = data.getStringExtra(EditExercise.EXTRA_RPE);
+
+            Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE));
+            exercise.setId(id);
+            exerciseViewModel.Update(exercise);
+
+            Toast.makeText(MainTrackingUI.this, "Exercise Updated", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(MainTrackingUI.this, "Exercise Not Updated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch(item.getItemId()) {
             case R.id.nav_addExercise:
-                Intent intentAdd = new Intent(MainTrackingUI.this, AddEditExercise.class);
+                Intent intentAdd = new Intent(MainTrackingUI.this, AddExercise.class);
                 startActivity(intentAdd);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;

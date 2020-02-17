@@ -27,8 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +46,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
     private TextView dateDisplayTV;
     private DrawerLayout drawer;
     private ExerciseViewModel exerciseViewModel;
+    private static Exercise cachedExercise;
     public static final int EDIT_EXERCISE_REQUEST = 1;
 
     @Override
@@ -85,22 +88,26 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                cachedExercise = (adapter.getExercisePosition(viewHolder.getAdapterPosition()));
                 exerciseViewModel.Delete(adapter.getExercisePosition(viewHolder.getAdapterPosition()));
-                Toast.makeText(MainTrackingUI.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
+
+                Snackbar.make(viewHolder.itemView, "Deleted Exercise: " + cachedExercise.getExerciseName(), Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        exerciseViewModel.Insert(cachedExercise);
+                        Snackbar.make(v, "Exercise: " + cachedExercise.getExerciseName() + " Successfully Retrieved", Snackbar.LENGTH_SHORT).show();
+                    }
+                }).show();
+
+                //Toast.makeText(MainTrackingUI.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 
+        //Update Functionality -> sending over the contents to another activity
         adapter.setOnItemClickListener(new ExerciseAdapter.onItemClickListener() { //Implemented Adapter Listener
             @Override
             public void onItemClick(Exercise exercise) {
-                Intent intent = new Intent(MainTrackingUI.this, EditExercise.class);
-                intent.putExtra(EditExercise.EXTRA_ID, exercise.getId());
-                intent.putExtra(EditExercise.EXTRA_EXERCISE_NAME, exercise.getExerciseName());
-                intent.putExtra(EditExercise.EXTRA_WEIGHT, exercise.getWeight());
-                intent.putExtra(EditExercise.EXTRA_REPS, exercise.getReps());
-                intent.putExtra(EditExercise.EXTRA_RPE, exercise.getRpe());
-
-                startActivityForResult(intent, EDIT_EXERCISE_REQUEST);
+                callForUpdate(exercise);
             }
         });
 
@@ -233,5 +240,16 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
         else {
             super.onBackPressed(); // Means the drawer was not open on the back press command
         }
+    }
+
+    private void callForUpdate (Exercise exercise){
+        Intent intent = new Intent(MainTrackingUI.this, EditExercise.class);
+        intent.putExtra(EditExercise.EXTRA_ID, exercise.getId());
+        intent.putExtra(EditExercise.EXTRA_EXERCISE_NAME, exercise.getExerciseName());
+        intent.putExtra(EditExercise.EXTRA_WEIGHT, exercise.getWeight());
+        intent.putExtra(EditExercise.EXTRA_REPS, exercise.getReps());
+        intent.putExtra(EditExercise.EXTRA_RPE, exercise.getRpe());
+
+        startActivityForResult(intent, EDIT_EXERCISE_REQUEST);
     }
 }

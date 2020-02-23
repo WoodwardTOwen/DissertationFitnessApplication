@@ -1,8 +1,10 @@
 package woodward.owen.fitnessapplication.ExercisePackage;
 
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -20,9 +22,9 @@ public class Exercise implements Cloneable{
     private int rpe;
     private int sets;
 
-    public Exercise (String exerciseName, int pReps, double pWeight, int pRPE){
+    public Exercise (String exerciseName, int pReps, double pWeight, int pRPE, String date){
         this.exerciseName = exerciseName;
-        this.date = Calendar.getInstance().getTime().toString(); //Might need reformatting -> might get unneeded time
+        this.date = date; //Might need reformatting -> might get unneeded time
         this.reps = pReps;
         this.weight = pWeight;
         this.rpe = pRPE;
@@ -34,7 +36,7 @@ public class Exercise implements Cloneable{
 
 
     public Object Clone() {
-        return new Exercise(exerciseName, reps, weight, rpe);
+        return new Exercise(exerciseName, reps, weight, rpe, date);
     }
 
     //Getters

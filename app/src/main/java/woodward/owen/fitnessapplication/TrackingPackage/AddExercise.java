@@ -1,6 +1,7 @@
 package woodward.owen.fitnessapplication.TrackingPackage;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,10 +18,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import woodward.owen.fitnessapplication.ExercisePackage.Category;
@@ -31,6 +35,8 @@ import woodward.owen.fitnessapplication.R;
 
 public class AddExercise extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String EXTRA_DATE = "woodward.owen.fitnessapplication.EXTRA_DATE";
+
     private static final Map<CategoryType, List<String>> PossibleNames = new Hashtable<>();
     private static final Map<CategoryType, Category> Categories = new Hashtable<>();
     private Spinner catSpinner;
@@ -39,12 +45,18 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     private EditText weightInput;
     private EditText repInput;
     private EditText rpeInput;
+    private String dateForExercise;
     private AddExerciseViewModel addExerciseViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_exercise_layout_file);
+
+        Intent intent = getIntent();
+        if(intent.hasExtra(EXTRA_DATE)){
+            dateForExercise = intent.getStringExtra(EXTRA_DATE);
+        }
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.close_black);
         assignIOValues(getApplication());
@@ -57,9 +69,8 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         String exerciseName = exerciseSpinner.getSelectedItem().toString();
         String exerciseWeight = weightInput.getText().toString();
         String exerciseReps = repInput.getText().toString();
-        //String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         String exerciseRPE = rpeInput.getText().toString();
-        Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE));
+        Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
 
         addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
         addExerciseViewModel.Insert(exercise);
@@ -157,6 +168,8 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         buttonDecrementWeight = findViewById(R.id.decrementWeightBnt);
         buttonIncrementRep = findViewById(R.id.incrementRepBnt);
         buttonDecrementRep = findViewById(R.id.decrementRepBnt);
+        buttonIncrementRPE = findViewById(R.id.incrementRPEBnt);
+        buttonDecrementRPE = findViewById(R.id.decrementRPEbnt);
         weightInput = findViewById(R.id.editWeightInputET);
         repInput = findViewById(R.id.editRepInputET);
         rpeInput = findViewById(R.id.editRPEInput);
@@ -165,12 +178,15 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         buttonDecrementWeight.setOnClickListener(AddExercise.this);
         buttonIncrementRep.setOnClickListener(AddExercise.this);
         buttonDecrementRep.setOnClickListener(AddExercise.this);
+        buttonIncrementRPE.setOnClickListener(AddExercise.this);
+        buttonDecrementRPE.setOnClickListener(AddExercise.this);
     }
 
     @Override
     public void onClick(View v) {
         String tempInput = weightInput.getText().toString().trim();
         String inputRep = repInput.getText().toString().trim();
+        String inputRPE = rpeInput.getText().toString().trim();
         switch (v.getId()) {
             case R.id.incrementWeightBnt:
                 weightInput.setText(Double.toString(AddEditMethods.incrementWeight(tempInput)));
@@ -183,6 +199,13 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.decrementRepBnt:
                 repInput.setText(Integer.toString(AddEditMethods.decrementRepsRPE(inputRep)));
+                break;
+            case R.id.incrementRPEBnt:
+                rpeInput.setText(Integer.toString(AddEditMethods.incrementRepsRPE(inputRPE)));
+                break;
+            case R.id.decrementRPEbnt:
+                rpeInput.setText(Integer.toString(AddEditMethods.decrementRepsRPE(inputRPE)));
+                break;
 
         }
     }

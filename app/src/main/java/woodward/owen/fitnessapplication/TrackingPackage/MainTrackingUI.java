@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
@@ -32,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -44,9 +46,11 @@ import woodward.owen.fitnessapplication.R;
 public class MainTrackingUI extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
 
     private TextView dateDisplayTV;
+    private String currentDate;
     private DrawerLayout drawer;
     private ExerciseViewModel exerciseViewModel;
     private static Exercise cachedExercise;
+    private static List<Exercise> exerciseOrder = new ArrayList<>();
     public static final int EDIT_EXERCISE_REQUEST = 1;
 
     @Override
@@ -59,6 +63,9 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(MainTrackingUI.this, AddExercise.class);
+
+                //Might need changing
+                intent.putExtra(AddExercise.EXTRA_DATE, currentDate);
                 startActivity(intent);
             }
         });
@@ -77,29 +84,55 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
             public void onChanged(List<Exercise> exercises) {
                 //Updating Recycler View
                 adapter.submitList(exercises);
+                exerciseOrder = exercises;
             }
         });
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,ItemTouchHelper.LEFT) {
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //ON MOVE IS NOT WORKING -> NOT UPDATING THE POSITIONS IN THE DATABASE ONCE ITS WORKING
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+
+                int position_dragged = dragged.getAdapterPosition();
+                int position_target = target.getAdapterPosition();
+
+                exerciseViewModel.Update(adapter.getExercisePosition(target.getAdapterPosition()));
+                adapter.notifyItemMoved(position_dragged, position_target);
+
+                return true;
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                cachedExercise = (adapter.getExercisePosition(viewHolder.getAdapterPosition()));
-                exerciseViewModel.Delete(adapter.getExercisePosition(viewHolder.getAdapterPosition()));
+                cachedExercise = (adapter.getExercisePosition(viewHolder.getAdapterPosition())); //Cache exercise for undo exercise
+                exerciseViewModel.Delete(adapter.getExercisePosition(viewHolder.getAdapterPosition())); //delete selected exercise
 
-                Snackbar.make(viewHolder.itemView, "Deleted Exercise: " + cachedExercise.getExerciseName(), Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                Snackbar.make(viewHolder.itemView, "Deleted Exercise: " + cachedExercise.getExerciseName(), Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ContextCompat.getColor(MainTrackingUI.this, R.color.colorDatePicker))
+                        .setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        exerciseViewModel.Insert(cachedExercise);
-                        Snackbar.make(v, "Exercise: " + cachedExercise.getExerciseName() + " Successfully Retrieved", Snackbar.LENGTH_SHORT).show();
+                        exerciseViewModel.Insert(cachedExercise); //If undo is required, re insert exercise
+                        //Snackbar.make(v, "Exercise: " + cachedExercise.getExerciseName() + " Successfully Retrieved", Snackbar.LENGTH_SHORT).show();
                     }
                 }).show();
-
-                //Toast.makeText(MainTrackingUI.this, "Exercise Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 
@@ -131,8 +164,9 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
             String weight = data.getStringExtra(EditExercise.EXTRA_WEIGHT);
             String reps = data.getStringExtra(EditExercise.EXTRA_REPS);
             String RPE = data.getStringExtra(EditExercise.EXTRA_RPE);
+            String date = currentDate;
 
-            Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE));
+            Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE), date);
             exercise.setId(id);
             exerciseViewModel.Update(exercise);
 
@@ -206,7 +240,9 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
     public void onDateSet (DatePicker view, int year, int month, int day) {
 
         //Can populate Data from given date in here potentially?
-        String currentDate = "Date: " + day + "-" + month + "-" + year;
+        month = month +1;
+        currentDate = ConvertDate(day) + "-" + ConvertDate(month) + "-" + ConvertDate(year);
+        String currentDate = "Date: " + ConvertDate(day) + "-" + ConvertDate(month) + "-" + ConvertDate(year);
         dateDisplayTV.setText(currentDate);
     }
 
@@ -217,6 +253,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
 
         dateDisplayTV = findViewById(R.id.mainUITextViewDate);
         String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         dateDisplayTV.setText("Date: " + dateNow);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -251,5 +288,14 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
         intent.putExtra(EditExercise.EXTRA_RPE, exercise.getRpe());
 
         startActivityForResult(intent, EDIT_EXERCISE_REQUEST);
+    }
+
+    private String ConvertDate (int input){
+        if(input >= 10) {
+            return String.valueOf(input);
+        }
+        else {
+            return "0" + (input);
+        }
     }
 }

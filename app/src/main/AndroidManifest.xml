@@ -18,6 +18,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PlateMathCalculatorPackage.PlateMathCalcActivity"
+            android:configChanges="orientation"
             android:parentActivityName=".HomePagePackage.HomePage"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".HomePagePackage.HomePage">

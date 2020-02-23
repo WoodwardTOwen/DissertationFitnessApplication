@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.Date;
 import java.util.List;
 
 import woodward.owen.fitnessapplication.ExercisePackage.Exercise;
@@ -22,9 +23,15 @@ public interface ExerciseDao {
     @Delete
     void Delete (Exercise exercise);
 
-    @Query("DElETE FROM exercise_table") //WHERE [date] = GETDATE()
+    @Query("DElETE FROM exercise_table") //WHERE [date] = GETDATE() -> date LIKE date
     void deleteAllExercises();
 
-    @Query("SELECT * FROM exercise_table") //WHERE [date] = GETDATE()
+   /* @Query("DELETE FROM exercise_table WHERE date LIKE :date")
+    void deleteCalenderExercises(String date);*/
+
+    //@Query("SELECT * FROM exercise_table WHERE date LIKE :date") //WHERE [date] = GETDATE()
+    //LiveData<List<Exercise>> getAllExercises(String date);
+
+    @Query("SELECT * FROM exercise_table")
     LiveData<List<Exercise>> getAllExercises();
 }

@@ -12,6 +12,8 @@
     <string name="WeightKGTitle">Weight (Kg)</string>
     <string name="repTitle">Reps</string>
     <string name="rpeTitle">RPE</string>
+    <string name="CatTitle">Categories</string>
+    <string name="ExerciseTitle">Exercises</string>
     <string name="hintForEditTextBoxes">0</string>
 
     //Recycler View Stuff

@@ -82,15 +82,33 @@ public class Exercise implements Cloneable{
     }
 
     public void setReps(int reps) {
-        this.reps = reps;
+
+        if(reps > 0) {
+            this.reps = reps;
+        }
+        else{
+            this.reps = 0;
+        }
     }
 
     public void setWeight(double weight) {
-        this.weight = weight;
+
+        if(weight > 0){
+            this.weight = weight;
+        }
+        else {
+            this.weight = 0;
+        }
     }
 
     public void setRpe(int rpe) {
-        this.rpe = rpe;
+
+        if(rpe > 0 ){
+            this.rpe = rpe;
+        }
+        else{
+            this.rpe = 0;
+        }
     }
 
     public void setSets(int sets) {

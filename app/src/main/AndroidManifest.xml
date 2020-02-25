@@ -9,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".TrackingPackage.TrackingHelpPage"></activity>
         <activity
             android:name=".TrackingPackage.EditExercise"
-            android:parentActivityName=".TrackingPackage.MainTrackingUI"></activity>
+            android:parentActivityName=".TrackingPackage.ExerciseTrackingActivity" />
         <activity
-            android:name=".TrackingPackage.MainTrackingUI"
+            android:name=".TrackingPackage.ExerciseTrackingActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -39,7 +40,7 @@
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
             android:name=".TrackingPackage.AddExercise"
-            android:parentActivityName=".TrackingPackage.MainTrackingUI" />
+            android:parentActivityName=".TrackingPackage.ExerciseTrackingActivity" />
     </application>
 
 </manifest>

@@ -17,7 +17,7 @@ public class ExerciseRepository {
     public ExerciseRepository(Application application) {
         ExerciseDatabase database = ExerciseDatabase.getInstance(application);
         dao = database.exerciseDao();
-        allExercises = dao.getAllExercises();
+        //allExercises = getAllExercises();
     }
 
     public void Insert(Exercise exercise){
@@ -33,11 +33,12 @@ public class ExerciseRepository {
     }
 
     //DELETE ALL EXERCISES AND GET ALL EXERCISES COULD MAYBE HAVE THE REQUIRED Data BASED INTO THEM
-    public void DeleteAllExercises() {
-        new DeleteAllExerciseAsyncTask(dao).execute();
+    public void DeleteAllExercises(String date) {
+        new DeleteAllExerciseAsyncTask(dao).execute(date);
     }
 
-    public LiveData<List<Exercise>> getAllExercises() {
+    public LiveData<List<Exercise>> getAllExercises(String date) {
+        allExercises = dao.getAllExercises(date);
         return allExercises;
     }
 
@@ -83,7 +84,7 @@ public class ExerciseRepository {
         }
     }
 
-    private static class DeleteAllExerciseAsyncTask extends AsyncTask<Void, Void, Void> {
+    private static class DeleteAllExerciseAsyncTask extends AsyncTask<String, Void, Void> {
         private ExerciseDao exerciseDao; //needed for database operations
 
         private DeleteAllExerciseAsyncTask(ExerciseDao dao) {
@@ -91,8 +92,8 @@ public class ExerciseRepository {
         }
 
         @Override
-        protected Void doInBackground(Void... Voids) {
-            exerciseDao.deleteAllExercises();
+        protected Void doInBackground(String... date) {
+            exerciseDao.deleteAllExercises(date[0]);
             return null;
         }
     }

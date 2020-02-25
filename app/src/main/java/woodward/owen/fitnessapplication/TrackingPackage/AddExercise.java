@@ -3,6 +3,7 @@ package woodward.owen.fitnessapplication.TrackingPackage;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,7 +43,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     private static final Map<CategoryType, Category> Categories = new Hashtable<>();
     private Spinner catSpinner;
     private Spinner exerciseSpinner;
-    private List<String> exerciseList;
+    private ArrayList<String> exerciseList;
     private EditText weightInput;
     private EditText repInput;
     private EditText rpeInput;
@@ -70,12 +72,19 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         String exerciseWeight = weightInput.getText().toString();
         String exerciseReps = repInput.getText().toString();
         String exerciseRPE = rpeInput.getText().toString();
-        Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
 
-        addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
-        addExerciseViewModel.Insert(exercise);
-        Toast.makeText(AddExercise.this, "Exercise Saved", Toast.LENGTH_SHORT).show();
-        finish();
+        boolean verify = AddEditMethods.isVerified(exerciseWeight,exerciseReps,exerciseRPE);
+        if(verify){
+            Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
+
+            addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
+            addExerciseViewModel.Insert(exercise);
+            Toast.makeText(AddExercise.this, "Exercise Saved", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else {
+            Toast.makeText(AddExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -119,7 +128,6 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     }
 
     private Spinner setAdapterCatAdapter() {
-        catSpinner = findViewById(R.id.spinner_Category_Tracking);
 
         List<CategoryType> catList = new ArrayList<>(PossibleNames.keySet());
 
@@ -132,7 +140,6 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
 
     private void checkSelectedItem() {
         catSpinner = setAdapterCatAdapter();
-        exerciseSpinner = findViewById(R.id.spinner_Exercises_Tracking);
 
         catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -161,9 +168,11 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         Button buttonDecrementWeight;
         Button buttonIncrementRep;
         Button buttonDecrementRep;
-        Button buttonIncrementRPE;
         Button buttonDecrementRPE;
+        Button buttonIncrementRPE;
 
+        exerciseSpinner = findViewById(R.id.spinner_Exercises_Tracking);
+        catSpinner = findViewById(R.id.spinner_Category_Tracking);
         buttonIncrementWeight = findViewById(R.id.incrementWeightBnt);
         buttonDecrementWeight = findViewById(R.id.decrementWeightBnt);
         buttonIncrementRep = findViewById(R.id.incrementRepBnt);
@@ -173,6 +182,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         weightInput = findViewById(R.id.editWeightInputET);
         repInput = findViewById(R.id.editRepInputET);
         rpeInput = findViewById(R.id.editRPEInput);
+        rpeInput.setFilters(new InputFilter[]{new FilterInputs("0", "10")});
 
         buttonIncrementWeight.setOnClickListener(AddExercise.this);
         buttonDecrementWeight.setOnClickListener(AddExercise.this);
@@ -201,6 +211,9 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
                 repInput.setText(Integer.toString(AddEditMethods.decrementRepsRPE(inputRep)));
                 break;
             case R.id.incrementRPEBnt:
+                if(rpeInput.getText().toString().equals("10")){
+                    break;
+                }
                 rpeInput.setText(Integer.toString(AddEditMethods.incrementRepsRPE(inputRPE)));
                 break;
             case R.id.decrementRPEbnt:
@@ -208,26 +221,5 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
                 break;
 
         }
-    }
-
-    private int getIndex(Spinner spinner, String myString) {
-        int x = spinner.getCount();
-
-        for (int i = 0; i < spinner.getCount(); i++) {
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
-                getKeyFromValue(PossibleNames, i);
-                return i;
-            }
-        }
-        return 0;
-    }
-
-    public static Object getKeyFromValue(Map hm, Object value) {
-        for (Object o : hm.keySet()) {
-            if (hm.get(o).equals(value)) {
-                return o;
-            }
-        }
-        return null;
     }
 }

@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -31,110 +30,71 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
 
 import woodward.owen.fitnessapplication.ExercisePackage.Exercise;
 import woodward.owen.fitnessapplication.HomePagePackage.HomePage;
 import woodward.owen.fitnessapplication.PlateMathCalculatorPackage.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
 
-public class MainTrackingUI extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
+public class ExerciseTrackingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
 
     private TextView dateDisplayTV;
-    private String currentDate;
     private DrawerLayout drawer;
     private ExerciseViewModel exerciseViewModel;
-    private static Exercise cachedExercise;
-    private static List<Exercise> exerciseOrder = new ArrayList<>();
+    private ExerciseAdapter adapter;
     public static final int EDIT_EXERCISE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        exerciseViewModel = new ViewModelProvider(ExerciseTrackingActivity.this).get(ExerciseViewModel.class);
         setContentView(R.layout.activity_main_tracking_ui);
-
-        FloatingActionButton addExerciseButton = findViewById(R.id.button_add_Exercise);
-        addExerciseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(MainTrackingUI.this, AddExercise.class);
-
-                //Might need changing
-                intent.putExtra(AddExercise.EXTRA_DATE, currentDate);
-                startActivity(intent);
-            }
-        });
+        drawer = findViewById(R.id.drawer_layout);
+        setToolBar();
+        setFloatingButton();
 
         RecyclerView recyclerView = findViewById(R.id.recycler_View);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true); //set true if we know the recycler view size will not change
 
-        ExerciseAdapter adapter = new ExerciseAdapter();
+        adapter = new ExerciseAdapter();
         recyclerView.setAdapter(adapter);
 
-        exerciseViewModel = new ViewModelProvider(MainTrackingUI.this).get(ExerciseViewModel.class);
-        //exerciseViewModel = ViewModelProviders.of(this).get(ExerciseViewModel.class);
-        exerciseViewModel.getAllExercises().observe(this, new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(List<Exercise> exercises) {
-                //Updating Recycler View
-                adapter.submitList(exercises);
-                exerciseOrder = exercises;
-            }
-        });
+        Observe();
+        ObserveDateChange();
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
 
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //ON MOVE IS NOT WORKING -> NOT UPDATING THE POSITIONS IN THE DATABASE ONCE ITS WORKING
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-
-                int position_dragged = dragged.getAdapterPosition();
-                int position_target = target.getAdapterPosition();
-
+                adapter.notifyItemMoved(dragged.getAdapterPosition(), target.getAdapterPosition());
                 exerciseViewModel.Update(adapter.getExercisePosition(target.getAdapterPosition()));
-                adapter.notifyItemMoved(position_dragged, position_target);
+
 
                 return true;
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                cachedExercise = (adapter.getExercisePosition(viewHolder.getAdapterPosition())); //Cache exercise for undo exercise
+                exerciseViewModel.setCachedExercise(adapter.getExercisePosition(viewHolder.getAdapterPosition())); //Cache exercise for undo exercise
                 exerciseViewModel.Delete(adapter.getExercisePosition(viewHolder.getAdapterPosition())); //delete selected exercise
 
-                Snackbar.make(viewHolder.itemView, "Deleted Exercise: " + cachedExercise.getExerciseName(), Snackbar.LENGTH_LONG)
-                        .setActionTextColor(ContextCompat.getColor(MainTrackingUI.this, R.color.colorDatePicker))
+                Snackbar.make(viewHolder.itemView, "Deleted Exercise: " + exerciseViewModel.getCurrentCachedExercise().getValue().getExerciseName(), Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ContextCompat.getColor(ExerciseTrackingActivity.this, R.color.colorDatePicker))
                         .setAction("UNDO", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        exerciseViewModel.Insert(cachedExercise); //If undo is required, re insert exercise
-                        //Snackbar.make(v, "Exercise: " + cachedExercise.getExerciseName() + " Successfully Retrieved", Snackbar.LENGTH_SHORT).show();
-                    }
-                }).show();
+                            @Override
+                            public void onClick(View v) {
+                                exerciseViewModel.Insert(exerciseViewModel.getCurrentCachedExercise().getValue()); //If undo is required, re insert exercise
+                            }
+                        }).show();
             }
         }).attachToRecyclerView(recyclerView);
+
 
         //Update Functionality -> sending over the contents to another activity
         adapter.setOnItemClickListener(new ExerciseAdapter.onItemClickListener() { //Implemented Adapter Listener
@@ -143,9 +103,6 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
                 callForUpdate(exercise);
             }
         });
-
-        drawer = findViewById(R.id.drawer_layout);
-        setToolBar();
     }
 
     @Override
@@ -156,7 +113,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
 
             int id = data.getIntExtra(EditExercise.EXTRA_ID, -1);
             if(id == -1) {
-                Toast.makeText(MainTrackingUI.this, "Exercise Cannot be Updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExerciseTrackingActivity.this, "Exercise Cannot be Updated", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -164,16 +121,16 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
             String weight = data.getStringExtra(EditExercise.EXTRA_WEIGHT);
             String reps = data.getStringExtra(EditExercise.EXTRA_REPS);
             String RPE = data.getStringExtra(EditExercise.EXTRA_RPE);
-            String date = currentDate;
+            String date = exerciseViewModel.getCurrentDate().getValue();
 
             Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE), date);
             exercise.setId(id);
             exerciseViewModel.Update(exercise);
 
-            Toast.makeText(MainTrackingUI.this, "Exercise Updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ExerciseTrackingActivity.this, "Exercise Updated", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(MainTrackingUI.this, "Exercise Not Updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ExerciseTrackingActivity.this, "Exercise Not Updated", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -182,23 +139,23 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
 
         switch(item.getItemId()) {
             case R.id.nav_addExercise:
-                Intent intentAdd = new Intent(MainTrackingUI.this, AddExercise.class);
+                Intent intentAdd = new Intent(ExerciseTrackingActivity.this, AddExercise.class);
                 startActivity(intentAdd);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.nav_help:
-                Toast.makeText(MainTrackingUI.this, "You interacted with the Help Page", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExerciseTrackingActivity.this, "You interacted with the Help Page", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_graphical:
-                Toast.makeText(MainTrackingUI.this, "You have interacted with the graphical Page", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExerciseTrackingActivity.this, "You have interacted with the graphical Page", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_home:
-                Intent intent = new Intent(MainTrackingUI.this, HomePage.class);
+                Intent intent = new Intent(ExerciseTrackingActivity.this, HomePage.class);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.nav_plateMath:
-                Intent intentPlate = new Intent(MainTrackingUI.this, PlateMathCalcActivity.class);
+                Intent intentPlate = new Intent(ExerciseTrackingActivity.this, PlateMathCalcActivity.class);
                 startActivity(intentPlate);
                 break;
         }
@@ -219,8 +176,8 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
                 showDatePickerDialog();
                 return true;
             case R.id.deleteExercisesItem:
-                exerciseViewModel.DeleteAllExercises();
-                Toast.makeText(MainTrackingUI.this, "All Exercises have been deleted from the Date: " + dateDisplayTV.getText().toString(), Toast.LENGTH_SHORT).show();
+                exerciseViewModel.DeleteAllExercises(exerciseViewModel.getCurrentDate().getValue());
+                Toast.makeText(ExerciseTrackingActivity.this, "All Exercises have been deleted from the Date: " + dateDisplayTV.getText().toString(), Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -228,7 +185,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
     }
 
     private void showDatePickerDialog() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(MainTrackingUI.this, R.style.DialogTheme,this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(ExerciseTrackingActivity.this, R.style.DialogTheme,this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -238,12 +195,9 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
 
     @Override
     public void onDateSet (DatePicker view, int year, int month, int day) {
-
-        //Can populate Data from given date in here potentially?
         month = month +1;
-        currentDate = ConvertDate(day) + "-" + ConvertDate(month) + "-" + ConvertDate(year);
-        String currentDate = "Date: " + ConvertDate(day) + "-" + ConvertDate(month) + "-" + ConvertDate(year);
-        dateDisplayTV.setText(currentDate);
+        String temp = exerciseViewModel.ConvertDate(day) + "-" + exerciseViewModel.ConvertDate(month) + "-" + exerciseViewModel.ConvertDate(year);
+        exerciseViewModel.getCurrentDate().setValue(temp);
     }
 
     private void setToolBar() {
@@ -253,20 +207,18 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
 
         dateDisplayTV = findViewById(R.id.mainUITextViewDate);
         String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        dateDisplayTV.setText("Date: " + dateNow);
+
+        if(exerciseViewModel.getCurrentDate().getValue() == null) { exerciseViewModel.setDate(dateNow); }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainTrackingUI.this, drawer, toolbar,
-                R.string.Navigation_drawer_open, R.string.Navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(ExerciseTrackingActivity.this, drawer, toolbar, R.string.Navigation_drawer_open, R.string.Navigation_drawer_close);
 
         //Handles rotations on the UI
         drawer.addDrawerListener(toggle);
         toggle.syncState();
     }
-
 
     //When pressing the back button, it wont immediately close the activity, just the drawer
     @Override
@@ -280,7 +232,7 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
     }
 
     private void callForUpdate (Exercise exercise){
-        Intent intent = new Intent(MainTrackingUI.this, EditExercise.class);
+        Intent intent = new Intent(ExerciseTrackingActivity.this, EditExercise.class);
         intent.putExtra(EditExercise.EXTRA_ID, exercise.getId());
         intent.putExtra(EditExercise.EXTRA_EXERCISE_NAME, exercise.getExerciseName());
         intent.putExtra(EditExercise.EXTRA_WEIGHT, exercise.getWeight());
@@ -290,12 +242,39 @@ public class MainTrackingUI extends AppCompatActivity implements DatePickerDialo
         startActivityForResult(intent, EDIT_EXERCISE_REQUEST);
     }
 
-    private String ConvertDate (int input){
-        if(input >= 10) {
-            return String.valueOf(input);
-        }
-        else {
-            return "0" + (input);
-        }
+    private void Observe() {
+        exerciseViewModel.getAllExercises().observe(this, new Observer<List<Exercise>>() {
+            @Override
+            public void onChanged(List<Exercise> exercises) {
+
+                adapter.submitList(exercises);
+                if(exercises.size() == 0){
+                    Toast.makeText(ExerciseTrackingActivity.this, "No Exercises Stored for the Date: " + exerciseViewModel.getCurrentDate().getValue(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void ObserveDateChange (){
+        exerciseViewModel.getCurrentDate().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                dateDisplayTV.setText(s);
+            }
+        });
+    }
+
+    private void setFloatingButton () {
+        FloatingActionButton addExerciseButton = findViewById(R.id.button_add_Exercise);
+        addExerciseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(ExerciseTrackingActivity.this, AddExercise.class);
+
+                //Might need changing
+                intent.putExtra(AddExercise.EXTRA_DATE, exerciseViewModel.getCurrentDate().getValue());
+                startActivity(intent);
+            }
+        });
     }
 }

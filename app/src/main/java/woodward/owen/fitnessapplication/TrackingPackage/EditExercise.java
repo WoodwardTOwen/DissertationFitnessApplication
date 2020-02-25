@@ -30,9 +30,6 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
     private EditText editRpeInput;
     private TextView exerciseTitle;
 
-
-    private AddExerciseViewModel addExerciseViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +47,6 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
             editRepInput.setText(Integer.toString(intent.getIntExtra(EXTRA_REPS, 1)));
             editRpeInput.setText(Integer.toString(intent.getIntExtra(EXTRA_RPE, 1)));
         }
-
     }
 
     private void UpdateExercise() {
@@ -59,20 +55,24 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
         String exerciseRPE = editRpeInput.getText().toString();
         String exerciseName = exerciseTitle.getText().toString();
 
+        boolean verify = AddEditMethods.isVerified(exerciseWeight,exerciseReps, exerciseRPE);
 
-        Intent data = new Intent();
-        data.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
-        data.putExtra(EXTRA_WEIGHT, exerciseWeight);
-        data.putExtra(EXTRA_REPS, exerciseReps);
-        data.putExtra(EXTRA_RPE, exerciseRPE);
+        if(verify) {
+            Intent data = new Intent();
+            data.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
+            data.putExtra(EXTRA_WEIGHT, exerciseWeight);
+            data.putExtra(EXTRA_REPS, exerciseReps);
+            data.putExtra(EXTRA_RPE, exerciseRPE);
 
-        int id = getIntent().getIntExtra(EXTRA_ID, -1);
-        if (id != -1) {
-            data.putExtra(EXTRA_ID, id);
+            int id = getIntent().getIntExtra(EXTRA_ID, -1);
+            if (id != -1) {
+                data.putExtra(EXTRA_ID, id);
+            }
+            setResult(RESULT_OK, data);
+            finish();
         }
-        setResult(RESULT_OK, data);
-        finish();
 
+        Toast.makeText(EditExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -118,8 +118,6 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
         decrementReps.setOnClickListener(EditExercise.this);
         incrementRPE.setOnClickListener(EditExercise.this);
         decrementRPE.setOnClickListener(EditExercise.this);
-
-
     }
 
     @Override
@@ -141,6 +139,9 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
                 editRepInput.setText(Integer.toString(AddEditMethods.decrementRepsRPE(inputRep)));
                 break;
             case R.id.incrementRPEEditButton:
+                if(editRpeInput.getText().toString().equals("10")){
+                    break;
+                }
                 editRpeInput.setText(Integer.toString(AddEditMethods.incrementRepsRPE(inputRPE)));
                 break;
             case R.id.decrementRPEEditButton:

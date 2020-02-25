@@ -49,4 +49,12 @@ public class AddEditMethods {
         return value;
     }
 
+    public static boolean isVerified(String weightInput, String repInput, String rpeInput) {
+        return isNullOrWhiteSpace(weightInput) && isNullOrWhiteSpace(repInput) && isNullOrWhiteSpace(rpeInput);
+    }
+
+    public static boolean isNullOrWhiteSpace(String x){
+        return x != null && !x.isEmpty();
+    }
+
 }

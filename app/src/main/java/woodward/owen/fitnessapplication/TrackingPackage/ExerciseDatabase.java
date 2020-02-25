@@ -10,6 +10,10 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import woodward.owen.fitnessapplication.ExercisePackage.Exercise;
 
 @Database(entities = Exercise.class, version = 1)
@@ -49,9 +53,11 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            dao.Insert(new Exercise("Leg Curl", 10, 50, 4, "1"));
-            dao.Insert(new Exercise("Flat Barbell Bench Press", 15, 70, 9, "2"));
-            dao.Insert(new Exercise("Bicep Curl", 15, 60, 6, "3"));
+            String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+
+            dao.Insert(new Exercise("Use + button to add an exercise", 10, 50, 4, dateNow));
+            dao.Insert(new Exercise("Edit Exercise by tapping me", 15, 70, 9, dateNow));
+            dao.Insert(new Exercise("Swipe Left to Remove Items", 15, 60, 6, dateNow));
 
             return null;
         }

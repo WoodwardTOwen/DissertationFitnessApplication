@@ -71,11 +71,8 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-
                 adapter.notifyItemMoved(dragged.getAdapterPosition(), target.getAdapterPosition());
                 exerciseViewModel.Update(adapter.getExercisePosition(target.getAdapterPosition()));
-
-
                 return true;
             }
 
@@ -178,6 +175,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             case R.id.timerMenuItem:
                 Intent intent = new Intent(ExerciseTrackingActivity.this, TimerPopUp.class);
                 startActivity(intent);
+                return true;
             case R.id.deleteExercisesItem:
                 exerciseViewModel.DeleteAllExercises(exerciseViewModel.getCurrentDate().getValue());
                 Toast.makeText(ExerciseTrackingActivity.this, "All Exercises have been deleted from the Date: " + dateDisplayTV.getText().toString(), Toast.LENGTH_SHORT).show();
@@ -249,10 +247,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         exerciseViewModel.getAllExercises().observe(this, new Observer<List<Exercise>>() {
             @Override
             public void onChanged(List<Exercise> exercises) {
-
                 adapter.submitList(exercises);
                 if(exercises.size() == 0){
-                    Toast.makeText(ExerciseTrackingActivity.this, "No Exercises Stored for the Date: " + exerciseViewModel.getCurrentDate().getValue(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ExerciseTrackingActivity.this, "No Exercises Stored for the Date: " + exerciseViewModel.getCurrentDate().getValue(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -280,4 +277,17 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             }
         });
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("date", (String) dateDisplayTV.getText());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle saveInstanceState) {
+        dateDisplayTV.setText(saveInstanceState.getString("date"));
+    }
+
+
 }

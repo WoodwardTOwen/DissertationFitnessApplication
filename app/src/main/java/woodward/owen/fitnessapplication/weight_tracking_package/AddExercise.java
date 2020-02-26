@@ -3,8 +3,10 @@ package woodward.owen.fitnessapplication.weight_tracking_package;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,11 +34,12 @@ import woodward.owen.fitnessapplication.exercise_package.CategoryType;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.exercise_package.IO;
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerPopUp;
+import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerViewModel;
 
 public class AddExercise extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_DATE = "woodward.owen.fitnessapplication.EXTRA_DATE";
-
     private static final Map<CategoryType, List<String>> PossibleNames = new Hashtable<>();
     private static final Map<CategoryType, Category> Categories = new Hashtable<>();
     private Spinner catSpinner;
@@ -54,11 +57,12 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.add_exercise_layout_file);
 
         Intent intent = getIntent();
-        if(intent.hasExtra(EXTRA_DATE)){
+        if (intent.hasExtra(EXTRA_DATE)) {
             dateForExercise = intent.getStringExtra(EXTRA_DATE);
         }
 
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.close_black);
+        addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
         assignIOValues(getApplication());
         listen();
         checkSelectedItem();
@@ -71,16 +75,14 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         String exerciseReps = repInput.getText().toString();
         String exerciseRPE = rpeInput.getText().toString();
 
-        boolean verify = AddEditMethods.isVerified(exerciseWeight,exerciseReps,exerciseRPE);
-        if(verify){
+        boolean verify = AddEditMethods.isVerified(exerciseWeight, exerciseReps, exerciseRPE);
+        if (verify) {
             Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
-
-            addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
             addExerciseViewModel.Insert(exercise);
+            addExerciseViewModel.cleanSharedPreferences();
             Toast.makeText(AddExercise.this, "Exercise Saved", Toast.LENGTH_SHORT).show();
             finish();
-        }
-        else {
+        } else {
             Toast.makeText(AddExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
         }
 
@@ -208,7 +210,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
                 repInput.setText(Integer.toString(AddEditMethods.decrementRepsRPE(inputRep)));
                 break;
             case R.id.incrementRPEBnt:
-                if(rpeInput.getText().toString().equals("10")){
+                if (rpeInput.getText().toString().equals("10")) {
                     break;
                 }
                 rpeInput.setText(Integer.toString(AddEditMethods.incrementRepsRPE(inputRPE)));
@@ -222,12 +224,18 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     //If the lifecycle turns to a paused state, it temporarily holds onto the variable states
     @Override
     protected void onPause() {
+        addExerciseViewModel.saveSharedPrefData(weightInput.getText().toString(), repInput.getText().toString(), rpeInput.getText().toString());
+        Log.i("onPause", "The app has saved the preference");
         super.onPause();
     }
 
     //Gathers stored variables in the onResume state from shared preferences
     @Override
     protected void onResume() {
+        weightInput.setText(addExerciseViewModel.loadWeightSharedPreference());
+        repInput.setText(addExerciseViewModel.loadRepsSharedPreference());
+        rpeInput.setText(addExerciseViewModel.loadRPESharedPreference());
+        Log.i("onResume", "The app has loaded the data");
         super.onResume();
     }
 }

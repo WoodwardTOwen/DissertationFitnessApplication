@@ -11,8 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".weight_tracking_package.TrackingHelpPage"/>
         <activity android:name=".weight_tracking_package.timer.TimerPopUp"
-            android:theme="@style/AppTheme.CustomTheme"
-            android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity"/>
+            android:theme="@style/AppTheme.CustomTheme.NoTitle" />
         <activity
             android:name=".weight_tracking_package.EditExercise"
             android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity" />

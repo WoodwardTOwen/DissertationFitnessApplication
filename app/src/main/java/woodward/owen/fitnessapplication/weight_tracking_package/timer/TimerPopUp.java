@@ -1,27 +1,27 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.timer;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.View;
+import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Locale;
 
 import woodward.owen.fitnessapplication.R;
 
 public class TimerPopUp extends AppCompatActivity {
-    private static final long START_TIME_IN_MILLIS = 100000;
     private TextView timerCountDownTextView;
     private Button buttonStartPause;
-    private boolean timerRunning;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMillis = START_TIME_IN_MILLIS;
     private TimerViewModel timerViewModel;
+    private long endTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,23 +30,26 @@ public class TimerPopUp extends AppCompatActivity {
 
         timerCountDownTextView = findViewById(R.id.textView_Countdown);
         buttonStartPause = findViewById(R.id.start_Button_Timer);
+        Display();
+        timerViewModel = new ViewModelProvider(TimerPopUp.this).get(TimerViewModel.class);
 
         buttonStartPause.setOnClickListener(v -> {
-            if (timerRunning) {
+            if (timerViewModel.getIsTimerRunning()) {
                 pauseTimer();
-            }
-            else {
+            } else {
                 startTimer();
             }
         });
     }
 
-    private void startTimer () {
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) { //How fast the countdown goes down, currently 1 second
+    private void startTimer() {
+        endTime = System.currentTimeMillis() + timerViewModel.getTimeRemaining();
+
+        countDownTimer = new CountDownTimer(timerViewModel.getTimeRemaining(), 1000) { //How fast the countdown goes down, currently 1 second
             @Override
             public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished; //Number of milliseconds until the countdown is finished
-                updateCountDownText();
+                timerViewModel.setTimeRemaining(millisUntilFinished); //Number of milliseconds until the countdown is finished
+                UpdateCountDownText();
             }
 
             @Override
@@ -55,23 +58,65 @@ public class TimerPopUp extends AppCompatActivity {
             }
         }.start();
 
-        timerRunning = true;
-        buttonStartPause.setText("Pause");
+        timerViewModel.setIsTimerRunning(true);
+        UpdateButton();
 
     }
 
     private void pauseTimer() {
         countDownTimer.cancel();
-        timerRunning = false;
-        buttonStartPause.setText("Start");
+        timerViewModel.setIsTimerRunning(false);
+        UpdateButton();
     }
 
-    private void updateCountDownText () {
-        int minutes = (int) (timeLeftInMillis / 1000) /60;
-        int seconds = (int) (timeLeftInMillis / 1000) % 60;
-
-        String timeLeft = String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds);
+    private void UpdateCountDownText() {
+        String timeLeft = String.format(Locale.getDefault(), "%02d:%02d", timerViewModel.calculateMinutesRemaining(), timerViewModel.calculateSecondsRemaining());
         timerCountDownTextView.setText(timeLeft);
+    }
+
+    private void Display() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int width = displayMetrics.widthPixels, height = displayMetrics.heightPixels;
+        int screenOrientation = getResources().getConfiguration().orientation;
+
+        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In landscape
+        } else {
+            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In portrait
+        }
+    }
+
+    private void UpdateButton () {
+        if(timerViewModel.getIsTimerRunning()) {
+            buttonStartPause.setText("Pause");
+        }else {
+            buttonStartPause.setText("Start");
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("MillisLeft", timerViewModel.getTimeRemaining());
+        outState.putBoolean("timerRunning", timerViewModel.getIsTimerRunning());
+        outState.putLong("endTime", endTime);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle saveInstanceState) {
+        timerViewModel.setTimeRemaining(saveInstanceState.getLong("MillisLeft"));
+        timerViewModel.setIsTimerRunning(saveInstanceState.getBoolean("timerRunning"));
+        UpdateCountDownText();
+        UpdateButton();
+
+        if(timerViewModel.getIsTimerRunning()){
+            endTime = saveInstanceState.getLong("endTime");
+            timerViewModel.setTimeRemaining(endTime - System.currentTimeMillis());
+            startTimer();
+        }
 
     }
 }

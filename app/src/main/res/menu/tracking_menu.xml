@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/timerMenuItem"
+        android:icon="@drawable/timer_white"
+        android:title="@string/startTimer"
+        app:showAsAction="ifRoom" />
     <item android:id="@+id/calenderMenuItem"
         android:icon="@drawable/calender_icon"
         android:title="@string/openCalender"

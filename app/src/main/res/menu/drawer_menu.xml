@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view"
-    >
+    tools:showIn="navigation_view">
+
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_addExercise"
-            android:icon="@drawable/add_black"
-            android:title="Add Exercise"/>
-        <item android:id="@+id/nav_help"
-            android:icon="@drawable/nav_help"
-            android:title="Help"/>
-        <item android:id="@+id/nav_graphical"
-            android:icon="@drawable/nav_graphical"
-            android:title="Graphical Analysis"/>
+
+        <item android:title="@string/Navigation_Tracking_Title">
+            <menu>
+                <item
+                    android:id="@+id/nav_addExercise"
+                    android:icon="@drawable/add_black"
+                    android:title="@string/Navigation_AddExercise_Title" />
+                <item
+                    android:id="@+id/nav_help"
+                    android:icon="@drawable/nav_help"
+                    android:title="@string/Navigation_Help_Title" />
+                <item
+                    android:id="@+id/nav_graphical"
+                    android:icon="@drawable/nav_graphical"
+                    android:title="@string/Navigation_Graphical_Analysis_Title" />
+            </menu>
+        </item>
+
+
     </group>
 
-    <item android:title="Navigation" >
+    <item android:title="@string/Navigation_Navigation_Title">
 
         <menu>
-            <item android:id="@+id/nav_home"
+            <item
+                android:id="@+id/nav_home"
                 android:icon="@drawable/nav_home"
-                android:title="Home"/>
-            <item android:id="@+id/nav_plateMath"
+                android:title="@string/Navigation_Home_Title" />
+            <item
+                android:id="@+id/nav_plateMath"
                 android:icon="@drawable/plate_math_navigation"
-                android:title="Plate Math Calculator"/>
+                android:title="@string/Navigation_Plate_Math_Calculator_Title" />
         </menu>
 
     </item>

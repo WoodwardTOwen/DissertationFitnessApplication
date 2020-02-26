@@ -9,18 +9,18 @@
     >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/plate_math_navigation"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="Fitness Application"
+        android:text="@string/Navigation_MainTitle"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="tracking your weights"/>
+        android:text="@string/Navigation_SubTitle"/>
 </LinearLayout>

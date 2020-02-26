@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/homePageLayoutOrientation"
     android:background="@drawable/home_page_background_animation"
-    tools:context=".HomePagePackage.HomePage">
+    tools:context=".home_page_package.HomePage">
 
     <TextView
         android:id="@+id/text"

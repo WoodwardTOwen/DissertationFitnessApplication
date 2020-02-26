@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".TrackingPackage.ExerciseTrackingActivity"
+    tools:context=".weight_tracking_package.ExerciseTrackingActivity"
     tools:openDrawer="start">
 
 
@@ -41,7 +41,7 @@
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".TrackingPackage.ExerciseTrackingActivity">
+                tools:context=".weight_tracking_package.ExerciseTrackingActivity">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_View"

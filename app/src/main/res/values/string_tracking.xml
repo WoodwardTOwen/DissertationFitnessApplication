@@ -2,11 +2,22 @@
 <resources>
 
     //Menu Stuff
-    <string name="openCalender">Open Calender</string>]
+    <string name="openCalender">Open Calender</string>
     <string name="deleteAllExercises">Delete Exercises</string>
+    <string name="startTimer">Start Timer</string>
 
+    //Navigation Drawer
+    <string name="Navigation_MainTitle">Gainz Tracker</string>
+    <string name="Navigation_SubTitle">Tracking Weight System</string>
     <string name="Navigation_drawer_open">Open Navigation Drawer</string>
     <string name="Navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="Navigation_Tracking_Title">Tracking</string>
+    <string name="Navigation_Navigation_Title">Navigation</string>
+    <string name="Navigation_AddExercise_Title">Add Exercise</string>
+    <string name="Navigation_Graphical_Analysis_Title">Graphical Analysis</string>
+    <string name="Navigation_Plate_Math_Calculator_Title">Plate Math Calculator</string>
+    <string name="Navigation_Home_Title">Home Page</string>
+    <string name="Navigation_Help_Title">Help</string>
 
     <string name="AddExerciseTitle">Add Exercise</string>
     <string name="WeightKGTitle">Weight (Kg)</string>

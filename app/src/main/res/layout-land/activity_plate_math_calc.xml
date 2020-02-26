@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/plateMathLayout"
     android:background="@drawable/second_gradient_home_background"
-    tools:context=".PlateMathCalculatorPackage.PlateMathCalcActivity">
+    tools:context=".plate_math_calculator_package.PlateMathCalcActivity">
 
 
     <Button

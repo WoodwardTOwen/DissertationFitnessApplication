@@ -1,9 +1,11 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Application;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
@@ -34,8 +36,6 @@ import woodward.owen.fitnessapplication.exercise_package.CategoryType;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.exercise_package.IO;
 import woodward.owen.fitnessapplication.R;
-import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerPopUp;
-import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerViewModel;
 
 public class AddExercise extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,7 +61,8 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
             dateForExercise = intent.getStringExtra(EXTRA_DATE);
         }
 
-        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.close_black);
+        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.close_white);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
         assignIOValues(getApplication());
         listen();
@@ -80,6 +81,9 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
             Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
             addExerciseViewModel.Insert(exercise);
             addExerciseViewModel.cleanSharedPreferences();
+            repInput.getText().clear();
+            weightInput.getText().clear();
+            rpeInput.getText().clear();
             Toast.makeText(AddExercise.this, "Exercise Saved", Toast.LENGTH_SHORT).show();
             finish();
         } else {

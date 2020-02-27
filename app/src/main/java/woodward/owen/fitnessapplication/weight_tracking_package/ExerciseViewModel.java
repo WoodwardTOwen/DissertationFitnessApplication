@@ -32,11 +32,11 @@ public class ExerciseViewModel extends AndroidViewModel {
         repository.Update(exercise);
     }
 
-    public void Delete(Exercise exercise){
+    public void Delete(Exercise exercise) {
         repository.Delete(exercise);
     }
 
-    public void DeleteAllExercises(String date){
+    public void DeleteAllExercises(String date) {
         repository.DeleteAllExercises(date);
     }
 
@@ -44,7 +44,7 @@ public class ExerciseViewModel extends AndroidViewModel {
         return allExercises;
     }
 
-    public void setDate (String date){
+    public void setDate(String date) {
         currentDate.setValue(date);
     }
 
@@ -52,23 +52,22 @@ public class ExerciseViewModel extends AndroidViewModel {
         return currentDate;
     }
 
-    public MutableLiveData<Exercise> getCurrentCachedExercise () {
+    public MutableLiveData<Exercise> getCurrentCachedExercise() {
         return cachedExercise;
     }
 
-    public void setCachedExercise (Exercise e) {
-        if(cachedExercise == null) {
+    public void setCachedExercise(Exercise e) {
+        if (cachedExercise == null) {
             cachedExercise = new MutableLiveData<>();
         }
         cachedExercise.setValue(e);
     }
 
     //Conversion of date to stop data conversion conflicts
-    public String ConvertDate (int input){
-        if(input >= 10) {
+    public String ConvertDate(int input) {
+        if (input >= 10) {
             return String.valueOf(input);
-        }
-        else {
+        } else {
             return "0" + (input);
         }
     }

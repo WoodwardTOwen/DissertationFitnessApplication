@@ -33,4 +33,8 @@
     <string name="recycleRPE"><b>RPE: </b></string>
     <string name="recycleDate"><b>Date: </b></string>
 
+    //Timer
+    <string name="startTimerButton">Start</string>
+    <string name="pauseTimerButton">Pause</string>
+
 </resources>

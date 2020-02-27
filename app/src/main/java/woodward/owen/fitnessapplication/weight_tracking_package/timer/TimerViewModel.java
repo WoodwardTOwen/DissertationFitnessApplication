@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 public class TimerViewModel extends AndroidViewModel {
 
     private static final long START_TIME_IN_MILLIS = 60000;
-    private long endTime;
     private boolean timerRunning;
     private long timeLeftInMillis = START_TIME_IN_MILLIS;
 

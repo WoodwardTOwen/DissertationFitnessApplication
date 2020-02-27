@@ -2,6 +2,7 @@ package woodward.owen.fitnessapplication.plate_math_calculator_package;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,10 @@ public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Intege
 
         textViewKey.setText(String.valueOf(currentEntry.getKey()) + "kg");
         textViewValue.setText("Number of plates: " + String.valueOf(currentEntry.getValue()) + " (" +currentEntry.getValue() / 2 + " Plates Each side)" );
+
+        textViewKey.setTextColor(Color.parseColor("#FFFFFF"));
+        textViewValue.setTextColor(Color.parseColor("#FFFFFF"));
+
 
         return currentItemView;
     }

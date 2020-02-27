@@ -9,28 +9,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".weight_tracking_package.TrackingHelpPage"/>
-        <activity android:name=".weight_tracking_package.timer.TimerPopUp"
+        <activity android:name=".graphical_analysis_package.GraphicalActivity"/>
+        <activity android:name=".weight_tracking_package.TrackingHelpPage" />
+        <activity
+            android:name=".weight_tracking_package.timer.TimerPopUp"
             android:theme="@style/AppTheme.CustomTheme.NoTitle" />
         <activity
             android:name=".weight_tracking_package.EditExercise"
+            android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity"/>
+
+        <activity
+            android:name=".weight_tracking_package.AddExercise"
             android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity" />
         <activity
             android:name=".weight_tracking_package.ExerciseTrackingActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".plate_math_calculator_package.PlateMathCalcActivity"
-            android:configChanges="orientation"
-            android:parentActivityName=".home_page_package.HomePage"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".home_page_package.HomePage">
+            android:theme="@style/AppTheme.NoActionBar" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
         </activity>
+        <activity
+            android:name=".plate_math_calculator_package.PlateMathCalcActivity"
+            android:configChanges="orientation"
+            android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".plate_math_calculator_package.PlateMathBarbellEditPop"
             android:theme="@style/AppTheme.CustomTheme" />
@@ -40,9 +48,6 @@
         <activity
             android:name=".plate_math_calculator_package.HelpClass"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity
-            android:name=".weight_tracking_package.AddExercise"
-            android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity" />
     </application>
 
 </manifest>

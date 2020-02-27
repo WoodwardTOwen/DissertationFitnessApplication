@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:paddingStart="40dp"
-    android:paddingEnd="40dp">
+    android:paddingEnd="40dp"
+    android:background="#35373b">
 
     <TextView
         android:id="@+id/addExerciseTitle"

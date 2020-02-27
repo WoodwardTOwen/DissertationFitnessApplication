@@ -1,18 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorDatePicker</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorDatePicker</item>
         <item name="actionMenuTextColor">@color/colorBlack</item>
+        <item name="backgroundColor">@color/colorGrey</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AddEditTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/ActionBarAddEditExercise</item>
+    </style>
+
+    <style name="ActionBarAddEditExercise" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/colorDatePicker</item>
     </style>
 
     <style name="AppTheme.CustomTheme">
@@ -22,12 +31,13 @@
     </style>
 
     <style name="AppTheme.CustomTheme.NoTitle" parent="AppTheme.CustomTheme">
-        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="DialogTheme" parent="ThemeOverlay.AppCompat.Dialog">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <style name="DialogTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorPrimary">@color/colorLightGrey</item>
+        <item name="colorPrimaryDark">@color/colorGrey</item>
         <item name="colorAccent">@color/colorDatePicker</item>
     </style>
 </resources>

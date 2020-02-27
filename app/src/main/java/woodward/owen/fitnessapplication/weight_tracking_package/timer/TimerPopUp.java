@@ -1,9 +1,11 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.timer;
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -11,8 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
 
@@ -82,16 +87,16 @@ public class TimerPopUp extends AppCompatActivity {
         int screenOrientation = getResources().getConfiguration().orientation;
 
         if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In landscape
+            getWindow().setLayout((int) (width * .6), (int) (height * .5));  // In landscape
         } else {
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In portrait
+            getWindow().setLayout((int) (width * .8), (int) (height * .35));  // In portrait
         }
     }
 
-    private void UpdateButton () {
-        if(timerViewModel.getIsTimerRunning()) {
+    private void UpdateButton() {
+        if (timerViewModel.getIsTimerRunning()) {
             buttonStartPause.setText("Pause");
-        }else {
+        } else {
             buttonStartPause.setText("Start");
         }
     }
@@ -112,11 +117,20 @@ public class TimerPopUp extends AppCompatActivity {
         UpdateCountDownText();
         UpdateButton();
 
-        if(timerViewModel.getIsTimerRunning()){
+        if (timerViewModel.getIsTimerRunning()) {
             endTime = saveInstanceState.getLong("endTime");
             timerViewModel.setTimeRemaining(endTime - System.currentTimeMillis());
             startTimer();
         }
+    }
 
+    private void hideToolBar() {
+        try {
+            if (getActionBar() != null) {
+                this.getActionBar().hide();
+            }
+        } catch (Exception ex) {
+            Log.i("Error With Task Bar", "Something went wrong " + ex);
+        }
     }
 }

@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/saveExercise"
         android:title="Save Exercise"
-        android:icon="@drawable/save_black"
+        android:icon="@drawable/save_white"
         app:showAsAction="ifRoom"/>
 </menu>

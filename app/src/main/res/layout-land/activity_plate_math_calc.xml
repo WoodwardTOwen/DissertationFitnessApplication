@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/plateMathLayout"
-    android:background="@drawable/second_gradient_home_background"
+    android:background="#35373b"
     tools:context=".plate_math_calculator_package.PlateMathCalcActivity">
 
 
@@ -32,6 +32,7 @@
         android:hint="@string/InputWeightPMC"
         android:inputType="numberDecimal"
         android:textStyle="bold"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.086"

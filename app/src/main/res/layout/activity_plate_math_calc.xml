@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/plateMathLayout"
-    android:background="@drawable/second_gradient_home_background"
+    android:background="#35373b"
     tools:context=".plate_math_calculator_package.PlateMathCalcActivity">
 
 
     <Button
         android:id="@+id/calculatePMCBnt"
-        android:layout_width="163dp"
-        android:layout_height="43dp"
+        android:layout_width="186dp"
+        android:layout_height="44dp"
         android:background="@drawable/button_home_menu_design"
         android:focusedByDefault="true"
         android:onClick="calcPlates"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/InputWeightPMC"
-        android:textColorHint="#000000"
+        android:textColorHint="#FFFFFF"
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

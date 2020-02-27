@@ -30,9 +30,9 @@
 
         <menu>
             <item
-                android:id="@+id/nav_home"
-                android:icon="@drawable/nav_home"
-                android:title="@string/Navigation_Home_Title" />
+                android:id="@+id/nav_workout_generator"
+                android:icon="@drawable/generator_pen"
+                android:title="@string/workoutGenBtn" />
             <item
                 android:id="@+id/nav_plateMath"
                 android:icon="@drawable/plate_math_navigation"

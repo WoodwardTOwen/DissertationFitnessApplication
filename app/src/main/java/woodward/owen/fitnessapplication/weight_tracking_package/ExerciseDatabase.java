@@ -17,7 +17,7 @@ import java.util.Locale;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 
 @Database(entities = Exercise.class, version = 1)
-@TypeConverters({Converters.class})
+@TypeConverters({DatabaseTypeConverters.class})
 public abstract class ExerciseDatabase extends RoomDatabase {
 
     private static ExerciseDatabase instance;

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,27 +36,39 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
-import woodward.owen.fitnessapplication.home_page_package.HomePage;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerPopUp;
+import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerViewModel;
 
 public class ExerciseTrackingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
 
     private TextView dateDisplayTV;
     private DrawerLayout drawer;
     private ExerciseViewModel exerciseViewModel;
+    private TimerViewModel timerViewModel;
     private ExerciseAdapter adapter;
+    private BottomSheetBehavior bottomSheetBehavior;
+    private CountDownTimer countDownTimer;
+    private long endTime;
+    private TextView timerCountDownTextView;
     public static final int EDIT_EXERCISE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         exerciseViewModel = new ViewModelProvider(ExerciseTrackingActivity.this).get(ExerciseViewModel.class);
+        timerViewModel = new ViewModelProvider(ExerciseTrackingActivity.this).get(TimerViewModel.class);
         setContentView(R.layout.activity_main_tracking_ui);
         drawer = findViewById(R.id.drawer_layout);
+        timerCountDownTextView = findViewById(R.id.bottomSheetScrollerTextView);
+
+        View bottomSheet = findViewById(R.id.bottom_sheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+
         setToolBar();
         setFloatingButton();
 
@@ -100,6 +114,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 callForUpdate(exercise);
             }
         });
+
     }
 
     @Override
@@ -146,11 +161,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             case R.id.nav_graphical:
                 Toast.makeText(ExerciseTrackingActivity.this, "You have interacted with the graphical Page", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.nav_home:
-                Intent intent = new Intent(ExerciseTrackingActivity.this, HomePage.class);
-                startActivity(intent);
-                finish();
-                break;
+            case R.id.nav_workout_generator:
+                Toast.makeText(ExerciseTrackingActivity.this, "You Interacted with the Workout Generator Navigation", Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.nav_plateMath:
                 Intent intentPlate = new Intent(ExerciseTrackingActivity.this, PlateMathCalcActivity.class);
                 startActivity(intentPlate);
@@ -173,8 +186,16 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 showDatePickerDialog();
                 return true;
             case R.id.timerMenuItem:
-                Intent intent = new Intent(ExerciseTrackingActivity.this, TimerPopUp.class);
-                startActivity(intent);
+                //Intent intent = new Intent(ExerciseTrackingActivity.this, TimerPopUp.class);
+                //startActivity(intent);
+                View menu= findViewById(R.id.timerMenuItem);
+                menu.setOnClickListener(v-> {
+                    RunPauseTimer();
+                });
+                RunPauseTimer();
+
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
                 return true;
             case R.id.deleteExercisesItem:
                 exerciseViewModel.DeleteAllExercises(exerciseViewModel.getCurrentDate().getValue());
@@ -186,7 +207,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     }
 
     private void showDatePickerDialog() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(ExerciseTrackingActivity.this, R.style.DialogTheme,this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(ExerciseTrackingActivity.this,this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -199,6 +220,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         month = month +1;
         String temp = exerciseViewModel.ConvertDate(day) + "-" + exerciseViewModel.ConvertDate(month) + "-" + exerciseViewModel.ConvertDate(year);
         exerciseViewModel.getCurrentDate().setValue(temp);
+
     }
 
     private void setToolBar() {
@@ -289,5 +311,47 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         dateDisplayTV.setText(saveInstanceState.getString("date"));
     }
 
+    //Timer Section
+    private void UpdateCountDownText() {
+        String timeLeft = String.format(Locale.getDefault(), "%02d:%02d", timerViewModel.calculateMinutesRemaining(), timerViewModel.calculateSecondsRemaining());
+        timerCountDownTextView.setText(timeLeft);
+    }
 
+    private void pauseTimer() {
+        countDownTimer.cancel();
+        timerViewModel.setIsTimerRunning(false);
+        UpdateTimer();
+    }
+
+    private void startTimer() {
+        endTime = System.currentTimeMillis() + timerViewModel.getTimeRemaining();
+
+        countDownTimer = new CountDownTimer(timerViewModel.getTimeRemaining(), 1000) { //How fast the countdown goes down, currently 1 second
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timerViewModel.setTimeRemaining(millisUntilFinished); //Number of milliseconds until the countdown is finished
+                UpdateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+
+        timerViewModel.setIsTimerRunning(true);
+        UpdateTimer();
+    }
+
+    private void UpdateTimer() {
+
+    }
+
+    private void RunPauseTimer () {
+        if (timerViewModel.getIsTimerRunning()) {
+            pauseTimer();
+        } else {
+            startTimer();
+        }
+    }
 }

@@ -7,15 +7,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -53,9 +56,17 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     private ExerciseAdapter adapter;
     private BottomSheetBehavior bottomSheetBehavior;
     private CountDownTimer countDownTimer;
+    private Button bottomSheetResetButton;
+    private Button bottomSheetStartButton;
     private long endTime;
+    private RecyclerView recyclerView;
+    private TextView emptyView;
     private TextView timerCountDownTextView;
     public static final int EDIT_EXERCISE_REQUEST = 1;
+    private static final String TIMER_PREFS = "timerPrefs";
+    private static final String MILLIS_LEFT = "millisLeft";
+    private static final String TIMER_RUNNING = "timerRunning";
+    private static final String END_TIME = "endTime";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +76,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         setContentView(R.layout.activity_main_tracking_ui);
         drawer = findViewById(R.id.drawer_layout);
         timerCountDownTextView = findViewById(R.id.bottomSheetScrollerTextView);
+        bottomSheetResetButton = findViewById(R.id.bottomSheetScollerButtonReset);
+        bottomSheetStartButton = findViewById(R.id.bottomSheetScollerStartButton);
+        emptyView = findViewById(R.id.no_date_available_TextView);
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -72,7 +86,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         setToolBar();
         setFloatingButton();
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_View);
+        recyclerView = findViewById(R.id.recycler_View);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true); //set true if we know the recycler view size will not change
 
@@ -82,7 +96,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         Observe();
         ObserveDateChange();
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,ItemTouchHelper.LEFT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
                 adapter.notifyItemMoved(dragged.getAdapterPosition(), target.getAdapterPosition());
@@ -121,10 +135,10 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == EDIT_EXERCISE_REQUEST && resultCode == RESULT_OK){
+        if (requestCode == EDIT_EXERCISE_REQUEST && resultCode == RESULT_OK) {
 
             int id = data.getIntExtra(EditExercise.EXTRA_ID, -1);
-            if(id == -1) {
+            if (id == -1) {
                 Toast.makeText(ExerciseTrackingActivity.this, "Exercise Cannot be Updated", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -140,8 +154,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             exerciseViewModel.Update(exercise);
 
             Toast.makeText(ExerciseTrackingActivity.this, "Exercise Updated", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             Toast.makeText(ExerciseTrackingActivity.this, "Exercise Not Updated", Toast.LENGTH_SHORT).show();
         }
     }
@@ -149,7 +162,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.nav_addExercise:
                 Intent intentAdd = new Intent(ExerciseTrackingActivity.this, AddExercise.class);
                 startActivity(intentAdd);
@@ -173,41 +186,14 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     }
 
     @Override
-    public boolean onCreateOptionsMenu (Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.tracking_menu, menu);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected (@NonNull MenuItem item){
-        switch(item.getItemId()) {
-            case R.id.calenderMenuItem:
-                showDatePickerDialog();
-                return true;
-            case R.id.timerMenuItem:
-                //Intent intent = new Intent(ExerciseTrackingActivity.this, TimerPopUp.class);
-                //startActivity(intent);
-                View menu= findViewById(R.id.timerMenuItem);
-                menu.setOnClickListener(v-> {
-                    RunPauseTimer();
-                });
-                RunPauseTimer();
-
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-                return true;
-            case R.id.deleteExercisesItem:
-                exerciseViewModel.DeleteAllExercises(exerciseViewModel.getCurrentDate().getValue());
-                Toast.makeText(ExerciseTrackingActivity.this, "All Exercises have been deleted from the Date: " + dateDisplayTV.getText().toString(), Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void showDatePickerDialog() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(ExerciseTrackingActivity.this,this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(ExerciseTrackingActivity.this, this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -216,8 +202,8 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     }
 
     @Override
-    public void onDateSet (DatePicker view, int year, int month, int day) {
-        month = month +1;
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        month = month + 1;
         String temp = exerciseViewModel.ConvertDate(day) + "-" + exerciseViewModel.ConvertDate(month) + "-" + exerciseViewModel.ConvertDate(year);
         exerciseViewModel.getCurrentDate().setValue(temp);
 
@@ -231,7 +217,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         dateDisplayTV = findViewById(R.id.mainUITextViewDate);
         String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-        if(exerciseViewModel.getCurrentDate().getValue() == null) { exerciseViewModel.setDate(dateNow); }
+        if (exerciseViewModel.getCurrentDate().getValue() == null) {
+            exerciseViewModel.setDate(dateNow);
+        }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -245,16 +233,15 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
     //When pressing the back button, it wont immediately close the activity, just the drawer
     @Override
-    public void onBackPressed(){
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START); //START because it is on the left hand side of the screen
-        }
-        else {
+        } else {
             super.onBackPressed(); // Means the drawer was not open on the back press command
         }
     }
 
-    private void callForUpdate (Exercise exercise){
+    private void callForUpdate(Exercise exercise) {
         Intent intent = new Intent(ExerciseTrackingActivity.this, EditExercise.class);
         intent.putExtra(EditExercise.EXTRA_ID, exercise.getId());
         intent.putExtra(EditExercise.EXTRA_EXERCISE_NAME, exercise.getExerciseName());
@@ -270,14 +257,18 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             @Override
             public void onChanged(List<Exercise> exercises) {
                 adapter.submitList(exercises);
-                if(exercises.size() == 0){
-                        Toast.makeText(ExerciseTrackingActivity.this, "No Exercises Stored for the Date: " + exerciseViewModel.getCurrentDate().getValue(), Toast.LENGTH_SHORT).show();
+                if (exercises.size() == 0) {
+                    emptyView.setVisibility(View.VISIBLE);
                 }
+                else {
+                    emptyView.setVisibility(View.GONE);
+                }
+
             }
         });
     }
 
-    private void ObserveDateChange (){
+    private void ObserveDateChange() {
         exerciseViewModel.getCurrentDate().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -286,11 +277,11 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         });
     }
 
-    private void setFloatingButton () {
+    private void setFloatingButton() {
         FloatingActionButton addExerciseButton = findViewById(R.id.button_add_Exercise);
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(ExerciseTrackingActivity.this, AddExercise.class);
 
                 //Might need changing
@@ -311,13 +302,45 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         dateDisplayTV.setText(saveInstanceState.getString("date"));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.calenderMenuItem:
+                showDatePickerDialog();
+                return true;
+            case R.id.timerMenuItem:
+                //Intent intent = new Intent(ExerciseTrackingActivity.this, TimerPopUp.class);
+                //startActivity(intent);
+
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                } else {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+
+                //RunPauseTimer();
+                ExpandBottomSheet();
+                timerListenersForBottomSheet();
+                return true;
+            case R.id.deleteExercisesItem:
+                exerciseViewModel.DeleteAllExercises(exerciseViewModel.getCurrentDate().getValue());
+                Toast.makeText(ExerciseTrackingActivity.this, "All Exercises have been deleted from the Date: " + dateDisplayTV.getText().toString(), Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     //Timer Section
     private void UpdateCountDownText() {
+        //Updates the text at run time to which shows the timer ticking down
         String timeLeft = String.format(Locale.getDefault(), "%02d:%02d", timerViewModel.calculateMinutesRemaining(), timerViewModel.calculateSecondsRemaining());
         timerCountDownTextView.setText(timeLeft);
     }
 
     private void pauseTimer() {
+        bottomSheetStartButton.setText(timerViewModel.getStartButtonName());
+        bottomSheetResetButton.setVisibility(View.VISIBLE);
         countDownTimer.cancel();
         timerViewModel.setIsTimerRunning(false);
         UpdateTimer();
@@ -340,18 +363,83 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         }.start();
 
         timerViewModel.setIsTimerRunning(true);
-        UpdateTimer();
+        UpdateCountDownText();
+        bottomSheetResetButton.setVisibility(View.INVISIBLE);
+        bottomSheetStartButton.setText(timerViewModel.getPauseButtonName());
     }
 
     private void UpdateTimer() {
 
     }
 
-    private void RunPauseTimer () {
+    private void RunPauseTimer() {
         if (timerViewModel.getIsTimerRunning()) {
             pauseTimer();
         } else {
             startTimer();
         }
+    }
+
+    private void resetTimer() {
+        timerViewModel.setTimeRemaining(timerViewModel.getStartTimeInMillis());
+        UpdateCountDownText();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences prefs = getSharedPreferences(TIMER_PREFS, MODE_PRIVATE);
+        timerViewModel.setTimeRemaining(prefs.getLong(MILLIS_LEFT, timerViewModel.getStartTimeInMillis()));
+        timerViewModel.setIsTimerRunning(prefs.getBoolean(TIMER_RUNNING, false));
+        UpdateCountDownText();
+
+        if (timerViewModel.getIsTimerRunning()) {
+            endTime = prefs.getLong(END_TIME, 0);
+            timerViewModel.setTimeRemaining(endTime - System.currentTimeMillis());
+
+            if (timerViewModel.getTimeRemaining() < 0) {
+                timerViewModel.setTimeRemaining(0);
+                timerViewModel.setIsTimerRunning(false);
+                UpdateCountDownText();
+            } else {
+                startTimer();
+            }
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+        SharedPreferences prefs = getSharedPreferences(TIMER_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putLong(MILLIS_LEFT, timerViewModel.getTimeRemaining());
+        editor.putBoolean(TIMER_RUNNING, timerViewModel.getIsTimerRunning());
+        editor.putLong(END_TIME, endTime);
+
+        editor.apply();
+    }
+
+    private void ExpandBottomSheet () {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    private void timerListenersForBottomSheet() {
+        bottomSheetStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RunPauseTimer();
+            }
+        });
+
+        bottomSheetResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+            }
+        });
     }
 }

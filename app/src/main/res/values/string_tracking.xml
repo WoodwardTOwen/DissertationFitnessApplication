@@ -32,9 +32,11 @@
     <string name="recycleReps"><b>Reps: </b></string>
     <string name="recycleRPE"><b>RPE: </b></string>
     <string name="recycleDate"><b>Date: </b></string>
+    <string name="noDataAvailable">No Data Available for the Selected Date \n\n Add Exercises via the Button in the \n Right Corner or by Using the Navigation Bar</string>
 
     //Timer
     <string name="startTimerButton">Start</string>
     <string name="pauseTimerButton">Pause</string>
+    <string name="restTimerButton">Reset</string>
 
 </resources>

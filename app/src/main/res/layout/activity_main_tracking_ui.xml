@@ -49,6 +49,14 @@
                     android:background="#35373b"
                     tools:listitem="@layout/exercise_item" />
 
+                <TextView
+                    android:id="@+id/no_date_available_TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/noDataAvailable" />
+
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/button_add_Exercise"
                     android:layout_width="wrap_content"
@@ -63,19 +71,47 @@
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/bottom_sheet"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="#858b97"
+                    android:layout_height="40dp"
+                    android:background="@drawable/timer_pop_up_design"
+                    android:textAlignment="center"
                     app:layout_behavior="@string/bottom_sheet_behavior"
-                    app:behavior_hideable="true"
+                    app:behavior_hideable="false"
                     app:behavior_peekHeight="0dp">
 
-                    <TextView
-                        android:id="@+id/bottomSheetScrollerTextView"
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="16dp"
-                        android:textSize="20sp"
-                        android:text="Timer = 00:00"/>
+                        >
+
+                        <TextView
+                            android:id="@+id/bottomSheetScrollerTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:textSize="20sp"
+                            android:textAlignment="center"
+                            android:text="Timer - 00:00"/>
+
+                        <Button
+                            android:id="@+id/bottomSheetScollerStartButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_toEndOf="@id/bottomSheetScrollerTextView"
+                            android:text="@string/startTimerButton"
+                            />
+
+                        <Button
+                            android:id="@+id/bottomSheetScollerButtonReset"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_toEndOf="@id/bottomSheetScollerStartButton"
+                            android:text="@string/restTimerButton"
+                            />
+
+                    </RelativeLayout>
 
                 </androidx.core.widget.NestedScrollView>
 

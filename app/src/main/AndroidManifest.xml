@@ -17,7 +17,6 @@
         <activity
             android:name=".weight_tracking_package.EditExercise"
             android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity"/>
-
         <activity
             android:name=".weight_tracking_package.AddExercise"
             android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity" />

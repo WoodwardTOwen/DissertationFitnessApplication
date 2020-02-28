@@ -6,6 +6,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,6 +63,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         mBarbellSelectorCb = findViewById(R.id.barbellSelectorCb);
         listView = findViewById(R.id.resultsListView);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
 
         setSpinnerData();
         CheckSelectedItem();

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Application;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -67,6 +68,11 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         assignIOValues(getApplication());
         listen();
         checkSelectedItem();
+
+        int screenOrientation = getResources().getConfiguration().orientation;
+        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportActionBar().setTitle("Fitness Application - Add Exercise");  // In landscape
+        }
 
     }
 
@@ -228,18 +234,18 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     //If the lifecycle turns to a paused state, it temporarily holds onto the variable states
     @Override
     protected void onPause() {
+        super.onPause();
         addExerciseViewModel.saveSharedPrefData(weightInput.getText().toString(), repInput.getText().toString(), rpeInput.getText().toString());
         Log.i("onPause", "The app has saved the preference");
-        super.onPause();
     }
 
     //Gathers stored variables in the onResume state from shared preferences
     @Override
     protected void onResume() {
+        super.onResume();
         weightInput.setText(addExerciseViewModel.loadWeightSharedPreference());
         repInput.setText(addExerciseViewModel.loadRepsSharedPreference());
         rpeInput.setText(addExerciseViewModel.loadRPESharedPreference());
         Log.i("onResume", "The app has loaded the data");
-        super.onResume();
     }
 }

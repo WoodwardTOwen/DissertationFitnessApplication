@@ -1,7 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
+    android:paddingStart="40dp"
+    android:paddingEnd="40dp"
     android:background="#35373b">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/catSpinnerTitle"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="@string/CatTitle" />
+
+    <Spinner
+        android:id="@+id/spinner_Category_Tracking"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/catSpinnerTitle"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:autofillHints="Category" />
+
+    <TextView
+        android:id="@+id/exerciseSpinnerTitle"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@id/spinner_Category_Tracking"
+        android:text="@string/ExerciseTitle" />
+
+    <Spinner
+        android:id="@+id/spinner_Exercises_Tracking"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/exerciseSpinnerTitle"
+        android:layout_marginTop="20dp"
+        android:autofillHints="Exercises" />
+
+    <TextView
+        android:id="@+id/weightTextViewTitle"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/WeightKGTitle"
+        android:layout_toEndOf="@id/catSpinnerTitle"
+        android:layout_below="@+id/addExerciseTitle"
+        android:layout_marginStart="200dp"
+        android:layout_marginEnd="-55dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <Button
+        android:id="@+id/decrementWeightBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:drawableTop="@drawable/remove"
+        android:layout_below="@id/weightTextViewTitle"
+        android:layout_toEndOf="@id/weightTextViewTitle"
+        />
+
+    <EditText
+        android:id="@+id/editWeightInputET"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:hint="@string/hintForEditTextBoxes"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toEndOf="@id/decrementWeightBnt"
+        android:layout_below="@id/weightTextViewTitle"
+        />
+
+    <Button
+        android:id="@+id/incrementWeightBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:drawableTop="@drawable/add_black"
+        android:layout_toEndOf="@id/editWeightInputET"
+        android:layout_below="@id/weightTextViewTitle"
+        />
+
+    <TextView
+        android:id="@+id/repTextViewTitle"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/repTitle"
+        android:layout_toEndOf="@id/catSpinnerTitle"
+        android:layout_below="@+id/weightTextViewTitle"
+        android:layout_marginStart="200dp"
+        android:layout_marginEnd="-55dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
+        />
+    
+    <Button
+        android:id="@+id/decrementRepBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:drawableTop="@drawable/remove"
+        android:layout_below="@id/repTextViewTitle"
+        android:layout_toEndOf="@id/weightTextViewTitle"
+        />
+    
+    <EditText
+        android:id="@+id/editRepInputET"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:hint="@string/hintForEditTextBoxes"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toEndOf="@id/decrementRepBnt"
+        android:layout_below="@id/repTextViewTitle"
+        />
+
+    <Button
+        android:id="@+id/incrementRepBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:drawableTop="@drawable/add_black"
+        android:layout_toEndOf="@id/editRepInputET"
+        android:layout_below="@id/repTextViewTitle"
+        />
+
+    <TextView
+        android:id="@+id/rpeTitleTextView"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rpeTitle"
+        android:layout_toEndOf="@id/catSpinnerTitle"
+        android:layout_below="@+id/weightTextViewTitle"
+        android:layout_marginStart="200dp"
+        android:layout_marginEnd="-55dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginBottom="10dp"
+        />
+    
+    <Button
+        android:id="@+id/decrementRPEbnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:drawableTop="@drawable/remove"
+        android:layout_below="@id/rpeTitleTextView"
+        android:layout_toEndOf="@id/weightTextViewTitle"/>
+    
+    <EditText
+        android:id="@+id/editRPEInput"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:hint="@string/hintForEditTextBoxes"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toEndOf="@id/decrementRPEbnt"
+        android:layout_below="@id/rpeTitleTextView"/>
+    
+    <Button
+        android:id="@+id/incrementRPEBnt"
+        android:layout_width="78dp"
+        android:layout_height="47dp"
+        android:drawableTop="@drawable/add_black"
+        android:layout_toEndOf="@id/editRPEInput"
+        android:layout_below="@id/rpeTitleTextView"/>
+
+
+</RelativeLayout>

@@ -11,7 +11,7 @@
 
     <Button
         android:id="@+id/calculatePMCBnt"
-        android:layout_width="163dp"
+        android:layout_width="197dp"
         android:layout_height="43dp"
         android:background="@drawable/button_home_menu_design"
         android:focusedByDefault="true"
@@ -155,22 +155,22 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.186" />
+        app:layout_constraintVertical_bias="0.207" />
 
     <ListView
         android:id="@+id/resultsListView"
-        android:layout_width="327dp"
-        android:layout_height="346dp"
+        android:layout_width="322dp"
+        android:layout_height="307dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintHorizontal_bias="0.926"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintVertical_bias="0.682" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

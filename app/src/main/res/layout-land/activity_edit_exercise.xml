@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="100dp"
+    android:orientation="horizontal"
+    android:paddingTop="30dp"
     tools:context=".weight_tracking_package.EditExercise"
     android:background="#35373b">
 
@@ -61,7 +61,7 @@
         android:drawableEnd="@drawable/add_black"
         android:paddingEnd="22dp"
         android:paddingStart="22dp"
-        android:layout_below="@id/weightTitleTV"
+        android:layout_below="@id/editActivityExerciseName"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -72,15 +72,15 @@
         android:drawableEnd="@drawable/remove"
         android:paddingEnd="22dp"
         android:paddingStart="22dp"
-        android:layout_below="@id/weightTitleTV"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:layout_below="@+id/editActivityExerciseName"
         android:layout_toStartOf="@id/inputWeightTxtBox"/>
 
     <EditText
         android:id="@+id/inputWeightTxtBox"
-        android:layout_below="@id/weightTitleTV"
+        android:layout_below="@id/editActivityExerciseName"
         android:layout_width="100dp"
         android:hint="@string/hintForEditTextBoxes"
         android:inputType="numberDecimal"
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="36dp"
-        android:layout_marginEnd= "36dp" />
+        android:layout_marginEnd="36dp" />
 
     <Button
         android:id="@+id/incrementRepEditButton"
@@ -123,8 +123,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/inputWeightTxtBox"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="36dp"
         android:layout_marginTop="30dp"
+        android:layout_marginStart="36dp"
         android:layout_marginEnd="36dp" />
 
     <Button
@@ -160,9 +160,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/inputRepTxtBox"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="36dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="36dp" />
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"/>
 
 
 </RelativeLayout>

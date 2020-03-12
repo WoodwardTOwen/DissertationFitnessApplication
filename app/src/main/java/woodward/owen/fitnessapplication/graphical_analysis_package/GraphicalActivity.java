@@ -42,7 +42,7 @@ public class GraphicalActivity extends AppCompatActivity {
         exerciseSpinner = findViewById(R.id.exerciseSpinnerGraphical);
         lineChart = findViewById(R.id.lineChartView);
         graphicViewModel = new ViewModelProvider(GraphicalActivity.this).get(GraphViewModel.class);
-        graphicViewModel.assignIOValues(getApplication());
+        //graphicViewModel.assignIOValues(getApplication());
         checkSelectedItem();
 
 

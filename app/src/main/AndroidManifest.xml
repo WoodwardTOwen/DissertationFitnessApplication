@@ -4,35 +4,34 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:configChanges="orientation|screenSize"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".graphical_analysis_package.GraphicalActivity"/>
+        <activity android:name=".weight_tracking_package.ExerciseRecyclerView"></activity>
+        <activity android:name=".weight_tracking_package.CategoryRecyclerView" />
+        <activity android:name=".graphical_analysis_package.GraphicalActivity" />
         <activity android:name=".weight_tracking_package.TrackingHelpPage" />
         <activity
             android:name=".weight_tracking_package.timer.TimerPopUp"
             android:theme="@style/AppTheme.CustomTheme.NoTitle" />
         <activity
             android:name=".weight_tracking_package.EditExercise"
-            android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity"/>
+            android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity" />
         <activity
             android:name=".weight_tracking_package.AddExercise"
             android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity" />
         <activity
             android:name=".weight_tracking_package.ExerciseTrackingActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" >
-
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity
             android:name=".plate_math_calculator_package.PlateMathCalcActivity"

@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.weight_tracking_package;
+package woodward.owen.fitnessapplication.weight_tracking_package.database_package;
 
 import androidx.room.TypeConverter;
 

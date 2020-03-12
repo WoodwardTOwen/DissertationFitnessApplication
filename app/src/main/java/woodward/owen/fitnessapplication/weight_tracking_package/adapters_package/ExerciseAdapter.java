@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.weight_tracking_package;
+package woodward.owen.fitnessapplication.weight_tracking_package.adapters_package;
 
 import android.text.Html;
 import android.view.LayoutInflater;

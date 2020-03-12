@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.weight_tracking_package;
+package woodward.owen.fitnessapplication.weight_tracking_package.dao_package;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

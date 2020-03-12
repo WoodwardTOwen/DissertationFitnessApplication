@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.weight_tracking_package;
+package woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge;
 
 import android.app.Application;
 import android.content.Context;
@@ -6,13 +6,14 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-
-import java.util.Objects;
+import androidx.lifecycle.MutableLiveData;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
+import woodward.owen.fitnessapplication.weight_tracking_package.database_package.ExerciseRepository;
 
 public class AddExerciseViewModel extends AndroidViewModel {
     private ExerciseRepository repository;
+    private MutableLiveData<String> currentDate = new MutableLiveData<>();
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String WEIGHT = "Weight";
     private static final String REPS = "Reps";
@@ -51,5 +52,13 @@ public class AddExerciseViewModel extends AndroidViewModel {
 
     public void cleanSharedPreferences () {
         sharedPreferences.edit().clear().apply();
+    }
+
+    public void setDate(String date) {
+        currentDate.setValue(date);
+    }
+
+    public MutableLiveData<String> getCurrentDate() {
+        return currentDate;
     }
 }

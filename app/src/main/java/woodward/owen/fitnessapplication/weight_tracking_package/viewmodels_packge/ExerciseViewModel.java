@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.weight_tracking_package;
+package woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge;
 
 import android.app.Application;
 
@@ -11,6 +11,7 @@ import androidx.lifecycle.Transformations;
 import java.util.List;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
+import woodward.owen.fitnessapplication.weight_tracking_package.database_package.ExerciseRepository;
 
 public class ExerciseViewModel extends AndroidViewModel {
     private ExerciseRepository repository;

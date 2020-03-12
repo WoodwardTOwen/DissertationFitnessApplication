@@ -44,7 +44,9 @@ import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.graphical_analysis_package.GraphicalActivity;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.weight_tracking_package.adapters_package.ExerciseAdapter;
 import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerViewModel;
+import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.ExerciseViewModel;
 
 public class ExerciseTrackingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -61,6 +63,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     private Button bottomSheetStartButton;
     private long endTime;
     public static final int EDIT_EXERCISE_REQUEST = 1;
+    public static final String EXTRA_DATE_MAIN_UI = "woodward.owen.fitnessapplication.EXTRA_DATE_MAIN_UI";
     private static final String TIMER_PREFS = "timerPrefs";
     private static final String MILLIS_LEFT = "millisLeft";
     private static final String TIMER_RUNNING = "timerRunning";
@@ -77,6 +80,11 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         bottomSheetResetButton = findViewById(R.id.bottomSheetScollerButtonReset);
         bottomSheetStartButton = findViewById(R.id.bottomSheetScollerStartButton);
         emptyView = findViewById(R.id.no_date_available_TextView);
+
+        Intent i = getIntent();
+        if(i.hasExtra(EXTRA_DATE_MAIN_UI)){
+            exerciseViewModel.getCurrentDate().setValue(getIntent().getStringExtra(EXTRA_DATE_MAIN_UI));
+        }
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -162,8 +170,11 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
         switch (item.getItemId()) {
             case R.id.nav_addExercise:
-                Intent intentAdd = new Intent(ExerciseTrackingActivity.this, AddExercise.class);
+                Intent intentAdd = new Intent(ExerciseTrackingActivity.this, CategoryRecyclerView.class);
                 startActivity(intentAdd);
+
+                //Need to pass intent here too with the date
+
                 closeDrawer();
                 return true;
             case R.id.nav_help:
@@ -290,11 +301,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ExerciseTrackingActivity.this, AddExercise.class);
-
-                //Might need changing
-                intent.putExtra(AddExercise.EXTRA_DATE, exerciseViewModel.getCurrentDate().getValue());
-                startActivity(intent);
+                Intent intentActivity = new Intent(ExerciseTrackingActivity.this, CategoryRecyclerView.class);
+                intentActivity.putExtra(CategoryRecyclerView.EXTRA_DATE_CATEGORY, exerciseViewModel.getCurrentDate().getValue());
+                startActivity(intentActivity);
             }
         });
     }

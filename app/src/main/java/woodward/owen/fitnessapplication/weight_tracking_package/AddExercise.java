@@ -1,7 +1,6 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Application;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -19,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,18 +38,21 @@ import woodward.owen.fitnessapplication.exercise_package.CategoryType;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.exercise_package.IO;
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.AddExerciseViewModel;
 
 public class AddExercise extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_DATE = "woodward.owen.fitnessapplication.EXTRA_DATE";
-    private static final Map<CategoryType, List<String>> PossibleNames = new Hashtable<>();
-    private static final Map<CategoryType, Category> Categories = new Hashtable<>();
-    private Spinner catSpinner;
-    private Spinner exerciseSpinner;
-    private List<String> exerciseList;
+    //private static final Map<CategoryType, List<String>> PossibleNames = new Hashtable<>();
+    //private static final Map<CategoryType, Category> Categories = new Hashtable<>();
+    //private Spinner catSpinner;
+    //private Spinner exerciseSpinner;
+    //private List<String> exerciseList;
     private EditText weightInput;
     private EditText repInput;
     private EditText rpeInput;
+    private TextView exerciseTextView;
+    private TextView categoryTextView;
     private String dateForExercise;
     private AddExerciseViewModel addExerciseViewModel;
 
@@ -67,9 +70,13 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
 
-        assignIOValues(getApplication());
+        //assignIOValues(getApplication());
         listen();
-        checkSelectedItem();
+        //checkSelectedItem();
+
+        Intent i = getIntent();
+        exerciseTextView.setText(i.getStringExtra("Exercise"));
+        categoryTextView.setText(i.getStringExtra("Category"));
 
         int screenOrientation = getResources().getConfiguration().orientation;
         if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -79,13 +86,14 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     }
 
     private void saveExercise() {
-        String exerciseName = exerciseSpinner.getSelectedItem().toString();
+        String exerciseName = exerciseTextView.getText().toString();
         String exerciseWeight = weightInput.getText().toString();
         String exerciseReps = repInput.getText().toString();
         String exerciseRPE = rpeInput.getText().toString();
 
         boolean verify = AddEditMethods.isVerified(exerciseWeight, exerciseReps, exerciseRPE);
         if (verify) {
+            addExerciseViewModel.setDate(dateForExercise);
             Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
             addExerciseViewModel.Insert(exercise);
             addExerciseViewModel.cleanSharedPreferences();
@@ -93,6 +101,11 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
             weightInput.getText().clear();
             rpeInput.getText().clear();
             Toast.makeText(AddExercise.this, "Exercise Saved", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(AddExercise.this, ExerciseTrackingActivity.class);
+            intent.putExtra(ExerciseTrackingActivity.EXTRA_DATE_MAIN_UI, addExerciseViewModel.getCurrentDate().getValue());
+            startActivity(intent);
+
             finish();
         } else {
             Toast.makeText(AddExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
@@ -116,7 +129,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         return super.onOptionsItemSelected(item);
     }
 
-    private void assignIOValues(Application context) {
+    /*private void assignIOValues(Application context) {
         IO.setInstance(context);
         Map<CategoryType, String[]> pair = new Hashtable<>(IO.ReadData());
         for (Map.Entry<CategoryType, String[]> entry : pair.entrySet()) {
@@ -171,7 +184,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
 
             }
         });
-    }
+    }*/
 
     private void listen() {
         Button buttonIncrementWeight;
@@ -181,8 +194,10 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         Button buttonDecrementRPE;
         Button buttonIncrementRPE;
 
-        exerciseSpinner = findViewById(R.id.spinner_Exercises_Tracking);
-        catSpinner = findViewById(R.id.spinner_Category_Tracking);
+        exerciseTextView = findViewById(R.id.exerciseSpinnerTitle);
+        categoryTextView = findViewById(R.id.catSpinnerTitle);
+        //exerciseSpinner = findViewById(R.id.spinner_Exercises_Tracking);
+        //catSpinner = findViewById(R.id.spinner_Category_Tracking);
         buttonIncrementWeight = findViewById(R.id.incrementWeightBnt);
         buttonDecrementWeight = findViewById(R.id.decrementWeightBnt);
         buttonIncrementRep = findViewById(R.id.incrementRepBnt);
@@ -244,8 +259,8 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("exerciseSpinner", exerciseSpinner.getSelectedItemPosition());
-        outState.putInt("categorySpinner", catSpinner.getSelectedItemPosition());
+        //outState.putInt("exerciseSpinner", exerciseSpinner.getSelectedItemPosition());
+        //outState.putInt("categorySpinner", catSpinner.getSelectedItemPosition());
     }
 //Gathers stored variables in the onResume state from shared preferences
     @Override

@@ -1,0 +1,242 @@
+package woodward.owen.fitnessapplication.weight_tracking_package.database_package;
+
+import android.app.Application;
+import android.os.AsyncTask;
+
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
+
+import woodward.owen.fitnessapplication.exercise_package.Category;
+import woodward.owen.fitnessapplication.exercise_package.Exercise;
+import woodward.owen.fitnessapplication.exercise_package.ExerciseName;
+import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.CategoryDao;
+import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseDao;
+import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseNameDao;
+
+public class ExerciseRepository {
+
+    private ExerciseDao exerciseDao;
+    private ExerciseNameDao exerciseNameDao;
+    private CategoryDao catDao;
+    private LiveData<List<Exercise>> allExercises;
+    private LiveData<List<ExerciseName>> allExerciseNames;
+    private LiveData<List<Category>> allCategories;
+
+    public ExerciseRepository(Application application) {
+        ExerciseDatabase database = ExerciseDatabase.getInstance(application);
+        exerciseDao = database.exerciseDao();
+        exerciseNameDao = database.exerciseNameDao();
+        catDao = database.categoryDao();
+    }
+
+    //Exercise
+    public void Insert(Exercise exercise){
+        new InsertExerciseAsyncTask(exerciseDao).execute(exercise);
+    }
+
+    public void Update(Exercise exercise) {
+        new UpdateExerciseAsyncTask(exerciseDao).execute(exercise);
+    }
+
+    public void Delete(Exercise exercise) {
+        new DeleteExerciseAsyncTask(exerciseDao).execute(exercise);
+    }
+
+    public void DeleteAllExercises(String date) {
+        new DeleteAllExerciseAsyncTask(exerciseDao).execute(date);
+    }
+
+    public LiveData<List<Exercise>> getAllExercises(String date) {
+        allExercises = exerciseDao.getAllExercises(date);
+        return allExercises;
+    }
+
+    public LiveData<List<Exercise>> getSpecificExercise(String exerciseName) {
+        allExercises = exerciseDao.getAllExercises(exerciseName);
+        return allExercises;
+    }
+
+    //ExerciseName executions
+    public void InsertExerciseName(ExerciseName exercise){
+        new InsertExerciseNameAsyncTask(exerciseNameDao).execute(exercise);
+    }
+
+    public void UpdateExerciseName(ExerciseName exercise) {
+        new UpdateExerciseNameAsyncTask(exerciseNameDao).execute(exercise);
+    }
+
+    public void DeleteExerciseName(ExerciseName exercise) {
+        new DeleteExerciseNameAsyncTask(exerciseNameDao).execute(exercise);
+    }
+
+    public LiveData<List<ExerciseName>> FindExercisesForCategory (int categoryID){
+        allExerciseNames = exerciseNameDao.FindExercisesFromCategories(categoryID);
+        return allExerciseNames;
+    }
+
+    //Category Executions
+    public void InsertCategory(Category category) {
+        new InsertCategoryAsyncTask(catDao).execute(category);
+    }
+
+    public void UpdateCategory(Category category) {
+        new UpdateCategoryAsyncTask(catDao).execute(category);
+    }
+
+    public void DeleteCategory(Category category) {
+        new DeleteCategoryAsyncTask(catDao).execute(category);
+    }
+
+    public LiveData<List<Category>> GetAllCategories () {
+        allCategories = catDao.getAllCategories();
+        return allCategories;
+    }
+
+
+    //Exercise Async tasks
+    private static class InsertExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
+        private ExerciseDao exerciseDao; //needed for database operations
+
+        private InsertExerciseAsyncTask(ExerciseDao dao) {
+            this.exerciseDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Exercise... exercises) {
+            exerciseDao.Insert(exercises[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
+        private ExerciseDao exerciseDao; //needed for database operations
+
+        private UpdateExerciseAsyncTask(ExerciseDao dao) {
+            this.exerciseDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Exercise... exercises) {
+            exerciseDao.Update(exercises[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
+        private ExerciseDao exerciseDao; //needed for database operations
+
+        private DeleteExerciseAsyncTask(ExerciseDao dao) {
+            this.exerciseDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Exercise... exercises) {
+            exerciseDao.Delete(exercises[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAllExerciseAsyncTask extends AsyncTask<String, Void, Void> {
+        private ExerciseDao exerciseDao; //needed for database operations
+
+        private DeleteAllExerciseAsyncTask(ExerciseDao dao) {
+            this.exerciseDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(String... date) {
+            exerciseDao.deleteAllExercises(date[0]);
+            return null;
+        }
+    }
+
+    //ExerciseName Async Tasks
+    private static class InsertExerciseNameAsyncTask extends AsyncTask<ExerciseName, Void, Void> {
+        private ExerciseNameDao exerciseNameDao; //needed for database operations
+
+        private InsertExerciseNameAsyncTask(ExerciseNameDao dao) {
+            this.exerciseNameDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(ExerciseName... exercises) {
+            exerciseNameDao.InsertExerciseName(exercises[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateExerciseNameAsyncTask extends AsyncTask<ExerciseName, Void, Void> {
+        private ExerciseNameDao exerciseNameDao; //needed for database operations
+
+        private UpdateExerciseNameAsyncTask(ExerciseNameDao dao) {
+            this.exerciseNameDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(ExerciseName... exercises) {
+            exerciseNameDao.UpdateExerciseName(exercises[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteExerciseNameAsyncTask extends AsyncTask<ExerciseName, Void, Void> {
+        private ExerciseNameDao exerciseNameDao; //needed for database operations
+
+        private DeleteExerciseNameAsyncTask(ExerciseNameDao dao) {
+            this.exerciseNameDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(ExerciseName... exercises) {
+            exerciseNameDao.DeleteExerciseName(exercises[0]);
+            return null;
+        }
+    }
+
+    //Category Async Tasks
+    private static class InsertCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
+        private CategoryDao categoryDao; //needed for database operations
+
+        private InsertCategoryAsyncTask(CategoryDao dao) {
+            this.categoryDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Category... categories) {
+            categoryDao.Insert(categories[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
+        private CategoryDao categoryDao; //needed for database operations
+
+        private UpdateCategoryAsyncTask(CategoryDao dao) {
+            this.categoryDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Category... categories) {
+            categoryDao.Update(categories[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
+        private CategoryDao categoryDao; //needed for database operations
+
+        private DeleteCategoryAsyncTask(CategoryDao dao) {
+            this.categoryDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Category... exercises) {
+            categoryDao.Delete(exercises[0]);
+            return null;
+        }
+    }
+
+
+
+}

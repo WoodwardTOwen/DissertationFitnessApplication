@@ -21,7 +21,7 @@ import woodward.owen.fitnessapplication.exercise_package.Category;
 import woodward.owen.fitnessapplication.exercise_package.CategoryType;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.exercise_package.IO;
-import woodward.owen.fitnessapplication.weight_tracking_package.ExerciseRepository;
+import woodward.owen.fitnessapplication.weight_tracking_package.database_package.ExerciseRepository;
 
 public class GraphViewModel extends AndroidViewModel {
     private List<Entry> entries;
@@ -71,7 +71,7 @@ public class GraphViewModel extends AndroidViewModel {
     }
 
 
-    public void assignIOValues(Application context) {
+    /*public void assignIOValues(Application context) {
         IO.setInstance(context);
         Map<CategoryType, String[]> pair = new Hashtable<>(IO.ReadData());
         for (Map.Entry<CategoryType, String[]> entry : pair.entrySet()) {
@@ -90,7 +90,7 @@ public class GraphViewModel extends AndroidViewModel {
             }
         }
 
-    }
+    }*/
 
     public Map<CategoryType, List<String>> getPossibleNames () {
         return PossibleNames;

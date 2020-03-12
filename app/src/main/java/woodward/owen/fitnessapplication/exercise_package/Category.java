@@ -1,49 +1,38 @@
 package woodward.owen.fitnessapplication.exercise_package;
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.Serializable;
 
+@Entity(tableName = "Category_Table")
+public class Category implements Serializable {
 
-@Entity (tableName = "category_table")
-public class Category {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    private String categoryName;
 
-    //private isWeighLifting
-    //Type of exercise has been removed for now -> redundant boolean -> isWeightLifting
-    private CategoryType type;
-    private Map<String, List<Exercise>> exercises;
-    private boolean isWeightlifting;
+    public Category () {
 
-    public Category(CategoryType type, boolean weightlifting) {
-        this.type = type;
-        this.isWeightlifting = weightlifting;
-        this.exercises = new HashMap<>();
     }
 
-    public static Category GetCategory(CategoryType type){
-        //HERE SHOULD REFERENCE WHERE THE MAIN CATEGORIES MAP SHOULD BE PLACED
-
-        return null;
+    public Category (String pCategoryName){
+        this.categoryName = pCategoryName;
     }
 
-    public void AddExercise(String name, Exercise e) {
-        if(exercises.containsKey(name)) {
-            this.exercises.put(name, exercises.get(e));
-        }
-        else {
-            List<Exercise> temp = new ArrayList<>();
-            this.exercises.put(name, temp);
-            this.exercises.put(name, exercises.get(e));
-        }
+    public int getId() {
+        return id;
     }
 
-    public void RemoveExercise(String name, Exercise e){
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        if(exercises.containsKey(name)) {
-            this.exercises.remove(e);
-        }
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

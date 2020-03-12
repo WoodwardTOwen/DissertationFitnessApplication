@@ -40,6 +40,11 @@ public class ExerciseRepository {
         return allExercises;
     }
 
+    public LiveData<List<Exercise>> getSpecificExercise(String exerciseName) {
+        allExercises = dao.getAllExercises(exerciseName);
+        return allExercises;
+    }
+
     private static class InsertExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
         private ExerciseDao exerciseDao; //needed for database operations
 

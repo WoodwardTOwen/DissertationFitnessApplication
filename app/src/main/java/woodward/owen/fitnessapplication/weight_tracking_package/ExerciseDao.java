@@ -26,4 +26,7 @@ public interface ExerciseDao {
 
     @Query("SELECT * FROM exercise_table WHERE date LIKE :date")
     LiveData<List<Exercise>> getAllExercises(String date);
+
+    @Query("SELECT * FROM exercise_table WHERE exerciseName LIKE :exerciseName")
+    LiveData<List<Exercise>> getSpecificExercise(String exerciseName);
 }

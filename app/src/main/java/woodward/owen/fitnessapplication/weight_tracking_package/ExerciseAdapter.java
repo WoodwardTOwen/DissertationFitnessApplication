@@ -99,5 +99,4 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
     public void setOnItemClickListener(onItemClickListener listener) {
         this.listener = listener;
     }
-
 }

@@ -39,29 +39,27 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
+import woodward.owen.fitnessapplication.graphical_analysis_package.GraphicalActivity;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
-import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerPopUp;
 import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerViewModel;
 
 public class ExerciseTrackingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
 
     private TextView dateDisplayTV;
+    private TextView emptyView;
+    private TextView timerCountDownTextView;
     private DrawerLayout drawer;
     private ExerciseViewModel exerciseViewModel;
-    private TimerViewModel timerViewModel;
     private ExerciseAdapter adapter;
     private BottomSheetBehavior bottomSheetBehavior;
+    private TimerViewModel timerViewModel;
     private CountDownTimer countDownTimer;
     private Button bottomSheetResetButton;
     private Button bottomSheetStartButton;
     private long endTime;
-    private RecyclerView recyclerView;
-    private TextView emptyView;
-    private TextView timerCountDownTextView;
     public static final int EDIT_EXERCISE_REQUEST = 1;
     private static final String TIMER_PREFS = "timerPrefs";
     private static final String MILLIS_LEFT = "millisLeft";
@@ -86,7 +84,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         setToolBar();
         setFloatingButton();
 
-        recyclerView = findViewById(R.id.recycler_View);
+        RecyclerView recyclerView = findViewById(R.id.recycler_View);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true); //set true if we know the recycler view size will not change
 
@@ -166,12 +164,18 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             case R.id.nav_addExercise:
                 Intent intentAdd = new Intent(ExerciseTrackingActivity.this, AddExercise.class);
                 startActivity(intentAdd);
-                drawer.closeDrawer(GravityCompat.START);
+                closeDrawer();
                 return true;
             case R.id.nav_help:
+                Intent intentHelpPage = new Intent(ExerciseTrackingActivity.this, TrackingHelpPage.class);
+                startActivity(intentHelpPage);
+                closeDrawer();
                 Toast.makeText(ExerciseTrackingActivity.this, "You interacted with the Help Page", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_graphical:
+                Intent intentGraphical = new Intent(ExerciseTrackingActivity.this, GraphicalActivity.class);
+                startActivity(intentGraphical);
+                closeDrawer();
                 Toast.makeText(ExerciseTrackingActivity.this, "You have interacted with the graphical Page", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_workout_generator:
@@ -180,9 +184,14 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             case R.id.nav_plateMath:
                 Intent intentPlate = new Intent(ExerciseTrackingActivity.this, PlateMathCalcActivity.class);
                 startActivity(intentPlate);
+                closeDrawer();
                 break;
         }
         return true;
+    }
+
+    public void closeDrawer () {
+        drawer.closeDrawer(GravityCompat.START);
     }
 
     @Override
@@ -259,8 +268,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 adapter.submitList(exercises);
                 if (exercises.size() == 0) {
                     emptyView.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     emptyView.setVisibility(View.GONE);
                 }
 
@@ -309,16 +317,11 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 showDatePickerDialog();
                 return true;
             case R.id.timerMenuItem:
-                //Intent intent = new Intent(ExerciseTrackingActivity.this, TimerPopUp.class);
-                //startActivity(intent);
-
                 if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 } else {
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }
-
-                //RunPauseTimer();
                 ExpandBottomSheet();
                 timerListenersForBottomSheet();
                 return true;
@@ -389,6 +392,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     protected void onStart() {
         super.onStart();
 
+        //Checks Shared Preferences to see if a timer is currently running and therefore loads in the timer if there is
         SharedPreferences prefs = getSharedPreferences(TIMER_PREFS, MODE_PRIVATE);
         timerViewModel.setTimeRemaining(prefs.getLong(MILLIS_LEFT, timerViewModel.getStartTimeInMillis()));
         timerViewModel.setIsTimerRunning(prefs.getBoolean(TIMER_RUNNING, false));
@@ -411,7 +415,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
     @Override
     protected void onStop() {
-
+        //Lifecycle handling onStop cycle -> saves data in conjunction with timer
         super.onStop();
         SharedPreferences prefs = getSharedPreferences(TIMER_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -423,7 +427,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         editor.apply();
     }
 
-    private void ExpandBottomSheet () {
+    private void ExpandBottomSheet() {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 

@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -45,7 +46,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     private static final Map<CategoryType, Category> Categories = new Hashtable<>();
     private Spinner catSpinner;
     private Spinner exerciseSpinner;
-    private ArrayList<String> exerciseList;
+    private List<String> exerciseList;
     private EditText weightInput;
     private EditText repInput;
     private EditText rpeInput;
@@ -65,6 +66,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.close_white);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
+
         assignIOValues(getApplication());
         listen();
         checkSelectedItem();
@@ -154,7 +156,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 for (Map.Entry<CategoryType, List<String>> entry : PossibleNames.entrySet()) {
                     if (entry.getKey().equals(catSpinner.getSelectedItem())) {
-                        exerciseList = new ArrayList(entry.getValue());
+                        exerciseList = new ArrayList<>(entry.getValue());
 
                         ArrayAdapter<String> exerciseAdapter = new ArrayAdapter<>(AddExercise.this,
                                 android.R.layout.simple_spinner_item, exerciseList);
@@ -239,7 +241,13 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         Log.i("onPause", "The app has saved the preference");
     }
 
-    //Gathers stored variables in the onResume state from shared preferences
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("exerciseSpinner", exerciseSpinner.getSelectedItemPosition());
+        outState.putInt("categorySpinner", catSpinner.getSelectedItemPosition());
+    }
+//Gathers stored variables in the onResume state from shared preferences
     @Override
     protected void onResume() {
         super.onResume();

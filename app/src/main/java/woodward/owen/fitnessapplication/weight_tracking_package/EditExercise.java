@@ -59,9 +59,9 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
         String exerciseRPE = editRpeInput.getText().toString();
         String exerciseName = exerciseTitle.getText().toString();
 
-        boolean verify = AddEditMethods.isVerified(exerciseWeight,exerciseReps, exerciseRPE);
+        boolean verify = AddEditMethods.isVerified(exerciseWeight, exerciseReps, exerciseRPE);
 
-        if(verify) {
+        if (verify) {
             Intent data = new Intent();
             data.putExtra(EXTRA_EXERCISE_NAME, exerciseName);
             data.putExtra(EXTRA_WEIGHT, exerciseWeight);
@@ -74,9 +74,9 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
             }
             setResult(RESULT_OK, data);
             finish();
+        } else {
+            Toast.makeText(EditExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
         }
-
-        Toast.makeText(EditExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -142,7 +142,7 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
                 editRepInput.setText(Integer.toString(AddEditMethods.decrementRepsRPE(inputRep)));
                 break;
             case R.id.incrementRPEEditButton:
-                if(editRpeInput.getText().toString().equals("10")){
+                if (editRpeInput.getText().toString().equals("10")) {
                     break;
                 }
                 editRpeInput.setText(Integer.toString(AddEditMethods.incrementRepsRPE(inputRPE)));

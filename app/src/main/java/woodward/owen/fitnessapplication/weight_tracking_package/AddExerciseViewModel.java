@@ -29,11 +29,7 @@ public class AddExerciseViewModel extends AndroidViewModel {
         repository.Insert(exercise);
     }
 
-    public void Update(Exercise exercise) {
-        repository.Update(exercise);
-    }
-
-    public void saveSharedPrefData (String weight, String reps, String rpe) {
+    public void saveSharedPrefData(String weight, String reps, String rpe) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(WEIGHT, weight);
         editor.putString(REPS, reps);

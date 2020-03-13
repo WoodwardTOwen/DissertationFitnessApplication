@@ -25,10 +25,6 @@ public class CategoryViewModel extends AndroidViewModel {
         this.allCategories = repository.GetAllCategories();
     }
 
-    public void Insert(Category category) {
-        repository.InsertCategory(category);
-    }
-
     public void Delete(Category category){
         repository.DeleteCategory(category);
     }

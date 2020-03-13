@@ -16,30 +16,14 @@
         android:layout_height="30dp"
         android:text="@string/CatTitle" />
 
-    <Spinner
-        android:id="@+id/spinner_Category_Tracking"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/catSpinnerTitle"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:autofillHints="Category" />
-
     <TextView
         android:id="@+id/exerciseSpinnerTitle"
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_below="@id/spinner_Category_Tracking"
+        android:layout_below="@id/catSpinnerTitle"
         android:text="@string/ExerciseTitle" />
 
-    <Spinner
-        android:id="@+id/spinner_Exercises_Tracking"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/exerciseSpinnerTitle"
-        android:layout_marginTop="20dp"
-        android:autofillHints="Exercises" />
 
     <TextView
         android:id="@+id/weightTextViewTitle"

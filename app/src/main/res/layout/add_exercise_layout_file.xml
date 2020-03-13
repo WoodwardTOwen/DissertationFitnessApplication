@@ -15,7 +15,7 @@
         android:layout_height="30dp"
         android:textAlignment="center"
         android:layout_marginTop="52dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/AddExerciseTitle"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         />
@@ -25,6 +25,7 @@
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@id/addExerciseTitle"
         android:text="@string/CatTitle" />
 
@@ -33,6 +34,7 @@
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@id/catSpinnerTitle"
         android:text="@string/ExerciseTitle" />
 

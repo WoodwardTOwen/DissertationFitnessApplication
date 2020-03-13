@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,9 +55,9 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
 
         holder.textViewExerciseName.setText(currentExercise.getExerciseName());
         holder.textViewWeight.setText(String.format("%sKg", String.valueOf(currentExercise.getWeight())));
-        holder.textViewRPE.setText(Html.fromHtml(sourceStringRPE));
-        holder.textViewReps.setText(Html.fromHtml(sourceStringReps));
-        holder.textViewDate.setText(Html.fromHtml(sourceStringDate));
+        holder.textViewRPE.setText(HtmlCompat.fromHtml(sourceStringRPE, HtmlCompat.FROM_HTML_MODE_COMPACT));
+        holder.textViewReps.setText(HtmlCompat.fromHtml(sourceStringReps, HtmlCompat.FROM_HTML_MODE_COMPACT));
+        holder.textViewDate.setText(HtmlCompat.fromHtml(sourceStringDate, HtmlCompat.FROM_HTML_MODE_COMPACT));
     }
 
     public Exercise getExercisePosition(int position) {

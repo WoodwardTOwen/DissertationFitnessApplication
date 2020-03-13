@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".weight_tracking_package.ExerciseRecyclerView"></activity>
+        <activity android:name=".weight_tracking_package.new_cat_or_exercise_name_package.AddExerciseName"></activity>
+        <activity android:name=".weight_tracking_package.new_cat_or_exercise_name_package.AddCategory" />
+        <activity android:name=".weight_tracking_package.ExerciseRecyclerView" />
         <activity android:name=".weight_tracking_package.CategoryRecyclerView" />
         <activity android:name=".graphical_analysis_package.GraphicalActivity" />
         <activity android:name=".weight_tracking_package.TrackingHelpPage" />

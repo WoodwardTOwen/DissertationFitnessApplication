@@ -53,6 +53,10 @@ public class AddEditMethods {
         return isNullOrWhiteSpace(weightInput) && isNullOrWhiteSpace(repInput) && isNullOrWhiteSpace(rpeInput);
     }
 
+    public static boolean isVerifiedCatExercise(String name) {
+        return isNullOrWhiteSpace(name);
+    }
+
     public static boolean isNullOrWhiteSpace(String x){
         return x != null && !x.isEmpty();
     }

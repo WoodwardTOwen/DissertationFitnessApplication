@@ -27,8 +27,6 @@ public class ExerciseNameViewModel extends AndroidViewModel {
         this.repository = new ExerciseRepository(application);
     }
 
-    public void InsertExerciseName (ExerciseName exerciseName){ repository.InsertExerciseName(exerciseName);}
-
     public void DeleteExerciseName (ExerciseName exerciseName) {repository.DeleteExerciseName(exerciseName);}
 
     public void UpdateExerciseName (ExerciseName exerciseName) {repository.UpdateExerciseName(exerciseName);}

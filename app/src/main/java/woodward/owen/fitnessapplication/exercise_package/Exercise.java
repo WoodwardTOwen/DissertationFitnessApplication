@@ -2,6 +2,7 @@ package woodward.owen.fitnessapplication.exercise_package;
 
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "exercise_table")
@@ -17,6 +18,7 @@ public class Exercise implements Cloneable{
     private int rpe;
     private int sets;
 
+    @Ignore
     public Exercise (String exerciseName, int pReps, double pWeight, int pRPE, String date){
         this.exerciseName = exerciseName;
         this.date = date; //Might need reformatting -> might get unneeded time

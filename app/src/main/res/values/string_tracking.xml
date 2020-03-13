@@ -39,4 +39,13 @@
     <string name="pauseTimerButton">Pause</string>
     <string name="restTimerButton">Reset</string>
 
+    //Category/ ExerciseName
+    <string name="ChooseCategoryHeading">Pick a Category</string>
+    <string name="ChooseExerciseNameHeading">Pick an Exercise</string>
+
+    <string name="AddCategoryName">Add Category</string>
+    <string name="AddExerciseName">Add Exercise</string>
+
+    <string name="EnterExerciseName">Please Input an Exercise Name to be Saved</string>
+
 </resources>

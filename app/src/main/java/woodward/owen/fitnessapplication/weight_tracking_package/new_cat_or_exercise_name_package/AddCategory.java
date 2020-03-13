@@ -13,14 +13,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.exercise_package.Category;
 import woodward.owen.fitnessapplication.weight_tracking_package.AddEditMethods;
-import woodward.owen.fitnessapplication.weight_tracking_package.CategoryRecyclerView;
 import woodward.owen.fitnessapplication.weight_tracking_package.ExerciseTrackingActivity;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.AddCategoryViewModel;
 
@@ -53,26 +50,26 @@ public class AddCategory extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.saveCategory) {
-            saveExercise();
+            saveCategory();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveExercise() {
+    private void saveCategory() {
         String categoryName = inputValue.getText().toString();
 
         boolean verify = AddEditMethods.isVerifiedCatExercise(categoryName);
         if (verify) {
             Category category = new Category(categoryName);
             addCategoryViewModel.Insert(category);
-            Toast.makeText(AddCategory.this, "Category Saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddCategory.this, "New Category Type Saved", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(AddCategory.this, ExerciseTrackingActivity.class);
             startActivity(intent);
             finish();
         } else {
-            Toast.makeText(AddCategory.this, "Please Enter a Valid Category Name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddCategory.this, "Please Enter a Valid Category Type", Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -23,6 +23,6 @@ public interface ExerciseNameDao {
     @Update
     void UpdateExerciseName(ExerciseName exerciseName);
 
-    @Query("SELECT * FROM exercisename_table WHERE categoryID=:categoryID ORDER BY id DESC")
+    @Query("SELECT * FROM exercisename_table WHERE categoryID=:categoryID ORDER BY exerciseName ASC")
     LiveData<List<ExerciseName>> FindExercisesFromCategories(int categoryID);
 }

@@ -23,6 +23,6 @@ public interface CategoryDao {
     @Update
     void Update (Category category);
 
-    @Query("SELECT * FROM Category_Table ORDER BY id DESC")
+    @Query("SELECT * FROM Category_Table ORDER BY categoryName ASC")
     LiveData<List<Category>> getAllCategories();
 }

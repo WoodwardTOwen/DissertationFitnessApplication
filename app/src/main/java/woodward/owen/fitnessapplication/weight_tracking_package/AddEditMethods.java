@@ -57,7 +57,7 @@ public class AddEditMethods {
         return isNullOrWhiteSpace(name);
     }
 
-    public static boolean isNullOrWhiteSpace(String x){
+    private static boolean isNullOrWhiteSpace(String x){
         return x != null && !x.isEmpty();
     }
 

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -41,7 +42,7 @@ public class IO {
 
         Map<CategoryType, String[]> dict = new Hashtable<>();
         InputStream IS = context.getResources().openRawResource(R.raw.list_of_exercises);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(IS, Charset.forName("UTF-8")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(IS, StandardCharsets.UTF_8));
 
         String line = "";
         try {

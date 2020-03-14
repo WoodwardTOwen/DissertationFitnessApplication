@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,20 +26,21 @@ import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packg
 public class AddCategory extends AppCompatActivity {
 
     private AddCategoryViewModel addCategoryViewModel;
-    private TextView inputValue;
+    private EditText inputValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
         setToolBar();
-
         addCategoryViewModel = new ViewModelProvider(AddCategory.this).get(AddCategoryViewModel.class);
+
 
     }
 
     private void setToolBar() {
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         inputValue = findViewById(R.id.insert_Edit_Text_Category_Name);
+        inputValue.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
     }
 
     @Override

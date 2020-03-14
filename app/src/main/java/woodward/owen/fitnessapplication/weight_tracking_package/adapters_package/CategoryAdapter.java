@@ -15,6 +15,7 @@ import woodward.owen.fitnessapplication.exercise_package.Category;
 
 public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.CategoryHolder> {
     private onItemClickListener listener;
+    private onItemLongClickListener longListener;
 
     public CategoryAdapter() {
         super(DIFF_CALLBACK);
@@ -61,6 +62,15 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
                 }
             });
 
+            itemView.setOnLongClickListener(v -> {
+                int pos = getAdapterPosition();
+                    if (longListener != null && pos != RecyclerView.NO_POSITION){
+                    longListener.onItemLongClicked(getItem(pos));
+                    return true;
+                }
+                    return false;
+            });
+
         }
     }
 
@@ -68,9 +78,17 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
         void onItemClick(Category category);
     }
 
+    public interface onItemLongClickListener {
+        boolean onItemLongClicked(Category category);
+    }
+
     public void setOnItemClickListener(onItemClickListener listener) {
         this.listener = listener;
     }
+
+    public void setOnItemLongClickListener(onItemLongClickListener listener) {this.longListener = listener;}
+
+
 
 
 }

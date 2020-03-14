@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +15,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,15 +35,18 @@ public class ExerciseRecyclerView extends AppCompatActivity {
     private ExerciseNameViewModel exerciseNameViewModel;
     public static final String EXTRA_DATE_EXERCISE = "woodward.owen.fitnessapplication.EXTRA_EXERCISE";
     private String currentDate;
+    private TextView emptyView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_recycler_view);
         setToolBar();
         exerciseNameViewModel = new ViewModelProvider(ExerciseRecyclerView.this).get(ExerciseNameViewModel.class);
+        emptyView = findViewById(R.id.no_exercise_types_available_textview);
 
         Intent i = getIntent();
-        if(i.hasExtra(EXTRA_DATE_EXERCISE)){
+        if (i.hasExtra(EXTRA_DATE_EXERCISE)) {
             currentDate = i.getStringExtra(EXTRA_DATE_EXERCISE);
             exerciseNameViewModel.setDate(currentDate);
         }
@@ -54,17 +62,45 @@ public class ExerciseRecyclerView extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         Observe();
 
-        adapter.setOnItemClickListener(new ExerciseNameAdapter.onItemClickListener() { //Implemented Adapter Listener
-            @Override
-            public void onItemClick(ExerciseName exerciseName) {
-                Intent intent = new Intent(ExerciseRecyclerView.this, AddExercise.class);
-                //Pass string for exercise and category
-                intent.putExtra("Exercise", exerciseName.getExerciseName());
-                assert category != null;
-                intent.putExtra("Category", category.getCategoryName());
-                intent.putExtra(AddExercise.EXTRA_DATE, exerciseNameViewModel.getCurrentDate().getValue());
-                startActivity(intent);
-            }
+        //Implemented Adapter Listener
+        adapter.setOnItemClickListener(exerciseName -> {
+            Intent intent = new Intent(ExerciseRecyclerView.this, AddExercise.class);
+            //Pass string for exercise and category
+            intent.putExtra("Exercise", exerciseName.getExerciseName());
+            assert category != null;
+            intent.putExtra("Category", category.getCategoryName());
+            intent.putExtra(AddExercise.EXTRA_DATE, exerciseNameViewModel.getCurrentDate().getValue());
+            startActivity(intent);
+        });
+
+        adapter.setOnItemLongClickListener(exerciseName -> {
+            AlertDialog.Builder diaLogBuilder = new AlertDialog.Builder(ExerciseRecyclerView.this);
+            diaLogBuilder.setTitle("Confirmation of Exercise Type Deletion");
+            diaLogBuilder.setMessage("Are you sure you want to delete " + exerciseName.getExerciseName() + "?");
+            diaLogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do nothing but close the dialog
+                    exerciseNameViewModel.DeleteExerciseName(exerciseName);
+                    Toast.makeText(getApplicationContext(), "Successfully Removed " + exerciseName.getExerciseName(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    Intent intent = new Intent(ExerciseRecyclerView.this, ExerciseTrackingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            diaLogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Cancel Procedure -> do NOT remove barbell
+                    Toast.makeText(ExerciseRecyclerView.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = diaLogBuilder.create();
+            alert.show();
         });
     }
 
@@ -92,11 +128,17 @@ public class ExerciseRecyclerView extends AppCompatActivity {
             @Override
             public void onChanged(List<ExerciseName> exerciseNames) {
                 adapter.submitList(exerciseNames);
+                if (exerciseNames.size() == 0) {
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    emptyView.setVisibility(View.GONE);
+                }
             }
+
         });
     }
 
-    private void setToolBar(){
+    private void setToolBar() {
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         getSupportActionBar().setTitle(R.string.ChooseExerciseNameHeading);
     }

@@ -80,7 +80,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
             return null;
         }
 
-        protected void Shoulders (){
+        private void Shoulders (){
             categoryDao.Insert(new Category("Shoulders"));
 
             exerciseNameDao.InsertExerciseName(new ExerciseName("Seated Dumbbell Shoulder Press", 1));
@@ -98,7 +98,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
         }
 
-        protected void Chest () {
+        private void Chest () {
             categoryDao.Insert(new Category("Chest"));
             exerciseNameDao.InsertExerciseName(new ExerciseName("Flat Barbell Bench Press", 2));
             exerciseNameDao.InsertExerciseName(new ExerciseName("Decline Barbell Bench Press", 2));
@@ -116,7 +116,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
         }
 
-        protected void Back () {
+        private void Back () {
             categoryDao.Insert(new Category("Back"));
 
             exerciseNameDao.InsertExerciseName(new ExerciseName("Lat PullDown", 3));
@@ -135,7 +135,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
         }
 
-        protected void Biceps() {
+        private void Biceps() {
             categoryDao.Insert(new Category("Biceps"));
 
             exerciseNameDao.InsertExerciseName(new ExerciseName("Dumbbell Hammer Curl",4 ));
@@ -150,7 +150,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
         }
 
-        protected void Triceps() {
+        private void Triceps() {
 
             categoryDao.Insert(new Category("Triceps"));
 
@@ -165,7 +165,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
             exerciseNameDao.InsertExerciseName(new ExerciseName("Hammer Strength Dip Machine", 5));
         }
 
-        protected void Legs () {
+        private void Legs () {
             categoryDao.Insert(new Category("Legs"));
 
             exerciseNameDao.InsertExerciseName(new ExerciseName("Barbell Squats", 6));

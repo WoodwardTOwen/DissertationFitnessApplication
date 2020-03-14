@@ -7,16 +7,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
-import woodward.owen.fitnessapplication.exercise_package.Category;
 import woodward.owen.fitnessapplication.exercise_package.ExerciseName;
 import woodward.owen.fitnessapplication.weight_tracking_package.AddEditMethods;
 import woodward.owen.fitnessapplication.weight_tracking_package.ExerciseTrackingActivity;
@@ -27,7 +28,7 @@ public class AddExerciseName extends AppCompatActivity {
     public static final String EXTRA_CATEGORY_ID = "woodward.owen.fitnessapplication.EXTRA_CATEGORY_ID";
     public static final String EXTRA_CATEGORY_NAME = "woodward.owen.fitnessapplication.EXTRA_CATEGORY_NAME";
     private TextView categoryTitleTextView;
-    private TextView inputExerciseTextView;
+    private EditText inputExerciseTextView;
     private AddExerciseNameViewModel addExerciseNameViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class AddExerciseName extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         categoryTitleTextView = findViewById(R.id.category_title_Add_exercise_name);
         inputExerciseTextView = findViewById(R.id.insert_Edit_Text_Exercise_Name);
+        inputExerciseTextView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
     }
 
     @Override

@@ -28,6 +28,14 @@
                     android:background="#35373b"
                     tools:listitem="@layout/exercisename_item"/>
 
+                <TextView
+                    android:id="@+id/no_exercise_types_available_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/noExercisesAvailable" />
+
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         </FrameLayout>

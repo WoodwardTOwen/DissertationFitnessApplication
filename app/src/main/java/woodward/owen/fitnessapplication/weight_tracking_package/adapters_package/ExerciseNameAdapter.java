@@ -15,6 +15,7 @@ import woodward.owen.fitnessapplication.exercise_package.ExerciseName;
 
 public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameAdapter.ExerciseNameHolder> {
     private onItemClickListener listener;
+    private onItemLongClickListener longClickListener;
 
     public ExerciseNameAdapter() {
         super(DIFF_CALLBACK);
@@ -54,14 +55,20 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
             exerciseName = itemView.findViewById(R.id.recyclerViewExerciseTextView);
 
             //setting listener on cardView
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (listener != null && pos != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(getItem(pos));
-                    }
+            itemView.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                if (listener != null && pos != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(getItem(pos));
                 }
+            });
+
+            itemView.setOnLongClickListener(v -> {
+               int pos = getAdapterPosition();
+               if(longClickListener != null && pos != RecyclerView.NO_POSITION) {
+                   longClickListener.onItemLongClickListener(getItem(pos));
+                   return true;
+               }
+               return false;
             });
 
         }
@@ -71,7 +78,13 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
         void onItemClick(ExerciseName exercise);
     }
 
+    public interface onItemLongClickListener {
+        void onItemLongClickListener(ExerciseName exerciseName);
+    }
+
     public void setOnItemClickListener(onItemClickListener listener) {
         this.listener = listener;
     }
+
+    public void setOnItemLongClickListener(onItemLongClickListener listener) {this.longClickListener = listener; }
 }

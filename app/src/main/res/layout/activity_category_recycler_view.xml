@@ -28,6 +28,15 @@
                     android:background="#35373b"
                     tools:listitem="@layout/category_item" />
 
+                <TextView
+                    android:id="@+id/no_categories_available_TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/noCategoriesAvailable" />
+
+
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         </FrameLayout>

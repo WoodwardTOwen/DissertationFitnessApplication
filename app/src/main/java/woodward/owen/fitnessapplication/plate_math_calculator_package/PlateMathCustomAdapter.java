@@ -30,8 +30,8 @@ public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Intege
         TextView textViewKey = currentItemView.findViewById(android.R.id.text1);
         TextView textViewValue = currentItemView.findViewById(android.R.id.text2);
 
-        textViewKey.setText(String.valueOf(currentEntry.getKey()) + "kg");
-        textViewValue.setText("Number of plates: " + String.valueOf(currentEntry.getValue()) + " (" +currentEntry.getValue() / 2 + " Plates Each side)" );
+        textViewKey.setText(currentEntry.getKey() + "kg");
+        textViewValue.setText("Number of plates: " + currentEntry.getValue() + " (" +currentEntry.getValue() / 2 + " Plates Each side)" );
 
         textViewKey.setTextColor(Color.parseColor("#FFFFFF"));
         textViewValue.setTextColor(Color.parseColor("#FFFFFF"));

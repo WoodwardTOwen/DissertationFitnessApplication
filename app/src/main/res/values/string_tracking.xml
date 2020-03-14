@@ -48,4 +48,7 @@
 
     <string name="EnterExerciseName">Please Input an Exercise Name to be Saved</string>
 
+    <string name="noCategoriesAvailable">No Categories Available \n\n Add Categories via the + Icon Button in the Top Right Corner</string>
+    <string name="noExercisesAvailable">No Exercise Types Available \n\n\ Add Exercises via the + Icon Button \n in the Top Right Corner</string>
+
 </resources>

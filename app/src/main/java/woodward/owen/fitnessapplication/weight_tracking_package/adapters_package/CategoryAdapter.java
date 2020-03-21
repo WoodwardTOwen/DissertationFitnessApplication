@@ -48,7 +48,7 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
     }
 
     class CategoryHolder extends RecyclerView.ViewHolder {
-        private TextView categoryName;
+        private final TextView categoryName;
 
         public CategoryHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +62,7 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
                 }
             });
 
+            //setting listener for long clicks to prompt the user to delete a category
             itemView.setOnLongClickListener(v -> {
                 int pos = getAdapterPosition();
                     if (longListener != null && pos != RecyclerView.NO_POSITION){

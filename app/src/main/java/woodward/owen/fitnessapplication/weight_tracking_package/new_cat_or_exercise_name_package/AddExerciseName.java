@@ -30,6 +30,7 @@ public class AddExerciseName extends AppCompatActivity {
     private TextView categoryTitleTextView;
     private EditText inputExerciseTextView;
     private AddExerciseNameViewModel addExerciseNameViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class AddExerciseName extends AppCompatActivity {
         addExerciseNameViewModel = new ViewModelProvider(AddExerciseName.this).get(AddExerciseNameViewModel.class);
 
         Intent i = getIntent();
-        if(i.hasExtra(EXTRA_CATEGORY_ID)){
+        if (i.hasExtra(EXTRA_CATEGORY_ID)) {
             addExerciseNameViewModel.setCatID(i.getIntExtra(EXTRA_CATEGORY_ID, 1));
             addExerciseNameViewModel.setCatName(i.getStringExtra(EXTRA_CATEGORY_NAME));
 
@@ -72,13 +73,14 @@ public class AddExerciseName extends AppCompatActivity {
     private void SaveExerciseName() {
         String exerciseName = inputExerciseTextView.getText().toString();
         int categoryID = 0;
-        try{
-           categoryID = addExerciseNameViewModel.getCatID().getValue();
-        }
-        catch(Exception ex) {
+        try {
+            //Attempts to get the category ID to assign the new exercise type to
+            categoryID = addExerciseNameViewModel.getCatID().getValue();
+        } catch (Exception ex) {
             Toast.makeText(this, "Something Went Wrong " + ex.toString(), Toast.LENGTH_SHORT).show();
         }
 
+        //Verifies whether the input is valid or not
         boolean verify = AddEditMethods.isVerifiedCatExercise(exerciseName);
         if (verify) {
             ExerciseName exerciseName1 = new ExerciseName(exerciseName, categoryID);
@@ -92,6 +94,5 @@ public class AddExerciseName extends AppCompatActivity {
             Toast.makeText(AddExerciseName.this, "Please Enter a Valid Exercise Type", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }

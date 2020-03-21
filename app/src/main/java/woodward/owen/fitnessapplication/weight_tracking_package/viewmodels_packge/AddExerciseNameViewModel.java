@@ -12,13 +12,13 @@ import woodward.owen.fitnessapplication.weight_tracking_package.database_package
 
 public class AddExerciseNameViewModel extends AndroidViewModel {
 
-    private MutableLiveData<Integer> catID = new MutableLiveData<>();
-    private MutableLiveData<String> catName = new MutableLiveData<>();
-    private ExerciseRepository repository;
+    private final MutableLiveData<Integer> catID = new MutableLiveData<>();
+    private final MutableLiveData<String> catName = new MutableLiveData<>();
+    private final ExerciseRepository repository;
 
     public AddExerciseNameViewModel(@NonNull Application application) {
         super(application);
-        repository = new ExerciseRepository(application);
+        repository = ExerciseRepository.getInstance(application);
     }
 
     public void Insert(ExerciseName exercise) {

@@ -1,7 +1,6 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -13,11 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,28 +22,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-import woodward.owen.fitnessapplication.exercise_package.Category;
-import woodward.owen.fitnessapplication.exercise_package.CategoryType;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
-import woodward.owen.fitnessapplication.exercise_package.IO;
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.AddExerciseViewModel;
 
 public class AddExercise extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_DATE = "woodward.owen.fitnessapplication.EXTRA_DATE";
-    //private static final Map<CategoryType, List<String>> PossibleNames = new Hashtable<>();
-    //private static final Map<CategoryType, Category> Categories = new Hashtable<>();
-    //private Spinner catSpinner;
-    //private Spinner exerciseSpinner;
-    //private List<String> exerciseList;
     private EditText weightInput;
     private EditText repInput;
     private EditText rpeInput;
@@ -70,9 +53,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
 
-        //assignIOValues(getApplication());
         listen();
-        //checkSelectedItem();
 
         Intent i = getIntent();
         exerciseTextView.setText(i.getStringExtra("Exercise"));
@@ -80,7 +61,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
 
         int screenOrientation = getResources().getConfiguration().orientation;
         if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getSupportActionBar().setTitle("Fitness Application - Add Exercise");  // In landscape
+            getSupportActionBar().setTitle("Gainz Tracker - Add Exercise");  // In landscape
         }
 
     }
@@ -129,63 +110,6 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         return super.onOptionsItemSelected(item);
     }
 
-    /*private void assignIOValues(Application context) {
-        IO.setInstance(context);
-        Map<CategoryType, String[]> pair = new Hashtable<>(IO.ReadData());
-        for (Map.Entry<CategoryType, String[]> entry : pair.entrySet()) {
-            PossibleNames.put(entry.getKey(), new ArrayList<>(Arrays.asList(entry.getValue())));
-        }
-
-        for (CategoryType type : CategoryType.values()) {
-
-            switch (type) {
-                case CARDIO:
-                    Categories.put(type, new Category(type, false));
-                    break;
-                default:
-                    Categories.put(type, new Category(type, true));
-                    break;
-            }
-        }
-
-    }
-
-    private Spinner setAdapterCatAdapter() {
-
-        List<CategoryType> catList = new ArrayList<>(PossibleNames.keySet());
-
-        ArrayAdapter<CategoryType> catAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, catList);
-        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        catSpinner.setAdapter(catAdapter);
-        return catSpinner;
-    }
-
-    private void checkSelectedItem() {
-        catSpinner = setAdapterCatAdapter();
-
-        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                for (Map.Entry<CategoryType, List<String>> entry : PossibleNames.entrySet()) {
-                    if (entry.getKey().equals(catSpinner.getSelectedItem())) {
-                        exerciseList = new ArrayList<>(entry.getValue());
-
-                        ArrayAdapter<String> exerciseAdapter = new ArrayAdapter<>(AddExercise.this,
-                                android.R.layout.simple_spinner_item, exerciseList);
-                        exerciseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        exerciseSpinner.setAdapter(exerciseAdapter);
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }*/
-
     private void listen() {
         Button buttonIncrementWeight;
         Button buttonDecrementWeight;
@@ -196,8 +120,6 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
 
         exerciseTextView = findViewById(R.id.exerciseSpinnerTitle);
         categoryTextView = findViewById(R.id.catSpinnerTitle);
-        //exerciseSpinner = findViewById(R.id.spinner_Exercises_Tracking);
-        //catSpinner = findViewById(R.id.spinner_Category_Tracking);
         buttonIncrementWeight = findViewById(R.id.incrementWeightBnt);
         buttonDecrementWeight = findViewById(R.id.decrementWeightBnt);
         buttonIncrementRep = findViewById(R.id.incrementRepBnt);
@@ -259,8 +181,6 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        //outState.putInt("exerciseSpinner", exerciseSpinner.getSelectedItemPosition());
-        //outState.putInt("categorySpinner", catSpinner.getSelectedItemPosition());
     }
 //Gathers stored variables in the onResume state from shared preferences
     @Override

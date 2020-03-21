@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -50,6 +51,11 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
             editWeightInput.setText(Double.toString(intent.getDoubleExtra(EXTRA_WEIGHT, 1.0)));
             editRepInput.setText(Integer.toString(intent.getIntExtra(EXTRA_REPS, 1)));
             editRpeInput.setText(Integer.toString(intent.getIntExtra(EXTRA_RPE, 1)));
+        }
+
+        int screenOrientation = getResources().getConfiguration().orientation;
+        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportActionBar().setTitle("Gainz Tracker - Edit Exercise");  // In landscape
         }
     }
 

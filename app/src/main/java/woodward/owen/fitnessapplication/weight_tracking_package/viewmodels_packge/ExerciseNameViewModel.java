@@ -24,12 +24,12 @@ public class ExerciseNameViewModel extends AndroidViewModel {
 
     public ExerciseNameViewModel(@NonNull Application application) {
         super(application);
-        this.repository = new ExerciseRepository(application);
+        this.repository = ExerciseRepository.getInstance(application);
     }
 
     public void DeleteExerciseName (ExerciseName exerciseName) {repository.DeleteExerciseName(exerciseName);}
 
-    public void UpdateExerciseName (ExerciseName exerciseName) {repository.UpdateExerciseName(exerciseName);}
+    /*public void UpdateExerciseName (ExerciseName exerciseName) {repository.UpdateExerciseName(exerciseName);}*/
 
     public void setDate(String date) {
         currentDate.setValue(date);

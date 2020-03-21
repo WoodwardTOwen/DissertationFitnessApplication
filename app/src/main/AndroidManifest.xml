@@ -14,7 +14,7 @@
         <activity android:name=".weight_tracking_package.new_cat_or_exercise_name_package.AddCategory" />
         <activity android:name=".weight_tracking_package.ExerciseRecyclerView" />
         <activity android:name=".weight_tracking_package.CategoryRecyclerView" />
-        <activity android:name=".graphical_analysis_package.GraphicalActivity" />
+        <activity android:name=".weight_tracking_package.GraphicalActivity" />
         <activity android:name=".weight_tracking_package.TrackingHelpPage" />
         <activity
             android:name=".weight_tracking_package.timer.TimerPopUp"

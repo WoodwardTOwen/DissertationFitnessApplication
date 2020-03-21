@@ -33,8 +33,6 @@ public class AddCategory extends AppCompatActivity {
         setContentView(R.layout.activity_add_category);
         setToolBar();
         addCategoryViewModel = new ViewModelProvider(AddCategory.this).get(AddCategoryViewModel.class);
-
-
     }
 
     private void setToolBar() {
@@ -76,6 +74,4 @@ public class AddCategory extends AppCompatActivity {
         }
 
     }
-    //WHEN THE CATEGORY OR EXERCISE HAS BEEN ADDED, FINISH AND RETURN TO MAIN EXERCISE TRACKING ACTIVITY
-    //PREVENTS BUG
 }

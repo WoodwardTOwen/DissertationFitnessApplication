@@ -1,6 +1,7 @@
 package woodward.owen.fitnessapplication.exercise_package;
 
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -11,6 +12,8 @@ public class Exercise implements Cloneable{
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    //@ColumnInfo(name = "Exercise_Order")
+    //private Integer order;
     private String exerciseName;
     private String date;
     private int reps;
@@ -21,7 +24,7 @@ public class Exercise implements Cloneable{
     @Ignore
     public Exercise (String exerciseName, int pReps, double pWeight, int pRPE, String date){
         this.exerciseName = exerciseName;
-        this.date = date; //Might need reformatting -> might get unneeded time
+        this.date = date;
         this.reps = pReps;
         this.weight = pWeight;
         this.rpe = pRPE;
@@ -80,12 +83,7 @@ public class Exercise implements Cloneable{
 
     public void setReps(int reps) {
 
-        if(reps > 0) {
-            this.reps = reps;
-        }
-        else{
-            this.reps = 0;
-        }
+        this.reps = Math.max(reps, 0);
     }
 
     public void setWeight(double weight) {
@@ -100,15 +98,18 @@ public class Exercise implements Cloneable{
 
     public void setRpe(int rpe) {
 
-        if(rpe > 0 ){
-            this.rpe = rpe;
-        }
-        else{
-            this.rpe = 0;
-        }
+        this.rpe = Math.max(rpe, 0);
     }
 
     public void setSets(int sets) {
         this.sets = sets;
     }
+
+    /*public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }*/
 }

@@ -12,17 +12,17 @@ import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.weight_tracking_package.database_package.ExerciseRepository;
 
 public class AddExerciseViewModel extends AndroidViewModel {
-    private ExerciseRepository repository;
-    private MutableLiveData<String> currentDate = new MutableLiveData<>();
+    private final ExerciseRepository repository;
+    private final MutableLiveData<String> currentDate = new MutableLiveData<>();
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String WEIGHT = "Weight";
     private static final String REPS = "Reps";
     private static final String RPE = "Rpe";
-    private SharedPreferences sharedPreferences = getApplication().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+    private final SharedPreferences sharedPreferences = getApplication().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
     public AddExerciseViewModel(@NonNull Application application) {
         super(application);
-        repository = new ExerciseRepository(application);
+        repository = ExerciseRepository.getInstance(application);
     }
 
     //Wrapper methods for the repository from the ViewModel

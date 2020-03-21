@@ -21,7 +21,7 @@ import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.Cate
 import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseDao;
 import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseNameDao;
 
-@Database(entities = { Category.class, Exercise.class, ExerciseName.class}, version = 3)
+@Database(entities = { Category.class, Exercise.class, ExerciseName.class}, version = 5, exportSchema = false)
 @TypeConverters({DatabaseTypeConverters.class})
 public abstract class ExerciseDatabase extends RoomDatabase {
 

@@ -18,7 +18,7 @@ public class AddCategoryViewModel extends AndroidViewModel {
 
     public AddCategoryViewModel(@NonNull Application application) {
         super(application);
-        repository = new ExerciseRepository(application);
+        repository = ExerciseRepository.getInstance(application);
     }
 
     public void Insert(Category category) {

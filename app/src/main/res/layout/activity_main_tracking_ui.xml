@@ -23,11 +23,18 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
 
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/logo_new_blue"/>
+
             <TextView
                 android:id="@+id/mainUITextViewDate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="12dp"
+                android:text="date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         </androidx.appcompat.widget.Toolbar>
@@ -122,13 +129,13 @@
     </LinearLayout>
 
 
-    <com.google.android.material.navigation.NavigationView
+   <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu" />
+        app:menu="@menu/drawer_menu"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -35,17 +35,18 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
-import woodward.owen.fitnessapplication.graphical_analysis_package.GraphicalActivity;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.weight_tracking_package.adapters_package.ExerciseAdapter;
-import woodward.owen.fitnessapplication.weight_tracking_package.timer.TimerViewModel;
+import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.TimerViewModel;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.ExerciseViewModel;
 
 public class ExerciseTrackingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, NavigationView.OnNavigationItemSelectedListener {
@@ -62,6 +63,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     private Button bottomSheetResetButton;
     private Button bottomSheetStartButton;
     private long endTime;
+    private List<Exercise> mExercises = new ArrayList<>();
     public static final int EDIT_EXERCISE_REQUEST = 1;
     public static final String EXTRA_DATE_MAIN_UI = "woodward.owen.fitnessapplication.EXTRA_DATE_MAIN_UI";
     private static final String TIMER_PREFS = "timerPrefs";
@@ -105,8 +107,18 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+                mExercises = exerciseViewModel.getAllExercises().getValue();
+                if(dragged.getAdapterPosition() < target.getAdapterPosition()){
+                    for(int i = dragged.getAdapterPosition(); i < target.getAdapterPosition(); i++){
+                        Collections.swap(mExercises, i, i+1);
+                    }
+                }
+                else {
+                    for(int i = dragged.getAdapterPosition(); i > target.getAdapterPosition(); i--){
+                        Collections.swap(mExercises, i, i -1);
+                    }
+                }
                 adapter.notifyItemMoved(dragged.getAdapterPosition(), target.getAdapterPosition());
-                exerciseViewModel.Update(adapter.getExercisePosition(target.getAdapterPosition()));
                 return true;
             }
 
@@ -143,6 +155,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
         if (requestCode == EDIT_EXERCISE_REQUEST && resultCode == RESULT_OK) {
 
+            assert data != null;
             int id = data.getIntExtra(EditExercise.EXTRA_ID, -1);
             if (id == -1) {
                 Toast.makeText(ExerciseTrackingActivity.this, "Exercise Cannot be Updated", Toast.LENGTH_SHORT).show();
@@ -155,6 +168,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             String RPE = data.getStringExtra(EditExercise.EXTRA_RPE);
             String date = exerciseViewModel.getCurrentDate().getValue();
 
+            assert reps != null;
+            assert weight != null;
+            assert RPE != null;
             Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE), date);
             exercise.setId(id);
             exerciseViewModel.Update(exercise);
@@ -171,10 +187,8 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         switch (item.getItemId()) {
             case R.id.nav_addExercise:
                 Intent intentAdd = new Intent(ExerciseTrackingActivity.this, CategoryRecyclerView.class);
+                intentAdd.putExtra(CategoryRecyclerView.EXTRA_DATE_CATEGORY, exerciseViewModel.getCurrentDate().getValue());
                 startActivity(intentAdd);
-
-                //Need to pass intent here too with the date
-
                 closeDrawer();
                 return true;
             case R.id.nav_help:
@@ -187,10 +201,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 Intent intentGraphical = new Intent(ExerciseTrackingActivity.this, GraphicalActivity.class);
                 startActivity(intentGraphical);
                 closeDrawer();
-                Toast.makeText(ExerciseTrackingActivity.this, "You have interacted with the graphical Page", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_workout_generator:
-                Toast.makeText(ExerciseTrackingActivity.this, "You Interacted with the Workout Generator Navigation", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExerciseTrackingActivity.this, "Currently Under Construction", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_plateMath:
                 Intent intentPlate = new Intent(ExerciseTrackingActivity.this, PlateMathCalcActivity.class);
@@ -236,9 +249,11 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
         dateDisplayTV = findViewById(R.id.mainUITextViewDate);
         String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String tempString = "Hack Squat";
 
         if (exerciseViewModel.getCurrentDate().getValue() == null) {
             exerciseViewModel.setDate(dateNow);
+            exerciseViewModel.setName(tempString);
         }
 
         NavigationView navigationView = findViewById(R.id.nav_view);

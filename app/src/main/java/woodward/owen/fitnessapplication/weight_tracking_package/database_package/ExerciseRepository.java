@@ -18,8 +18,10 @@ public class ExerciseRepository {
 
     private ExerciseDao exerciseDao;
     private ExerciseNameDao exerciseNameDao;
+    private static ExerciseRepository exerciseRepository;
     private CategoryDao catDao;
     private LiveData<List<Exercise>> allExercises;
+    private LiveData<List<Exercise>> allExercisesGraphics;
     private LiveData<List<ExerciseName>> allExerciseNames;
     private LiveData<List<Category>> allCategories;
 
@@ -28,6 +30,13 @@ public class ExerciseRepository {
         exerciseDao = database.exerciseDao();
         exerciseNameDao = database.exerciseNameDao();
         catDao = database.categoryDao();
+    }
+
+    public static ExerciseRepository getInstance(Application application){
+        if(exerciseRepository == null) {
+            exerciseRepository = new ExerciseRepository(application);
+        }
+        return  exerciseRepository;
     }
 
     //Exercise
@@ -39,6 +48,10 @@ public class ExerciseRepository {
         new UpdateExerciseAsyncTask(exerciseDao).execute(exercise);
     }
 
+    /*public void UpdateMovedExercises(Exercise exercise){
+        new UpdateMovedExercisesAsyncTask(exerciseDao).execute(exercise);
+    }*/
+
     public void Delete(Exercise exercise) {
         new DeleteExerciseAsyncTask(exerciseDao).execute(exercise);
     }
@@ -47,14 +60,14 @@ public class ExerciseRepository {
         new DeleteAllExerciseAsyncTask(exerciseDao).execute(date);
     }
 
-    public LiveData<List<Exercise>> getAllExercises(String date) {
-        allExercises = exerciseDao.getAllExercises(date);
+    public LiveData<List<Exercise>> GetAllExercises(String date) {
+        allExercises = exerciseDao.GetAllExercises(date);
         return allExercises;
     }
 
-    public LiveData<List<Exercise>> getSpecificExercise(String exerciseName) {
-        allExercises = exerciseDao.getAllExercises(exerciseName);
-        return allExercises;
+    public LiveData<List<Exercise>> GetAllDataForExerciseType(String name) {
+        allExercisesGraphics = exerciseDao.GetSpecificExercisesByName(name);
+        return allExercisesGraphics;
     }
 
     //ExerciseName executions
@@ -123,6 +136,19 @@ public class ExerciseRepository {
         }
     }
 
+    /*private static class UpdateMovedExercisesAsyncTask extends AsyncTask<Exercise, Void, Void> {
+        private ExerciseDao exerciseDao;
+        private UpdateMovedExercisesAsyncTask(ExerciseDao dao) {
+            this.exerciseDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Exercise... exercises) {
+            exerciseDao.Update(exercises[0]);
+            return null;
+        }
+    }*/
+
     private static class DeleteExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
         private ExerciseDao exerciseDao; //needed for database operations
 
@@ -146,7 +172,7 @@ public class ExerciseRepository {
 
         @Override
         protected Void doInBackground(String... date) {
-            exerciseDao.deleteAllExercises(date[0]);
+            exerciseDao.DeleteAllExercises(date[0]);
             return null;
         }
     }

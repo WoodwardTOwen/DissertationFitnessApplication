@@ -20,6 +20,7 @@
     <string name="Navigation_Help_Title">Help</string>
 
     <string name="AddExerciseTitle">Add Exercise</string>
+    <string name="EditExerciseTitle">Edit Exercise</string>
     <string name="WeightKGTitle">Weight (Kg)</string>
     <string name="repTitle">Reps</string>
     <string name="rpeTitle">RPE</string>

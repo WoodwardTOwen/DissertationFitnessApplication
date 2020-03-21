@@ -25,10 +25,12 @@ public class FilterInputs implements InputFilter {
                 return null;
 
         } catch (NumberFormatException ex){
+            ex.getMessage();
         }
         return "";
     }
 
+    //Checks whether the inputted RPE is in range
     private boolean isInRange(int a, int b, int c){
         if(b > a){
             return c >= a && c <= b;

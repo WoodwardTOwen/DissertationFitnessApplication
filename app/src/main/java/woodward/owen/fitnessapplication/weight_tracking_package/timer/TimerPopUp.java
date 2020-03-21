@@ -1,6 +1,5 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.timer;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,13 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 import java.util.Locale;
-import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.TimerViewModel;
 
 public class TimerPopUp extends AppCompatActivity {
     private TextView timerCountDownTextView;

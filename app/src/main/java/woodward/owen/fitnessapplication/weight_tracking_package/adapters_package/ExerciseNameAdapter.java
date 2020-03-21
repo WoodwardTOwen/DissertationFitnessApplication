@@ -15,7 +15,7 @@ import woodward.owen.fitnessapplication.exercise_package.ExerciseName;
 
 public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameAdapter.ExerciseNameHolder> {
     private onItemClickListener listener;
-    private onItemLongClickListener longClickListener;
+    private onItemLongClickListenerInterface longClickListener;
 
     public ExerciseNameAdapter() {
         super(DIFF_CALLBACK);
@@ -48,7 +48,7 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
     }
 
     class ExerciseNameHolder extends RecyclerView.ViewHolder {
-        private TextView exerciseName;
+        private final TextView exerciseName;
 
         public ExerciseNameHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,7 +78,7 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
         void onItemClick(ExerciseName exercise);
     }
 
-    public interface onItemLongClickListener {
+    public interface onItemLongClickListenerInterface {
         void onItemLongClickListener(ExerciseName exerciseName);
     }
 
@@ -86,5 +86,5 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
         this.listener = listener;
     }
 
-    public void setOnItemLongClickListener(onItemLongClickListener listener) {this.longClickListener = listener; }
+    public void setOnItemLongClickListener(onItemLongClickListenerInterface listener) {this.longClickListener = listener; }
 }

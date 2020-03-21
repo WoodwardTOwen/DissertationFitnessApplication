@@ -3,6 +3,8 @@ package woodward.owen.fitnessapplication.plate_math_calculator_package;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 public class BarbellType implements Parcelable {
     private String barbellName;
     private int barbellWeight;
@@ -18,6 +20,7 @@ public class BarbellType implements Parcelable {
     public void setBarbellName(String pBarbellName) { this.barbellName = pBarbellName; }
     public void setBarbellWeight(int pBarbellWeight) { this.barbellWeight = pBarbellWeight; }
 
+    @NonNull
     @Override
     public String toString() {
         return barbellName;

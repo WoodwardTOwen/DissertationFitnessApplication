@@ -65,11 +65,11 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
     }
 
     class ExerciseHolder extends RecyclerView.ViewHolder {
-        private TextView textViewExerciseName;
-        private TextView textViewReps;
-        private TextView textViewRPE;
-        private TextView textViewWeight;
-        private TextView textViewDate;
+        private final TextView textViewExerciseName;
+        private final TextView textViewReps;
+        private final TextView textViewRPE;
+        private final TextView textViewWeight;
+        private final TextView textViewDate;
 
         public ExerciseHolder(@NonNull View itemView) {
             super(itemView);

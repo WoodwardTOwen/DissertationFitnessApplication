@@ -51,6 +51,7 @@ public class CategoryRecyclerView extends AppCompatActivity {
         categoryViewModel = new ViewModelProvider(CategoryRecyclerView.this).get(CategoryViewModel.class);
         emptyView = findViewById(R.id.no_categories_available_TextView);
 
+        //Attempt to get intent in order to maintain persists of date for the inputted exercise
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_DATE_CATEGORY)) {
             dateForExercise = intent.getStringExtra(EXTRA_DATE_CATEGORY);
@@ -67,38 +68,35 @@ public class CategoryRecyclerView extends AppCompatActivity {
 
         //Implemented Adapter Listener
         adapter.setOnItemClickListener(this::openExerciseItemList);
-        adapter.setOnItemLongClickListener(new CategoryAdapter.onItemLongClickListener() {
-            @Override
-            public boolean onItemLongClicked(Category category) {
-                AlertDialog.Builder diaLogBuilder = new AlertDialog.Builder(CategoryRecyclerView.this);
-                diaLogBuilder.setTitle("Confirmation of Category Deletion");
-                diaLogBuilder.setMessage("Are you sure you want to delete " + category.getCategoryName() + "?");
-                diaLogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing but close the dialog
-                        categoryViewModel.Delete(category);
-                        Toast.makeText(getApplicationContext(), "Successfully Removed " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        Intent intent = new Intent(CategoryRecyclerView.this, ExerciseTrackingActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-                diaLogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        adapter.setOnItemLongClickListener(category -> {
+            AlertDialog.Builder diaLogBuilder = new AlertDialog.Builder(CategoryRecyclerView.this);
+            diaLogBuilder.setTitle("Confirmation of Category Deletion");
+            diaLogBuilder.setMessage("Are you sure you want to delete " + category.getCategoryName() + "?");
+            diaLogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do nothing but close the dialog
+                    categoryViewModel.Delete(category);
+                    Toast.makeText(getApplicationContext(), "Successfully Removed " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    Intent intent1 = new Intent(CategoryRecyclerView.this, ExerciseTrackingActivity.class);
+                    startActivity(intent1);
+                    finish();
+                }
+            });
+            diaLogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Cancel Procedure -> do NOT remove barbell
-                        Toast.makeText(CategoryRecyclerView.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                });
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Cancel Procedure -> do NOT remove barbell
+                    Toast.makeText(CategoryRecyclerView.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
 
-                AlertDialog alert = diaLogBuilder.create();
-                alert.show();
-                return true;
-            }
+            AlertDialog alert = diaLogBuilder.create();
+            alert.show();
+            return true;
         });
 
     }
@@ -128,15 +126,12 @@ public class CategoryRecyclerView extends AppCompatActivity {
     }
 
     private void Observe() {
-        categoryViewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
-            @Override
-            public void onChanged(List<Category> categories) {
-                adapter.submitList(categories);
-                if (categories.size() == 0) {
-                    emptyView.setVisibility(View.VISIBLE);
-                } else {
-                    emptyView.setVisibility(View.GONE);
-                }
+        categoryViewModel.getAllCategories().observe(this, categories -> {
+            adapter.submitList(categories);
+            if (categories.size() == 0) {
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                emptyView.setVisibility(View.GONE);
             }
         });
     }

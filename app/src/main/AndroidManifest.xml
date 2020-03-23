@@ -15,7 +15,7 @@
         <activity android:name=".weight_tracking_package.ExerciseRecyclerView" />
         <activity android:name=".weight_tracking_package.CategoryRecyclerView" />
         <activity android:name=".weight_tracking_package.GraphicalActivity" />
-        <activity android:name=".weight_tracking_package.TrackingHelpPage"
+        <activity android:name=".weight_tracking_package.help.page.TrackingHelpPage"
             android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity"
             />
         <activity
@@ -47,9 +47,6 @@
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
             android:name=".plate_math_calculator_package.PlateMathBarbellDeletePopUp"
-            android:theme="@style/AppTheme.CustomTheme" />
-        <activity
-            android:name=".plate_math_calculator_package.HelpClass"
             android:theme="@style/AppTheme.CustomTheme" />
     </application>
 

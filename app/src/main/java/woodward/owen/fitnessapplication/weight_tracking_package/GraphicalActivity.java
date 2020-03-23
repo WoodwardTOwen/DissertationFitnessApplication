@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
@@ -43,7 +44,7 @@ public class GraphicalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphical);
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
+        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         exerciseViewModel = new ViewModelProvider(GraphicalActivity.this).get(ExerciseViewModel.class);
         lineChart = findViewById(R.id.lineChartView);
 

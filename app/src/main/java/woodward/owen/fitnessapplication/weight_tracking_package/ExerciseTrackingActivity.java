@@ -46,6 +46,7 @@ import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.weight_tracking_package.adapters_package.ExerciseAdapter;
+import woodward.owen.fitnessapplication.weight_tracking_package.help.page.TrackingHelpPage;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.TimerViewModel;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.ExerciseViewModel;
 

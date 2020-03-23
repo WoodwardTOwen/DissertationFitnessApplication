@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication.weight_tracking_package;
+package woodward.owen.fitnessapplication.weight_tracking_package.help.page;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,14 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import woodward.owen.fitnessapplication.HelpGraphicalAnaylsisFragment;
-import woodward.owen.fitnessapplication.HelpHomeFragment;
-import woodward.owen.fitnessapplication.HelpPlateMathFragment;
 import woodward.owen.fitnessapplication.R;
 
 public class TrackingHelpPage extends AppCompatActivity {

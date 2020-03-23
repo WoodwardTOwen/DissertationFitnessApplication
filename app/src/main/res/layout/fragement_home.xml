@@ -3,13 +3,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#35373b"
+    android:padding="30dp"
     >
 
     <TextView
+        android:id="@+id/HelpPageHomeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Home_Help_Title"
         android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/helpPageTimerIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/timer_white"
+        android:layout_below="@+id/HelpPageHomeTitle"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/timerHelpPageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TimerDescription"
+        android:layout_toEndOf="@id/helpPageTimerIcon"
+        android:layout_below="@id/HelpPageHomeTitle"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/dateTimePickerHelpPageIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/calender_icon"
+        android:layout_below="@+id/helpPageTimerIcon"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/dateTimePickerHelpPageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/DateTimePickerDescription"
+        android:layout_toEndOf="@id/dateTimePickerHelpPageIcon"
+        android:layout_below="@id/timerHelpPageTextView"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/DeleteAllExercisesHelpPageIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/delete"
+        android:layout_below="@+id/dateTimePickerHelpPageIcon"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/DeleteAllDescription"
+        android:layout_toEndOf="@id/DeleteAllExercisesHelpPageIcon"
+        android:layout_below="@id/dateTimePickerHelpPageTextView"
+        android:layout_marginStart="20dp"/>
+
 
 </RelativeLayout>

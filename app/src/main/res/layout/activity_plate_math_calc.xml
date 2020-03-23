@@ -172,5 +172,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.829" />
 
+    <TextView
+        android:layout_width="350dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/HelpMessagePlateMath"
+        android:textSize="10sp"
+        android:textAlignment="center"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

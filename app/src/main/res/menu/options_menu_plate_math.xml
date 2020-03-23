@@ -8,8 +8,4 @@
     <item android:id="@+id/item2"
         android:title="@string/OptionsMenuRemoveBarbell"
         app:showAsAction="never" />
-
-    <item android:id="@+id/item3"
-        android:title="@string/OptionsMenuHelp"
-        app:showAsAction="never"/>
 </menu>

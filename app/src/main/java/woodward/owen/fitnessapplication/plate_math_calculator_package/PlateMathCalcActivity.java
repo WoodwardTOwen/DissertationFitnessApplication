@@ -156,10 +156,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                 intentDelete.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 this.startActivityForResult(intentDelete, 1);
                 return true;
-            case R.id.item3:
-                Intent intentHelp = new Intent(this, HelpClass.class);
-                startActivity(intentHelp);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
 

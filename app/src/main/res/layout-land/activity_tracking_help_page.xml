@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#35373b"
-    tools:context=".weight_tracking_package.TrackingHelpPage">
+    tools:context=".weight_tracking_package.help.page.TrackingHelpPage">
 
     <FrameLayout
         android:id="@+id/fragment_container_help_page"

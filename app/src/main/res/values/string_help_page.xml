@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="Home_Help_Title">Home</string>
+    <string name="Home_Help_Title">Main Home Page</string>
     <string name="Plate_Math_Help_Title">Plate Math Calculator</string>
     <string name="Option3Help">Graphical Analysis</string>
+
+    <string name="TimerDescription">Launches a timer to start/pause/reset, Used for Rest Times</string>
+    <string name="DateTimePickerDescription">Launches the date time picker, Changes Date to View Exercise Data on Different Days</string>
+    <string name="DeleteAllDescription">Deletes all Data from the Currently Selected Date</string>
+    <string name="SwipeDescription">Swipe Left on an Exercise Item and it will be Removed</string>
+    <string name="EditExerciseDescription">Tap on an Exercise to Update Contents of the Exercise OR Open Graphical Analysis</string>
+
+
+    //Add/Edit Pages
+    <string name="AddButtonWeightDescription">Button Increments Value in Input Boxes by 2.5kg</string>
+    <string name="SubtractButtonWeightDescription">Button Decrements Value in Input Boxes by 2.5kg</string>
+    <string name="AddButtonRPERepsDescription">Button Increments value in Reps/RPE Input Boxes by 1</string>
+    <string name="SubtractButtonRPERepsDescription">Button Increments value in Reps/RPE Input Boxes by 1</string>
+
+    <string name="SaveIconDescription">Saves the Exercises with new/updated exercise</string>
+    <string name="CloseIconDescription">Closes the Add/Edit Exercise Page, disregards any changes</string>
+
+    //PlateMathCalculator
+    <string name="InputBox"></string>
 
 </resources>

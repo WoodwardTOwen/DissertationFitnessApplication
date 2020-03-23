@@ -50,11 +50,11 @@ public class ExerciseDaoInstrumentedTest {
 
     @Test
     public void getAllExercises() throws Exception {
-        Exercise exercise = new Exercise("aaa", 0, 1, 3, "00/00/20");
+        Exercise exercise = new Exercise("aaa", 0, 1, 3, "00/00/20",1);
         exerciseDao.Insert(exercise);
-        Exercise exercise2 = new Exercise("bbb", 4, 2, 5, "00/00/20");
+        Exercise exercise2 = new Exercise("bbb", 4, 2, 5, "00/00/20",2);
         exerciseDao.Insert(exercise2);
-        Exercise exercise3 = new Exercise("ccc", 2, 20, 8, "00/00/20");
+        Exercise exercise3 = new Exercise("ccc", 2, 20, 8, "00/00/20",3);
         exerciseDao.Insert(exercise2);
 
         LiveData<List<Exercise>> exerciseList = exerciseDao.GetAllExercisesByDate("00/00/20");

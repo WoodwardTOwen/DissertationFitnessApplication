@@ -1,4 +1,4 @@
-package woodward.owen.fitnessapplication;
+package woodward.owen.fitnessapplication.weight_tracking_package.help.page;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,11 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class HelpHomeFragment extends Fragment {
+import woodward.owen.fitnessapplication.R;
+
+public class HelpGraphicalAnaylsisFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragement_home, container, false);
+        return inflater.inflate(R.layout.fragment_graphical_analysis, container, false);
     }
 }

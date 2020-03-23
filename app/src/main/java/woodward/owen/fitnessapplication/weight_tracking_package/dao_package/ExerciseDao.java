@@ -26,14 +26,17 @@ public interface ExerciseDao {
     @Query("DElETE FROM exercise_table WHERE date LIKE :date")
     void DeleteAllExercises(String date);
 
+    @Query("SELECT * FROM exercise_table")
+    LiveData<List<Exercise>> GetEveryExercise();
+
     //Get all exercises that match the current date
-    @Query("SELECT * FROM exercise_table WHERE date LIKE :date")
-    LiveData<List<Exercise>> GetAllExercises(String date);
+    @Query("SELECT * FROM exercise_table WHERE date LIKE :date ORDER BY exercise_order ASC")
+    LiveData<List<Exercise>> GetAllExercisesByDate(String date);
 
     @Query("SELECT * FROM exercise_table WHERE exerciseName = :exerciseName")
     LiveData<List<Exercise>> GetSpecificExercisesByName(String exerciseName);
 
-    /*@Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateMovementOfItems(List<Exercise> exercise);*/
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    void updateMovementOfItems(List<Exercise> exercise);
 
 }

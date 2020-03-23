@@ -21,7 +21,7 @@ import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.Cate
 import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseDao;
 import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseNameDao;
 
-@Database(entities = { Category.class, Exercise.class, ExerciseName.class}, version = 5, exportSchema = false)
+@Database(entities = {Category.class, Exercise.class, ExerciseName.class}, version = 10, exportSchema = false)
 @TypeConverters({DatabaseTypeConverters.class})
 public abstract class ExerciseDatabase extends RoomDatabase {
 
@@ -31,32 +31,34 @@ public abstract class ExerciseDatabase extends RoomDatabase {
     public abstract ExerciseNameDao exerciseNameDao();
     public abstract CategoryDao categoryDao();
 
-    public static synchronized ExerciseDatabase getInstance(Context context) { //synchronized means only one thread at a time can access the method
-        if(instance == null) {
-            synchronized (ExerciseDatabase.class){ //This was altered here with an extra synchronized
-                if(instance == null){
+    static synchronized ExerciseDatabase getInstance(Context context) { //synchronized means only one thread at a time can access the method
+        if (instance == null) {
+            synchronized (ExerciseDatabase.class) { //This was altered here with an extra synchronized
+                if (instance == null) {
                     instance = Room.databaseBuilder(context.getApplicationContext(), ExerciseDatabase.class, "exericse_database")
-                            .fallbackToDestructiveMigration().addCallback(roomCallBack).build();
+                            .fallbackToDestructiveMigration()
+                            .addCallback(callBack)
+                            .build();
                 }
             }
         }
         return instance;
     }
 
-    private static RoomDatabase.Callback roomCallBack = new RoomDatabase.Callback() {
+    private static RoomDatabase.Callback callBack = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            new PopulateDbAsyncTask(instance).execute();
+            new prePopulate(instance).execute();
         }
     };
 
-    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
+    private static class prePopulate extends AsyncTask<Void, Void, Void> {
         private ExerciseDao exerciseDao;
         private ExerciseNameDao exerciseNameDao;
         private CategoryDao categoryDao;
 
-        private PopulateDbAsyncTask(ExerciseDatabase db){
+        private prePopulate(ExerciseDatabase db) {
             exerciseDao = db.exerciseDao();
             exerciseNameDao = db.exerciseNameDao();
             categoryDao = db.categoryDao();
@@ -64,11 +66,12 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
+
             String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-            exerciseDao.Insert(new Exercise("Use + button to add an exercise", 10, 50, 4, dateNow));
-            exerciseDao.Insert(new Exercise("Edit Exercise by tapping me", 15, 70, 9, dateNow));
-            exerciseDao.Insert(new Exercise("Swipe Left to Remove Items", 15, 60, 6, dateNow));
+            exerciseDao.Insert(new Exercise("Use + button to add an exercise", 10, 50, 4, dateNow,1));
+            exerciseDao.Insert(new Exercise("Edit Exercise by tapping me", 15, 70, 9, dateNow, 2));
+            exerciseDao.Insert(new Exercise("Swipe Left to Remove Items", 15, 60, 6, dateNow, 3));
 
             Shoulders();
             Chest();
@@ -78,9 +81,11 @@ public abstract class ExerciseDatabase extends RoomDatabase {
             Legs();
 
             return null;
+
         }
 
-        private void Shoulders (){
+
+        private void Shoulders() {
             categoryDao.Insert(new Category("Shoulders"));
 
             exerciseNameDao.InsertExerciseName(new ExerciseName("Seated Dumbbell Shoulder Press", 1));
@@ -98,7 +103,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
         }
 
-        private void Chest () {
+        private void Chest() {
             categoryDao.Insert(new Category("Chest"));
             exerciseNameDao.InsertExerciseName(new ExerciseName("Flat Barbell Bench Press", 2));
             exerciseNameDao.InsertExerciseName(new ExerciseName("Decline Barbell Bench Press", 2));
@@ -116,7 +121,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
         }
 
-        private void Back () {
+        private void Back() {
             categoryDao.Insert(new Category("Back"));
 
             exerciseNameDao.InsertExerciseName(new ExerciseName("Lat PullDown", 3));
@@ -138,15 +143,15 @@ public abstract class ExerciseDatabase extends RoomDatabase {
         private void Biceps() {
             categoryDao.Insert(new Category("Biceps"));
 
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Dumbbell Hammer Curl",4 ));
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Dumbbell Bicep Curl",4 ));
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Cable Curl",4 ));
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Ez-Bar Preacher Curl",4 ));
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Barbell Curl",4 ));
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Single Arm Cable Curl",4 ));
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Incline Dumbbell Curl",4 ));
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Dumbbell Concentration Curl",4 ));
-            exerciseNameDao.InsertExerciseName(new ExerciseName("Crucifix Curl",4 ));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Dumbbell Hammer Curl", 4));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Dumbbell Bicep Curl", 4));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Cable Curl", 4));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Ez-Bar Preacher Curl", 4));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Barbell Curl", 4));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Single Arm Cable Curl", 4));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Incline Dumbbell Curl", 4));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Dumbbell Concentration Curl", 4));
+            exerciseNameDao.InsertExerciseName(new ExerciseName("Crucifix Curl", 4));
 
         }
 
@@ -165,7 +170,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
             exerciseNameDao.InsertExerciseName(new ExerciseName("Hammer Strength Dip Machine", 5));
         }
 
-        private void Legs () {
+        private void Legs() {
             categoryDao.Insert(new Category("Legs"));
 
             exerciseNameDao.InsertExerciseName(new ExerciseName("Barbell Squats", 6));
@@ -185,8 +190,5 @@ public abstract class ExerciseDatabase extends RoomDatabase {
             exerciseNameDao.InsertExerciseName(new ExerciseName("Standing Calf Raise", 6));
             exerciseNameDao.InsertExerciseName(new ExerciseName("Abductor Machine", 6));
         }
-
-
-
     }
 }

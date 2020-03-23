@@ -57,7 +57,7 @@ public class ExerciseDaoInstrumentedTest {
         Exercise exercise3 = new Exercise("ccc", 2, 20, 8, "00/00/20");
         exerciseDao.Insert(exercise2);
 
-        LiveData<List<Exercise>> exerciseList = exerciseDao.GetAllExercises("00/00/20");
+        LiveData<List<Exercise>> exerciseList = exerciseDao.GetAllExercisesByDate("00/00/20");
         assertEquals(Objects.requireNonNull(exerciseList.getValue()).get(0).getExerciseName(), exercise.getExerciseName());
         assertEquals(exerciseList.getValue().get(1).getReps(), exercise2.getReps());
         assertEquals(exerciseList.getValue().get(2).getDate(), exercise3.getDate());

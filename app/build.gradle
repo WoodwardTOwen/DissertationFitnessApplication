@@ -73,6 +73,9 @@ dependencies {
 
     testImplementation "org.robolectric:robolectric:4.2.1"
 
+    //lottie
+    implementation "com.airbnb.android:lottie:3.4.0"
+
 }
 
 apply plugin: 'com.google.gms.google-services'

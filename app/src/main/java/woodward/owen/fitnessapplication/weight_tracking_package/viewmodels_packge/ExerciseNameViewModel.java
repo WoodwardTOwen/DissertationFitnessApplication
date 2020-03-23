@@ -39,19 +39,15 @@ public class ExerciseNameViewModel extends AndroidViewModel {
         return currentDate;
     }
 
+    public MutableLiveData<Category> getCurrentCategory () {
+        return currentCategory;
+    }
+
     public LiveData<List<ExerciseName>> getAllExercisesForCategory() {
         return allExercisesForCategory;
     }
-
     public void setCurrentCategory(Category category) {
-        if(currentCategory == null) {
-            currentCategory = new MutableLiveData<>();
-        }
         currentCategory.setValue(category);
-    }
-
-    public MutableLiveData<Category> getCurrentCategory () {
-        return currentCategory;
     }
 
 }

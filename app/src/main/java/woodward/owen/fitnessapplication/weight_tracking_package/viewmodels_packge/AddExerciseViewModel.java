@@ -6,7 +6,11 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import java.util.List;
+import java.util.Objects;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.weight_tracking_package.database_package.ExerciseRepository;
@@ -14,6 +18,7 @@ import woodward.owen.fitnessapplication.weight_tracking_package.database_package
 public class AddExerciseViewModel extends AndroidViewModel {
     private final ExerciseRepository repository;
     private final MutableLiveData<String> currentDate = new MutableLiveData<>();
+    private LiveData<List<Exercise>> totalExerciseCount;
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String WEIGHT = "Weight";
     private static final String REPS = "Reps";
@@ -23,6 +28,7 @@ public class AddExerciseViewModel extends AndroidViewModel {
     public AddExerciseViewModel(@NonNull Application application) {
         super(application);
         repository = ExerciseRepository.getInstance(application);
+        totalExerciseCount = repository.GetEveryExercise();
     }
 
     //Wrapper methods for the repository from the ViewModel
@@ -50,15 +56,17 @@ public class AddExerciseViewModel extends AndroidViewModel {
         return sharedPreferences.getString(RPE, "");
     }
 
+    public MutableLiveData<String> getCurrentDate() {
+        return currentDate;
+    }
+
+    public LiveData<List<Exercise>> getTotalExercise() { return totalExerciseCount; }
+
     public void cleanSharedPreferences () {
         sharedPreferences.edit().clear().apply();
     }
 
     public void setDate(String date) {
         currentDate.setValue(date);
-    }
-
-    public MutableLiveData<String> getCurrentDate() {
-        return currentDate;
     }
 }

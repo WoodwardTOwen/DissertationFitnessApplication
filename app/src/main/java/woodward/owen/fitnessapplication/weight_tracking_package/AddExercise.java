@@ -20,8 +20,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
@@ -37,6 +39,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     private TextView exerciseTextView;
     private TextView categoryTextView;
     private String dateForExercise;
+    private int size;
     private AddExerciseViewModel addExerciseViewModel;
 
     @Override
@@ -53,6 +56,8 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
 
+
+        ObserveListSize();
         listen();
 
         Intent i = getIntent();
@@ -75,7 +80,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         boolean verify = AddEditMethods.isVerified(exerciseWeight, exerciseReps, exerciseRPE);
         if (verify) {
             addExerciseViewModel.setDate(dateForExercise);
-            Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
+            Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise, size);
             addExerciseViewModel.Insert(exercise);
             addExerciseViewModel.cleanSharedPreferences();
             repInput.getText().clear();
@@ -190,5 +195,18 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         repInput.setText(addExerciseViewModel.loadRepsSharedPreference());
         rpeInput.setText(addExerciseViewModel.loadRPESharedPreference());
         Log.i("onResume", "The app has loaded the data");
+    }
+
+    private void ObserveListSize () {
+        addExerciseViewModel.getTotalExercise().observe(this, new Observer<List<Exercise>>() {
+            @Override
+            public void onChanged(List<Exercise> exercises) {
+                if (exercises == null) {
+                    size = 0;
+                }else {
+                    size = exercises.size();
+                }
+            }
+        });
     }
 }

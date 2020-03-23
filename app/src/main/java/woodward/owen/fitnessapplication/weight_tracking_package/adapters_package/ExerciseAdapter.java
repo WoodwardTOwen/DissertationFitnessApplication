@@ -11,11 +11,17 @@ import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseDao;
+import woodward.owen.fitnessapplication.weight_tracking_package.database_package.ExerciseDatabase;
 
 public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder> {
     private onItemClickListener listener;
+    private List<Exercise> exercises;
 
     //Defines Comparison Logic between two lists
     public ExerciseAdapter() {
@@ -58,6 +64,7 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
         holder.textViewRPE.setText(HtmlCompat.fromHtml(sourceStringRPE, HtmlCompat.FROM_HTML_MODE_COMPACT));
         holder.textViewReps.setText(HtmlCompat.fromHtml(sourceStringReps, HtmlCompat.FROM_HTML_MODE_COMPACT));
         holder.textViewDate.setText(HtmlCompat.fromHtml(sourceStringDate, HtmlCompat.FROM_HTML_MODE_COMPACT));
+
     }
 
     public Exercise getExercisePosition(int position) {

@@ -88,15 +88,20 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_exercise_menu, menu);
+        menuInflater.inflate(R.menu.current_exercise_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.saveExercise) {
+        if (item.getItemId() == R.id.updateExercise) {
             UpdateExercise();
             return true;
+        }
+        if(item.getItemId() == R.id.exercise_graphical_analysis) {
+            Intent intent = new Intent (EditExercise.this, GraphicalActivity.class);
+            intent.putExtra(GraphicalActivity.EXTRA_EXERCISE_NAME, exerciseTitle.getText().toString());
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

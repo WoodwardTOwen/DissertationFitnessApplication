@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/exercise_graphical_analysis"
+        android:title="Graphical Analysis"
+        android:icon="@drawable/graphical_menu"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/updateExercise"
+        android:title="Update Exercise"
+        android:icon="@drawable/save_white"
+        app:showAsAction="ifRoom"/>
+</menu>

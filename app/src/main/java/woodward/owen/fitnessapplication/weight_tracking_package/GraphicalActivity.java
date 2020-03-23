@@ -4,20 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BaseDataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import woodward.owen.fitnessapplication.R;
@@ -30,47 +37,32 @@ public class GraphicalActivity extends AppCompatActivity {
     private LineChart lineChart;
     private ExerciseViewModel exerciseViewModel;
     private List<Exercise> currentExercises = new ArrayList<>();
-    private List<Entry> entries = new ArrayList<>();
+    public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessapplication.EXTRA_EXERCISE_NAME";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphical);
 
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         exerciseViewModel = new ViewModelProvider(GraphicalActivity.this).get(ExerciseViewModel.class);
         lineChart = findViewById(R.id.lineChartView);
 
-        exerciseViewModel.setName("Hack Squat");
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_EXERCISE_NAME)) {
+            exerciseViewModel.setName(intent.getStringExtra(EXTRA_EXERCISE_NAME));
+        }
 
         Observe();
         ObserveNameChange();
 
-
+        //Enables Dragging/ Scaling of the UI
         lineChart.setDragEnabled(true);
-
-        //Enables/Disables scaling of the graph
         lineChart.setScaleEnabled(true);
+        lineChart.setDrawGridBackground(false);
 
         //Removes axis on the right side of the graph
         lineChart.getAxisRight().setEnabled(false);
-        //Allows for gestures with the graph -> may not need this for the main system -> prototype its fine though
-        //lineChart.setOnChartGestureListener(this);
-        //Callback for highlighting values on touch request
-        //lineChart.setOnChartValueSelectedListener(this);
 
-
-        //Call query here for all information in relation to a particular exerciseName
-        //If none exists through a prompt on screen that the user cannot view any graph data in relation to that exercise
-        //because it does not exist
-
-
-        /*entries.add(new Entry(0, 60f));
-        entries.add(new Entry(2, 54f));
-        entries.add(new Entry(6, 78f));
-        entries.add(new Entry(8, 43f));
-        entries.add(new Entry(4, 11f));*/
-        //to add the entries from the data, use a for loop to gather add them all into the 'entries' list
-
-        //for this prototype, manual implementation will be used
     }
 
     private void Observe() {
@@ -97,27 +89,11 @@ public class GraphicalActivity extends AppCompatActivity {
 
     private void setEntries (List<Exercise> exercises) {
         //Enables dragging of the graph on the UI
+        List<Entry> entries = new ArrayList<>();
         for(int i = 0; i < exercises.size(); i++){
             entries.add(new Entry(exercises.get(i).getReps(),
-                    exercises.get(i).getRpe()));
+                    exerciseViewModel.convertToFloat(exercises.get(i).getWeight())));
         }
-
-
-
-        //Call query here for all information in relation to a particular exerciseName
-        //If none exists through a prompt on screen that the user cannot view any graph data in relation to that exercise
-        //because it does not exist
-
-
-        /*entries.add(new Entry(0, 60f));
-        entries.add(new Entry(2, 54f));
-        entries.add(new Entry(6, 78f));
-        entries.add(new Entry(8, 43f));
-        entries.add(new Entry(4, 11f));*/
-        //to add the entries from the data, use a for loop to gather add them all into the 'entries' list
-
-        //for this prototype, manual implementation will be used
-
         LineDataSet lineDataSet = new LineDataSet(entries, "The Data Ting"); //This is where it would place the information to be display
 
         lineDataSet.setColor(Color.BLUE);
@@ -131,7 +107,9 @@ public class GraphicalActivity extends AppCompatActivity {
         lineDataSet.setFillAlpha(110);
 
         XAxis xAxis = lineChart.getXAxis();
+
         xAxis.setTextColor(Color.WHITE);
+
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setTextColor(Color.WHITE);
@@ -142,5 +120,15 @@ public class GraphicalActivity extends AppCompatActivity {
         dataSets.add(lineDataSet);
         LineData lineData = new LineData(dataSets);
         lineChart.setData(lineData);
+        lineChart.notifyDataSetChanged();
+    }
+
+    private class myAxisForamtter extends ValueFormatter implements IAxisValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            return sdf.format(new Date(Long.parseLong(String.valueOf(value))));
+        }
     }
 }

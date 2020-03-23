@@ -4,6 +4,7 @@ package woodward.owen.fitnessapplication.exercise_package;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "exercise_table")
@@ -12,8 +13,8 @@ public class Exercise implements Cloneable{
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    //@ColumnInfo(name = "Exercise_Order")
-    //private Integer order;
+    @ColumnInfo(name = "Exercise_Order")
+    private int order;
     private String exerciseName;
     private String date;
     private int reps;
@@ -22,12 +23,13 @@ public class Exercise implements Cloneable{
     private int sets;
 
     @Ignore
-    public Exercise (String exerciseName, int pReps, double pWeight, int pRPE, String date){
+    public Exercise (String exerciseName, int pReps, double pWeight, int pRPE, String date, int order){
         this.exerciseName = exerciseName;
         this.date = date;
         this.reps = pReps;
         this.weight = pWeight;
         this.rpe = pRPE;
+        this.order = order;
     }
 
     public Exercise() {
@@ -36,7 +38,7 @@ public class Exercise implements Cloneable{
 
 
     public Object Clone() {
-        return new Exercise(exerciseName, reps, weight, rpe, date);
+        return new Exercise(exerciseName, reps, weight, rpe, date, order);
     }
 
     //Getters
@@ -105,11 +107,11 @@ public class Exercise implements Cloneable{
         this.sets = sets;
     }
 
-    /*public Integer getOrder() {
+    public Integer getOrder() {
         return order;
     }
 
     public void setOrder(Integer order) {
         this.order = order;
-    }*/
+    }
 }

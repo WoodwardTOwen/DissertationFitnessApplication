@@ -107,19 +107,36 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                mExercises = exerciseViewModel.getAllExercises().getValue();
+                mExercises = exerciseViewModel.GetAllExercisesByDate().getValue();
                 if(dragged.getAdapterPosition() < target.getAdapterPosition()){
                     for(int i = dragged.getAdapterPosition(); i < target.getAdapterPosition(); i++){
                         Collections.swap(mExercises, i, i+1);
+
+                        int order1 = mExercises.get(i).getOrder();
+                        int order2 = mExercises.get(i +1).getOrder();
+                        mExercises.get(i).setOrder(order2);
+                        mExercises.get(i+1).setOrder(order1);
+
                     }
                 }
                 else {
                     for(int i = dragged.getAdapterPosition(); i > target.getAdapterPosition(); i--){
                         Collections.swap(mExercises, i, i -1);
+
+                        int order1 = mExercises.get(i).getOrder();
+                        int order2 = mExercises.get(i -1).getOrder();
+                        mExercises.get(i).setOrder(order2);
+                        mExercises.get(i -1).setOrder(order1);
+
                     }
                 }
                 adapter.notifyItemMoved(dragged.getAdapterPosition(), target.getAdapterPosition());
                 return true;
+            }
+
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
             }
 
             @Override
@@ -167,11 +184,12 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             String reps = data.getStringExtra(EditExercise.EXTRA_REPS);
             String RPE = data.getStringExtra(EditExercise.EXTRA_RPE);
             String date = exerciseViewModel.getCurrentDate().getValue();
+            int order = exerciseViewModel.getCurrentOrderPosition().getValue();
 
             assert reps != null;
             assert weight != null;
             assert RPE != null;
-            Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE), date);
+            Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE), date, order);
             exercise.setId(id);
             exerciseViewModel.Update(exercise);
 
@@ -195,7 +213,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 Intent intentHelpPage = new Intent(ExerciseTrackingActivity.this, TrackingHelpPage.class);
                 startActivity(intentHelpPage);
                 closeDrawer();
-                Toast.makeText(ExerciseTrackingActivity.this, "You interacted with the Help Page", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_graphical:
                 Intent intentGraphical = new Intent(ExerciseTrackingActivity.this, GraphicalActivity.class);
@@ -249,11 +266,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
         dateDisplayTV = findViewById(R.id.mainUITextViewDate);
         String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        String tempString = "Hack Squat";
 
         if (exerciseViewModel.getCurrentDate().getValue() == null) {
             exerciseViewModel.setDate(dateNow);
-            exerciseViewModel.setName(tempString);
         }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -283,12 +298,13 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         intent.putExtra(EditExercise.EXTRA_WEIGHT, exercise.getWeight());
         intent.putExtra(EditExercise.EXTRA_REPS, exercise.getReps());
         intent.putExtra(EditExercise.EXTRA_RPE, exercise.getRpe());
+        exerciseViewModel.setPosition(exercise.getOrder());
 
         startActivityForResult(intent, EDIT_EXERCISE_REQUEST);
     }
 
     private void Observe() {
-        exerciseViewModel.getAllExercises().observe(this, new Observer<List<Exercise>>() {
+        exerciseViewModel.GetAllExercisesByDate().observe(this, new Observer<List<Exercise>>() {
             @Override
             public void onChanged(List<Exercise> exercises) {
                 adapter.submitList(exercises);
@@ -350,8 +366,12 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 timerListenersForBottomSheet();
                 return true;
             case R.id.deleteExercisesItem:
-                exerciseViewModel.DeleteAllExercises(exerciseViewModel.getCurrentDate().getValue());
-                Toast.makeText(ExerciseTrackingActivity.this, "All Exercises have been deleted from the Date: " + dateDisplayTV.getText().toString(), Toast.LENGTH_SHORT).show();
+                if(adapter.getItemCount() != 0){
+                    exerciseViewModel.DeleteAllExercises(exerciseViewModel.getCurrentDate().getValue());
+                    Toast.makeText(ExerciseTrackingActivity.this, "All Exercises have been deleted from the Date: " + dateDisplayTV.getText().toString(), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                Toast.makeText(ExerciseTrackingActivity.this, "No Exercises to delete for " + dateDisplayTV.getText().toString(), Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="Home_Help_Title">Home</string>
+    <string name="Plate_Math_Help_Title">Plate Math Calculator</string>
+    <string name="Option3Help">Graphical Analysis</string>
+
+</resources>

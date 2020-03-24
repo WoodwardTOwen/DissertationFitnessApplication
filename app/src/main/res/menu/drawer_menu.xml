@@ -13,13 +13,13 @@
                     android:icon="@drawable/add_black"
                     android:title="@string/Navigation_AddExercise_Title" />
                 <item
+                    android:id="@+id/nav_timer"
+                    android:icon="@drawable/timer_black"
+                    android:title="@string/ChangeTimer" />
+                <item
                     android:id="@+id/nav_help"
                     android:icon="@drawable/nav_help"
                     android:title="@string/Navigation_Help_Title" />
-                <item
-                    android:id="@+id/nav_graphical"
-                    android:icon="@drawable/nav_graphical"
-                    android:title="@string/Navigation_Graphical_Analysis_Title" />
             </menu>
         </item>
 

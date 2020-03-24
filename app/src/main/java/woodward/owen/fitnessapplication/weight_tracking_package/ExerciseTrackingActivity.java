@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -62,8 +63,8 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     private TimerViewModel timerViewModel;
     private CountDownTimer countDownTimer;
     private Button bottomSheetResetButton;
-    private Button bottomSheetStartButton;
-    private long endTime;
+    private Button bottomSheetStartPauseButton;
+    private NotificationHelp notificationHelp;
     private List<Exercise> mExercises = new ArrayList<>();
     public static final int EDIT_EXERCISE_REQUEST = 1;
     public static final String EXTRA_DATE_MAIN_UI = "woodward.owen.fitnessapplication.EXTRA_DATE_MAIN_UI";
@@ -81,8 +82,10 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         drawer = findViewById(R.id.drawer_layout);
         timerCountDownTextView = findViewById(R.id.bottomSheetScrollerTextView);
         bottomSheetResetButton = findViewById(R.id.bottomSheetScollerButtonReset);
-        bottomSheetStartButton = findViewById(R.id.bottomSheetScollerStartButton);
+        bottomSheetStartPauseButton = findViewById(R.id.bottomSheetScollerStartButton);
         emptyView = findViewById(R.id.no_date_available_TextView);
+        notificationHelp = new NotificationHelp(getApplication());
+        timerListenersForBottomSheet(); //Listeners for bottom sheet
 
         Intent i = getIntent();
         if(i.hasExtra(EXTRA_DATE_MAIN_UI)){
@@ -215,9 +218,8 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 startActivity(intentHelpPage);
                 closeDrawer();
                 return true;
-            case R.id.nav_graphical:
-                Intent intentGraphical = new Intent(ExerciseTrackingActivity.this, GraphicalActivity.class);
-                startActivity(intentGraphical);
+            case R.id.nav_timer:
+                Toast.makeText(ExerciseTrackingActivity.this, "This Activity Needs to be Created", Toast.LENGTH_SHORT).show();
                 closeDrawer();
                 return true;
             case R.id.nav_workout_generator:
@@ -341,17 +343,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("date", (String) dateDisplayTV.getText());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle saveInstanceState) {
-        dateDisplayTV.setText(saveInstanceState.getString("date"));
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.calenderMenuItem:
@@ -364,7 +355,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }
                 ExpandBottomSheet();
-                timerListenersForBottomSheet();
                 return true;
             case R.id.deleteExercisesItem:
                 if(adapter.getItemCount() != 0){
@@ -386,16 +376,39 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         timerCountDownTextView.setText(timeLeft);
     }
 
+    private void UpdateButtons () {
+        if(timerViewModel.getIsTimerRunning()){
+            bottomSheetResetButton.setVisibility(View.INVISIBLE);
+            bottomSheetStartPauseButton.setText(timerViewModel.getPauseButtonName());
+        }else {
+            bottomSheetStartPauseButton.setText(timerViewModel.getStartButtonName());
+
+            //to be more exact about changing the value below, the countdown timer number has to also be manipulated
+            if(timerViewModel.getTimeRemaining() < 1000) {
+                bottomSheetStartPauseButton.setVisibility(View.INVISIBLE);
+
+            }
+            else {
+                bottomSheetStartPauseButton.setVisibility(View.VISIBLE);
+            }
+
+            if(timerViewModel.getTimeRemaining() < timerViewModel.getStartTimeInMillis()){
+                bottomSheetResetButton.setVisibility(View.VISIBLE);
+            }
+            else {
+                bottomSheetResetButton.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
     private void pauseTimer() {
-        bottomSheetStartButton.setText(timerViewModel.getStartButtonName());
-        bottomSheetResetButton.setVisibility(View.VISIBLE);
         countDownTimer.cancel();
         timerViewModel.setIsTimerRunning(false);
-        UpdateTimer();
+        UpdateButtons();
     }
 
     private void startTimer() {
-        endTime = System.currentTimeMillis() + timerViewModel.getTimeRemaining();
+        timerViewModel.setEndTime(System.currentTimeMillis() + timerViewModel.getTimeRemaining());
 
         countDownTimer = new CountDownTimer(timerViewModel.getTimeRemaining(), 1000) { //How fast the countdown goes down, currently 1 second
             @Override
@@ -406,31 +419,21 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
             @Override
             public void onFinish() {
-
+                sendChannelNotification();
+                timerViewModel.setIsTimerRunning(false);
+                UpdateButtons();
             }
         }.start();
 
         timerViewModel.setIsTimerRunning(true);
-        UpdateCountDownText();
-        bottomSheetResetButton.setVisibility(View.INVISIBLE);
-        bottomSheetStartButton.setText(timerViewModel.getPauseButtonName());
-    }
-
-    private void UpdateTimer() {
-
-    }
-
-    private void RunPauseTimer() {
-        if (timerViewModel.getIsTimerRunning()) {
-            pauseTimer();
-        } else {
-            startTimer();
-        }
+       // UpdateCountDownText();
+        UpdateButtons();
     }
 
     private void resetTimer() {
         timerViewModel.setTimeRemaining(timerViewModel.getStartTimeInMillis());
         UpdateCountDownText();
+        UpdateButtons();
     }
 
     @Override
@@ -442,16 +445,20 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         timerViewModel.setTimeRemaining(prefs.getLong(MILLIS_LEFT, timerViewModel.getStartTimeInMillis()));
         timerViewModel.setIsTimerRunning(prefs.getBoolean(TIMER_RUNNING, false));
         UpdateCountDownText();
+        UpdateButtons();
 
         if (timerViewModel.getIsTimerRunning()) {
-            endTime = prefs.getLong(END_TIME, 0);
-            timerViewModel.setTimeRemaining(endTime - System.currentTimeMillis());
+            timerViewModel.setEndTime(prefs.getLong(END_TIME, 0));
+            timerViewModel.setTimeRemaining(timerViewModel.getEndTime() - System.currentTimeMillis());
 
             if (timerViewModel.getTimeRemaining() < 0) {
                 timerViewModel.setTimeRemaining(0);
                 timerViewModel.setIsTimerRunning(false);
                 UpdateCountDownText();
-            } else {
+                UpdateButtons();
+            }
+            else
+            {
                 startTimer();
             }
         }
@@ -467,7 +474,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
         editor.putLong(MILLIS_LEFT, timerViewModel.getTimeRemaining());
         editor.putBoolean(TIMER_RUNNING, timerViewModel.getIsTimerRunning());
-        editor.putLong(END_TIME, endTime);
+        editor.putLong(END_TIME, timerViewModel.getEndTime());
 
         editor.apply();
     }
@@ -477,10 +484,15 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     }
 
     private void timerListenersForBottomSheet() {
-        bottomSheetStartButton.setOnClickListener(new View.OnClickListener() {
+        bottomSheetStartPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RunPauseTimer();
+                if(timerViewModel.getIsTimerRunning()) {
+                    pauseTimer();
+                }
+                else {
+                    startTimer();
+                }
             }
         });
 
@@ -490,5 +502,29 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 resetTimer();
             }
         });
+    }
+
+    //Send a notification once the timer has been executed successfully
+    private void sendChannelNotification() {
+        NotificationCompat.Builder nb = notificationHelp.getChannelNotification("ALARM ALERT", "The Rest Period Has Ended");
+        notificationHelp.getManager().notify(1,nb.build());
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Saving Date on Config Change
+        outState.putString("date", (String) dateDisplayTV.getText());
+
+        //Saving Timer Detailing omn Config Change
+        outState.putLong("millisLeft", timerViewModel.getTimeRemaining());
+        outState.putBoolean("isTimerRunning", timerViewModel.getIsTimerRunning());
+        outState.putLong("endTime", timerViewModel.getEndTime());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle saveInstanceState) {
+        super.onRestoreInstanceState(saveInstanceState);
+        dateDisplayTV.setText(saveInstanceState.getString("date"));
     }
 }

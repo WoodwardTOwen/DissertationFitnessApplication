@@ -3,14 +3,19 @@ package woodward.owen.fitnessapplication.weight_tracking_package;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.INotificationSideChannel;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import io.grpc.SynchronizationContext;
 import woodward.owen.fitnessapplication.R;
 
 public class NotificationHelp extends ContextWrapper {
@@ -48,7 +53,13 @@ public class NotificationHelp extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getChannelNotification(String title, String message) {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+
+        Intent resultIntent = new Intent(this, ExerciseTrackingActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 1,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //AutoCancel means the notification will disappear once interacted with
         return new NotificationCompat.Builder(getApplicationContext(), channelID).setContentTitle(title).setContentText(message)
-                .setSmallIcon(R.drawable.timer_black);
+                .setSmallIcon(R.drawable.timer_black).setSound(alarmSound).setAutoCancel(true).setContentIntent(resultPendingIntent);
     }
 }

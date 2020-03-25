@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:text="@string/DateTimePickerDescription"
         android:layout_toEndOf="@id/dateTimePickerHelpPageIcon"
-        android:layout_below="@id/timerHelpPageTextView"
+        android:layout_below="@id/helpPageTimerIcon"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="30dp"
         />
@@ -63,6 +63,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/delete"
+        android:layout_marginBottom="30dp"
         android:layout_below="@+id/dateTimePickerHelpPageIcon"
         />
 
@@ -72,6 +73,62 @@
         android:text="@string/DeleteAllDescription"
         android:layout_toEndOf="@id/DeleteAllExercisesHelpPageIcon"
         android:layout_below="@id/dateTimePickerHelpPageTextView"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="20dp"/>
+
+
+    <ImageView
+        android:id="@+id/addExerciseHelpIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/add_circle_help_page"
+        android:layout_marginBottom="30dp"
+        android:layout_below="@+id/DeleteAllExercisesHelpPageIcon"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/AddExerciseDescription"
+        android:layout_toEndOf="@id/addExerciseHelpIcon"
+        android:layout_below="@id/DeleteAllExercisesHelpPageIcon"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="20dp"/>
+
+    <ImageView
+        android:id="@+id/editExerciseHelpIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/edit_exercise_icon_help"
+        android:layout_below="@+id/addExerciseHelpIcon"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/EditExerciseDescription"
+        android:layout_toEndOf="@id/editExerciseHelpIcon"
+        android:layout_below="@id/addExerciseHelpIcon"
+        android:layout_marginStart="20dp"/>
+
+    <ImageView
+        android:id="@+id/deleteExerciseSwipeIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/swipe_right_delete_icon"
+        android:layout_below="@+id/editExerciseHelpIcon"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/SwipeDescription"
+        android:layout_toEndOf="@id/editExerciseHelpIcon"
+        android:layout_below="@id/editExerciseHelpIcon"
         android:layout_marginStart="20dp"/>
 
 

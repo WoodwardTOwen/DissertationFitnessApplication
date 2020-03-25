@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="horizontal"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -13,36 +14,143 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
             <TextView
-                android:id="@+id/textview1"
+                android:id="@+id/HelpPageHomeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Home_Help_Title"
+                android:textSize="30sp"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentTop="true"
                 android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="UR MOM GAY"
-                android:textSize="60sp"
-                tools:layout_editor_absoluteX="181dp"
-                tools:layout_editor_absoluteY="165dp" />
+                android:layout_marginBottom="20dp"
+                />
+
+            <ImageView
+                android:id="@+id/helpPageTimerIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="150dp"
+                android:src="@drawable/timer_white"
+                android:layout_below="@+id/HelpPageHomeTitle"
+                android:layout_marginBottom="30dp"
+                />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/timerHelpPageTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="14dp"
-                android:text="UR MOM GAY"
-                android:layout_below="@id/textview1"
-                android:textSize="60sp"
-                tools:layout_editor_absoluteX="181dp"
-                tools:layout_editor_absoluteY="165dp" />
+                android:text="@string/TimerDescription"
+                android:layout_centerHorizontal="true"
+                android:layout_toEndOf="@id/helpPageTimerIcon"
+                android:layout_below="@id/HelpPageHomeTitle"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="150dp"
+                />
+
+            <ImageView
+                android:id="@+id/dateTimePickerHelpPageIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="150dp"
+                android:src="@drawable/calender_icon"
+                android:layout_below="@+id/helpPageTimerIcon"
+                android:layout_marginBottom="30dp"
+                />
+
+            <TextView
+                android:id="@+id/dateTimePickerHelpPageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DateTimePickerDescription"
+                android:layout_toEndOf="@id/dateTimePickerHelpPageIcon"
+                android:layout_below="@id/timerHelpPageTextView"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="150dp"
+                />
+
+            <ImageView
+                android:id="@+id/DeleteAllExercisesHelpPageIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/delete"
+                android:layout_marginStart="150dp"
+                android:layout_marginBottom="30dp"
+                android:layout_below="@+id/dateTimePickerHelpPageIcon"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textView2"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="-79dp"
-                android:text="UR MOM GAY"
-                android:textSize="60sp" />
+                android:text="@string/DeleteAllDescription"
+                android:layout_toEndOf="@id/DeleteAllExercisesHelpPageIcon"
+                android:layout_below="@id/dateTimePickerHelpPageTextView"
+                android:layout_marginEnd="150dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginStart="20dp"/>
+
+            <ImageView
+                android:id="@+id/addCircleButtonHelp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/add_circle_help_page"
+                android:layout_marginStart="150dp"
+                android:layout_marginBottom="30dp"
+                android:layout_below="@+id/DeleteAllExercisesHelpPageIcon"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/AddExerciseDescription"
+                android:layout_toEndOf="@id/addCircleButtonHelp"
+                android:layout_below="@id/DeleteAllExercisesHelpPageIcon"
+                android:layout_marginEnd="150dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginStart="20dp"/>
+
+            <ImageView
+                android:id="@+id/editExerciseHelp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/edit_exercise_icon_help"
+                android:layout_marginStart="150dp"
+                android:layout_marginBottom="30dp"
+                android:layout_below="@+id/addCircleButtonHelp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/EditExerciseDescription"
+                android:layout_toEndOf="@id/editExerciseHelp"
+                android:layout_below="@id/addCircleButtonHelp"
+                android:layout_marginEnd="150dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginStart="20dp"/>
+
+            <ImageView
+                android:id="@+id/deleteExerciseActionHelp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/swipe_right_delete_icon"
+                android:layout_marginStart="150dp"
+                android:layout_marginBottom="30dp"
+                android:layout_below="@+id/editExerciseHelp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/SwipeDescription"
+                android:layout_toEndOf="@id/deleteExerciseActionHelp"
+                android:layout_below="@id/editExerciseHelp"
+                android:layout_marginEnd="150dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginStart="20dp"/>
 
 
         </RelativeLayout>

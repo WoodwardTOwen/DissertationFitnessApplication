@@ -9,6 +9,7 @@
     <string name="DateTimePickerDescription">Launches the date time picker, Changes Date to View Exercise Data on Different Days</string>
     <string name="DeleteAllDescription">Deletes all Data from the Currently Selected Date</string>
     <string name="SwipeDescription">Swipe Left on an Exercise Item and it will be Removed</string>
+    <string name="AddExerciseDescription">Bottom Right Corner Floating Button Opens the Add Exercise Page to Add an Exercise to the Currently Selected Date</string>
     <string name="EditExerciseDescription">Tap on an Exercise to Update Contents of the Exercise OR Open Graphical Analysis</string>
 
 

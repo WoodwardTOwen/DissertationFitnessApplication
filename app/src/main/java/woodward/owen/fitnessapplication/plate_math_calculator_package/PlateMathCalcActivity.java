@@ -65,7 +65,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plate_math_calc);
         mBarbellSelectorCb = findViewById(R.id.barbellSelectorCb);
         listView = findViewById(R.id.resultsListView);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
 
         setSpinnerData();

@@ -1,6 +1,8 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -9,9 +11,11 @@ import androidx.lifecycle.AndroidViewModel;
 import woodward.owen.fitnessapplication.weight_tracking_package.ExerciseTrackingActivity;
 import woodward.owen.fitnessapplication.weight_tracking_package.NotificationHelp;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class TimerViewModel extends AndroidViewModel {
 
-    private long START_TIME_IN_MILLIS;
+    private long START_TIME_IN_MILLIS= 1000;
     private long endTime;
     private static final String START_BUTTON_NAME = "Start";
     private static final String PAUSE_BUTTON_NAME = "Pause";
@@ -19,6 +23,9 @@ public class TimerViewModel extends AndroidViewModel {
     private boolean timerRunning;
     private long timeLeftInMillis;
     private NotificationHelp notificationHelp;
+    private static final String SHARED_PREFS = "timerPrefs";
+    private static final String START_TIME = "StartTime";
+    private final SharedPreferences sharedPreferences = getApplication().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
     public TimerViewModel(@NonNull Application application) {
         super(application);
@@ -41,14 +48,23 @@ public class TimerViewModel extends AndroidViewModel {
     }
 
     public long getStartTimeInMillis (){
-        if(START_TIME_IN_MILLIS == 0){
-            START_TIME_IN_MILLIS = 60000;
-        }
+        SharedPreferences myPrefs = getApplication().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        long time = myPrefs.getLong(START_TIME,0);
 
-        return START_TIME_IN_MILLIS;
+        if(time == 0){
+            return START_TIME_IN_MILLIS = 60000;
+        }else {
+            return START_TIME_IN_MILLIS = time;
+        }
     }
 
-    public void setStartTimeInMillis(long timer) { this.START_TIME_IN_MILLIS = (timer * 1000);}
+    public void setStartTimeInMillis(long timer) {
+        timer = (timer * 1000);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(START_TIME, timer);
+        editor.apply();
+        this.START_TIME_IN_MILLIS = timer;
+    }
 
     public int calculateMinutesRemaining() {
         return (int) (timeLeftInMillis / 1000) / 60;

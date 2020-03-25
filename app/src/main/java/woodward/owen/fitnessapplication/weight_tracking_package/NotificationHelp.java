@@ -33,7 +33,7 @@ public class NotificationHelp extends ContextWrapper {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createChannel() {
         //Notification Manager can be altered in order to disrupted the user -> this could be changed for the alarm
-        NotificationChannel channel = new NotificationChannel(channelID, channelAlarmAlert, NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel channel = new NotificationChannel(channelID, channelAlarmAlert, NotificationManager.IMPORTANCE_HIGH);
 
 
         //Settings for the Notification Channel
@@ -59,7 +59,8 @@ public class NotificationHelp extends ContextWrapper {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 1,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //AutoCancel means the notification will disappear once interacted with
-        return new NotificationCompat.Builder(getApplicationContext(), channelID).setContentTitle(title).setContentText(message)
-                .setSmallIcon(R.drawable.timer_black).setSound(alarmSound).setAutoCancel(true).setContentIntent(resultPendingIntent).setColor(getResources().getColor(R.color.colorDatePicker));
+        return new NotificationCompat.Builder(getApplicationContext(), channelID).setContentTitle(title).setContentText(message).setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setSmallIcon(R.drawable.timer_black).setSound(alarmSound).setDefaults(Notification.DEFAULT_ALL).setAutoCancel(true)
+                .setContentIntent(resultPendingIntent).setColor(getResources().getColor(R.color.colorDatePicker));
     }
 }

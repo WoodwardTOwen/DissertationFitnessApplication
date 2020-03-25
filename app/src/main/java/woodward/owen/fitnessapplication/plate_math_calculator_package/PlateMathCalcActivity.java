@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,6 +33,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
 
@@ -174,12 +177,10 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         mFifteenCb = findViewById(R.id.weight15Cb);
         mTwentyCb = findViewById(R.id.weight20Cb);
         mTwentyFiveCb = findViewById(R.id.weight25Cb);
+        closeKeyBoard();
 
         //endregion
 
-        mCalculateResultBnt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 try {
 
                     float inputVal = Float.parseFloat(mInputWeightValueTb.getText().toString());
@@ -263,18 +264,21 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                                 listView.setAdapter(mPlateDictionaryAdapter);
                             }
                             else {
+                                listView.setAdapter(null);
                                 Toast.makeText(getApplicationContext(),"Please ensure plates are selected and the input weight is valid", Toast.LENGTH_SHORT).show();
                             }
                             break;
                         case 2:
+                            listView.setAdapter(null);
                             Toast.makeText(getApplicationContext(),"No weight required, just barbell", Toast.LENGTH_LONG).show();
 
                             break;
                         case 3:
+                            listView.setAdapter(null);
                             Toast.makeText(getApplicationContext(),"The Input needs to be 1000kg or under", Toast.LENGTH_LONG).show();
                             break;
                         default:
-
+                            listView.setAdapter(null);
                             Toast.makeText(getApplicationContext(),"The Desired Weight Cannot be Loaded", Toast.LENGTH_LONG).show();
                             break;
                     }
@@ -282,8 +286,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
                 catch(Exception e) {
                     e.printStackTrace();
                 }
-            }
-        });
+
     }
 
     /**
@@ -375,6 +378,14 @@ public class PlateMathCalcActivity extends AppCompatActivity {
 
         ArrayList<Float> configList = new ArrayList<>();
         return configList;
+    }
+
+    private void closeKeyBoard () {
+        InputMethodManager input = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert input != null;
+        input.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 }

@@ -60,6 +60,6 @@ public class NotificationHelp extends ContextWrapper {
 
         //AutoCancel means the notification will disappear once interacted with
         return new NotificationCompat.Builder(getApplicationContext(), channelID).setContentTitle(title).setContentText(message)
-                .setSmallIcon(R.drawable.timer_black).setSound(alarmSound).setAutoCancel(true).setContentIntent(resultPendingIntent);
+                .setSmallIcon(R.drawable.timer_black).setSound(alarmSound).setAutoCancel(true).setContentIntent(resultPendingIntent).setColor(getResources().getColor(R.color.colorDatePicker));
     }
 }

@@ -40,6 +40,9 @@
     <string name="startTimerButton">Start</string>
     <string name="pauseTimerButton">Pause</string>
     <string name="restTimerButton">Reset</string>
+    <string name="timesUp">Rest Period Over</string>
+    <string name="gainzMsg">Keep the Intensity High and Make Gainz</string>
+    <string name="ChangeTimerTitle">Change Rest Timer</string>
 
     //Category/ ExerciseName
     <string name="ChooseCategoryHeading">Pick a Category</string>

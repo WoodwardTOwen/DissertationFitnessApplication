@@ -16,6 +16,6 @@ public class HelpPlateMathFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragement_plate_math, container, false);
+        return inflater.inflate(R.layout.fragment_plate_math, container, false);
     }
 }

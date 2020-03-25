@@ -91,31 +91,34 @@
                         android:layout_height="match_parent"
                         >
 
+                        <Button
+                            android:id="@+id/bottomSheetScollerStartButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:text="@string/startTimerButton"
+                            />
+
                         <TextView
                             android:id="@+id/bottomSheetScrollerTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
                             android:textSize="20sp"
+                            android:layout_centerInParent="true"
+                            android:layout_toEndOf="@id/bottomSheetScollerStartButton"
                             android:textAlignment="center"
-                            android:text="Timer - 00:00"/>
-
-                        <Button
-                            android:id="@+id/bottomSheetScollerStartButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_toEndOf="@id/bottomSheetScrollerTextView"
-                            android:text="@string/startTimerButton"
-                            />
+                            android:text="Timer - 00:00"/>
 
                         <Button
                             android:id="@+id/bottomSheetScollerButtonReset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_toEndOf="@id/bottomSheetScollerStartButton"
+                            android:layout_toEndOf="@id/bottomSheetScrollerTextView"
                             android:text="@string/restTimerButton"
+                            android:layout_marginEnd="30dp"
                             />
 
                     </RelativeLayout>

@@ -11,7 +11,7 @@ import woodward.owen.fitnessapplication.weight_tracking_package.NotificationHelp
 
 public class TimerViewModel extends AndroidViewModel {
 
-    private static final long START_TIME_IN_MILLIS = 10000;
+    private long START_TIME_IN_MILLIS;
     private long endTime;
     private static final String START_BUTTON_NAME = "Start";
     private static final String PAUSE_BUTTON_NAME = "Pause";
@@ -41,8 +41,14 @@ public class TimerViewModel extends AndroidViewModel {
     }
 
     public long getStartTimeInMillis (){
+        if(START_TIME_IN_MILLIS == 0){
+            START_TIME_IN_MILLIS = 60000;
+        }
+
         return START_TIME_IN_MILLIS;
     }
+
+    public void setStartTimeInMillis(long timer) { this.START_TIME_IN_MILLIS = (timer * 1000);}
 
     public int calculateMinutesRemaining() {
         return (int) (timeLeftInMillis / 1000) / 60;

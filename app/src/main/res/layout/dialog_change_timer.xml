@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp" android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:id="@+id/dialog_design"
+    >
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:background="@color/colorDatePicker">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/timer_black"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/ChangeTimerTitle"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        />
+    <EditText
+        android:id="@+id/editTextTimerChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="number"
+        android:layout_marginBottom="20dp"
+        android:hint="Enter Time Here (Seconds)"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:autofillHints="30"
+        android:textColorHint="@color/colorGrey"/>
+
+    <Button
+        android:id="@+id/confirm_timer_change_Bnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@android:color/black"
+        android:text="Confirm"
+        android:background="@color/colorLightGrey"
+        />
+
+</LinearLayout>

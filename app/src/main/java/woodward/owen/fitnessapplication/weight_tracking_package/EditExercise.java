@@ -99,8 +99,8 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
             return true;
         }
         if(item.getItemId() == R.id.exercise_graphical_analysis) {
-            Intent intent = new Intent (EditExercise.this, GraphicalActivity.class);
-            intent.putExtra(GraphicalActivity.EXTRA_EXERCISE_NAME, exerciseTitle.getText().toString());
+            Intent intent = new Intent (EditExercise.this, GraphicalLoadingScreen.class);
+            intent.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_TITLE, exerciseTitle.getText().toString());
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

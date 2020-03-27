@@ -22,8 +22,12 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -37,25 +41,30 @@ public class GraphicalActivity extends AppCompatActivity {
 
     private LineChart lineChart;
     private ExerciseViewModel exerciseViewModel;
-    private List<Exercise> currentExercises = new ArrayList<>();
-    public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessapplication.EXTRA_EXERCISE_NAME";
+    private List<Exercise> currentExercises;
+    private List<Exercise> refinedList;
+    public static final String LIST_OF_EXERCISES = "ListOfExercises";
+    //public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessapplication.EXTRA_EXERCISE_NAME";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphical);
+        lineChart = findViewById(R.id.lineChartView);
 
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         exerciseViewModel = new ViewModelProvider(GraphicalActivity.this).get(ExerciseViewModel.class);
-        lineChart = findViewById(R.id.lineChartView);
 
-        Intent intent = getIntent();
-        if (intent.hasExtra(EXTRA_EXERCISE_NAME)) {
-            exerciseViewModel.setName(intent.getStringExtra(EXTRA_EXERCISE_NAME));
-        }
 
-        Observe();
-        ObserveNameChange();
+        Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
+        currentExercises = bundle.getParcelableArrayList(LIST_OF_EXERCISES);
+        assert currentExercises != null;
 
+        convertDates(currentExercises);
+        sortDatesInOrder(currentExercises);
+        refinedList = sortDataForWeightEntries(currentExercises);
+
+        setEntries(currentExercises);
         //Enables Dragging/ Scaling of the UI
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(true);
@@ -64,28 +73,6 @@ public class GraphicalActivity extends AppCompatActivity {
         //Removes axis on the right side of the graph
         lineChart.getAxisRight().setEnabled(false);
 
-    }
-
-    private void Observe() {
-        exerciseViewModel.getListOfExercisesGraphical().observe(GraphicalActivity.this, new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(List<Exercise> exercises) {
-                if(currentExercises.size() != 0){
-                    currentExercises.clear();
-                }
-                currentExercises = exercises;
-                setEntries(currentExercises);
-            }
-        });
-    }
-
-    private void ObserveNameChange () {
-        exerciseViewModel.getCurrentName().observe(GraphicalActivity.this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Toast.makeText(GraphicalActivity.this, "The Name has been changed", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void setEntries (List<Exercise> exercises) {
@@ -110,6 +97,7 @@ public class GraphicalActivity extends AppCompatActivity {
         XAxis xAxis = lineChart.getXAxis();
 
         xAxis.setTextColor(Color.WHITE);
+        //xAxis.setValueFormatter(new myAxisForamtter());       <-- requires values to be passed in as array
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         YAxis yAxis = lineChart.getAxisLeft();
@@ -124,12 +112,115 @@ public class GraphicalActivity extends AppCompatActivity {
         lineChart.notifyDataSetChanged();
     }
 
-    private class myAxisForamtter extends ValueFormatter implements IAxisValueFormatter {
+    private void convertDates (List<Exercise> exercises) {
+        String str;
+        for(int x= 0; x< exercises.size(); x++){
+            str = exercises.get(x).getDate();
+            str = str.replace("-", "/");
+            exercises.get(x).setDate(str);
+        }
+    }
+
+    private void sortDatesInOrder(List<Exercise> exercises) {
+        Collections.sort(exercises, new Comparator<Exercise>() {
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            @Override
+            public int compare(Exercise exerciseDate1, Exercise exerciseDate2) {
+                try{
+                    return format.parse(exerciseDate1.getDate()).compareTo(format.parse(exerciseDate2.getDate()));
+                }
+                catch (ParseException ex) {
+                    throw new IllegalArgumentException(ex);
+                }
+            }
+        });
+    }
+
+    private List<Exercise> sortDataForWeightEntries(List<Exercise> exercises) {
+        String currentDate = "";
+        List<Exercise> tempStorageList = new ArrayList<>();
+        List<Exercise> newExerciseData = new ArrayList<>();
+
+        for(int x = 0; x < exercises.size(); x++){
+
+            if(exercises.get(x).getDate().equals(currentDate)){
+                tempStorageList.add(exercises.get(x));
+                if(x == exercises.size() - 1) {
+                    newExerciseData.add(findHighestWeightForDate(tempStorageList));
+                }
+            }
+            else if(tempStorageList.size() != 0 && !exercises.get(x).getDate().equals(currentDate)) {
+                newExerciseData.add(findHighestWeightForDate(tempStorageList));
+                currentDate = exercises.get(x).getDate();
+                tempStorageList.clear();
+                tempStorageList.add(exercises.get(x));
+            }
+            else {
+                currentDate = exercises.get(x).getDate();
+                tempStorageList.clear();
+                tempStorageList.add(exercises.get(x));
+                if(x == exercises.size() - 1) {
+                    newExerciseData.add(findHighestWeightForDate(tempStorageList));
+                }
+            }
+
+        }
+        return newExerciseData;
+
+    }
+
+    private Exercise findHighestWeightForDate (List<Exercise> exercises) {
+        Exercise bestExercise = new Exercise();
+        double currentHighest = 0;
+        for(int x = 0; x < exercises.size(); x++) {
+            if(exercises.get(x).getWeight() > currentHighest){
+                currentHighest = exercises.get(x).getWeight();
+                bestExercise = exercises.get(x);
+            }
+        }
+        return bestExercise;
+    }
+
+    private double findHighestVolumeForDate (List<Exercise> exercises) {
+        double currentHightest = 0;
+        for(int x = 0; x < exercises.size(); x++){
+            double TotalVolume = (exercises.get(x).getWeight() * exercises.get(x).getReps());
+            if(TotalVolume > currentHightest){
+                currentHightest = TotalVolume;
+            }
+        }
+        return currentHightest;
+    }
+
+    private static class myAxisForamtter extends ValueFormatter {
+        private long referenceTimeStamp;
+        private DateFormat dateFormat;
+        private Date date;
+
+        public myAxisForamtter(long referenceTimeStamp) {
+            this.referenceTimeStamp = referenceTimeStamp;
+            this.dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            this.date = new Date();
+        }
 
         @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            return sdf.format(new Date(Long.parseLong(String.valueOf(value))));
+        public String getFormattedValue(float value){
+
+            long convertedTimeStamp = (long) value;
+            //retrieve original timestamp
+            long originalTime = referenceTimeStamp + convertedTimeStamp;
+            //Convert timestamp
+            return getDateString(originalTime);
+        }
+
+        private String getDateString(long timestamp) {
+            try {
+                date.setTime(timestamp);
+                return dateFormat.format(date);
+            }
+            catch (Exception ex) {
+                return "ERROR";
+            }
         }
     }
 }

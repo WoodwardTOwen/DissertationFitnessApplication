@@ -21,7 +21,7 @@ import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.Cate
 import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseDao;
 import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseNameDao;
 
-@Database(entities = {Category.class, Exercise.class, ExerciseName.class}, version = 10, exportSchema = false)
+@Database(entities = {Category.class, Exercise.class, ExerciseName.class}, version = 11, exportSchema = false)
 @TypeConverters({DatabaseTypeConverters.class})
 public abstract class ExerciseDatabase extends RoomDatabase {
 
@@ -69,9 +69,9 @@ public abstract class ExerciseDatabase extends RoomDatabase {
 
             String dateNow = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-            exerciseDao.Insert(new Exercise("Use + button to add an exercise", 10, 50, 4, dateNow,1));
-            exerciseDao.Insert(new Exercise("Edit Exercise by tapping me", 15, 70, 9, dateNow, 2));
-            exerciseDao.Insert(new Exercise("Swipe Left to Remove Items", 15, 60, 6, dateNow, 3));
+            exerciseDao.Insert(new Exercise("Use + button to add an exercise", 10, 50, 4, dateNow));
+            exerciseDao.Insert(new Exercise("Edit Exercise by tapping me", 15, 70, 9, dateNow));
+            exerciseDao.Insert(new Exercise("Swipe Left to Remove Items", 15, 60, 6, dateNow));
 
             Shoulders();
             Chest();

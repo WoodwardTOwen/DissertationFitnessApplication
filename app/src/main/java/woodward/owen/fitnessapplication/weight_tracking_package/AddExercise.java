@@ -80,7 +80,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         boolean verify = AddEditMethods.isVerified(exerciseWeight, exerciseReps, exerciseRPE);
         if (verify) {
             addExerciseViewModel.setDate(dateForExercise);
-            Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise, size);
+            Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
             addExerciseViewModel.Insert(exercise);
             addExerciseViewModel.cleanSharedPreferences();
             repInput.getText().clear();

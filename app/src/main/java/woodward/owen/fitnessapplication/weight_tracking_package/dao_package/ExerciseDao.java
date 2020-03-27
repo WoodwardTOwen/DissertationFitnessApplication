@@ -30,7 +30,7 @@ public interface ExerciseDao {
     LiveData<List<Exercise>> GetEveryExercise();
 
     //Get all exercises that match the current date
-    @Query("SELECT * FROM exercise_table WHERE date LIKE :date ORDER BY exercise_order ASC")
+    @Query("SELECT * FROM exercise_table WHERE date LIKE :date")
     LiveData<List<Exercise>> GetAllExercisesByDate(String date);
 
     @Query("SELECT * FROM exercise_table WHERE exerciseName = :exerciseName")

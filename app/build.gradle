@@ -56,8 +56,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
 
     //Room
-    implementation 'androidx.room:room-runtime:2.2.4'
-    annotationProcessor 'androidx.room:room-compiler:2.2.4'
+    implementation 'androidx.room:room-runtime:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
 
     //GraphView
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -75,6 +75,9 @@ dependencies {
 
     //lottie
     implementation "com.airbnb.android:lottie:3.4.0"
+
+    //Toasty
+    implementation 'com.github.GrenderG:Toasty:1.2.5'
 
 }
 

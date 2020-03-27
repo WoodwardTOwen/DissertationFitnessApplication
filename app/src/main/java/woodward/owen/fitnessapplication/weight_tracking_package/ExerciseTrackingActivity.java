@@ -47,6 +47,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
@@ -122,20 +123,10 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                     for (int i = dragged.getAdapterPosition(); i < target.getAdapterPosition(); i++) {
                         Collections.swap(mExercises, i, i + 1);
 
-                        int order1 = mExercises.get(i).getOrder();
-                        int order2 = mExercises.get(i + 1).getOrder();
-                        mExercises.get(i).setOrder(order2);
-                        mExercises.get(i + 1).setOrder(order1);
-
                     }
                 } else {
                     for (int i = dragged.getAdapterPosition(); i > target.getAdapterPosition(); i--) {
                         Collections.swap(mExercises, i, i - 1);
-
-                        int order1 = mExercises.get(i).getOrder();
-                        int order2 = mExercises.get(i - 1).getOrder();
-                        mExercises.get(i).setOrder(order2);
-                        mExercises.get(i - 1).setOrder(order1);
 
                     }
                 }
@@ -193,12 +184,12 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             String reps = data.getStringExtra(EditExercise.EXTRA_REPS);
             String RPE = data.getStringExtra(EditExercise.EXTRA_RPE);
             String date = exerciseViewModel.getCurrentDate().getValue();
-            int order = exerciseViewModel.getCurrentOrderPosition().getValue();
+            //int order = exerciseViewModel.getCurrentOrderPosition().getValue();
 
             assert reps != null;
             assert weight != null;
             assert RPE != null;
-            Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE), date, order);
+            Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE), date);
             exercise.setId(id);
             exerciseViewModel.Update(exercise);
 
@@ -228,7 +219,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                     Toast.makeText(ExerciseTrackingActivity.this, "Current Rest Period is Still Ongoing", Toast.LENGTH_SHORT).show();
                 } else {
                     showDialogTimerChange();
-                    Toast.makeText(ExerciseTrackingActivity.this, "The timer can be edited", Toast.LENGTH_SHORT).show();
                 }
                 closeDrawer();
                 return true;
@@ -311,7 +301,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         intent.putExtra(EditExercise.EXTRA_WEIGHT, exercise.getWeight());
         intent.putExtra(EditExercise.EXTRA_REPS, exercise.getReps());
         intent.putExtra(EditExercise.EXTRA_RPE, exercise.getRpe());
-        exerciseViewModel.setPosition(exercise.getOrder());
 
         startActivityForResult(intent, EDIT_EXERCISE_REQUEST);
     }
@@ -556,7 +545,10 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
                 if (edit.getText().toString().equals("0")) {
                     Toast.makeText(ExerciseTrackingActivity.this, "Please Enter a Value Greater than 0", Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (!AddEditMethods.isVerifiedTime(edit.getText().toString()) || edit.getText().toString().equals("")){
+                    Toast.makeText(ExerciseTrackingActivity.this, "Please Enter a Valid Time (in Seconds)", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     timerViewModel.setStartTimeInMillis(Long.parseLong(edit.getText().toString()));
                     resetTimer();
                     UpdateButtons();

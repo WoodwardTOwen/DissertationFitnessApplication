@@ -51,6 +51,12 @@
     <string name="AddCategoryName">Add Category</string>
     <string name="AddExerciseName">Add Exercise</string>
 
+    //Graphical Analysis Prompt
+    <string name="GraphicalAnalysisPrompt">What Statistics Would You Like To View?</string>
+    <string name="GraphicalAnalysisFurtherInformation">(Statistics Measured Per Day)</string>
+    <string name="GraphicalAnalysisMaxWeight">Max Weight</string>
+    <string name="GraphicalAnalysisMaxVolume">Max Volume</string>
+
     <string name="EnterExerciseName">Please Input an Exercise Name to be Saved</string>
 
     <string name="noCategoriesAvailable">No Categories Available \n\n Add Categories via the + Icon Button in the Top Right Corner</string>

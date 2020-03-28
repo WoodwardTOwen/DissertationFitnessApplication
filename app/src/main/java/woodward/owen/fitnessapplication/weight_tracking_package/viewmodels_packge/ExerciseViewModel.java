@@ -18,9 +18,7 @@ public class ExerciseViewModel extends AndroidViewModel {
     private static MutableLiveData<Exercise> cachedExercise;
     private MutableLiveData<String> currentDate = new MutableLiveData<>();
     private MutableLiveData<Integer> currentOrderPosition = new MutableLiveData<>();
-    private MutableLiveData<String> currentName = new MutableLiveData<>();
     private LiveData<List<Exercise>> allExercisesByDate = Transformations.switchMap(currentDate, (date) -> repository.GetAllExercisesByDate(date));
-    private LiveData<List<Exercise>> listOfExercisesGraphical = Transformations.switchMap(currentName, (name) -> repository.GetAllDataForExerciseType(name));
 
     public ExerciseViewModel(@NonNull Application application) {
         super(application);
@@ -53,12 +51,7 @@ public class ExerciseViewModel extends AndroidViewModel {
         return allExercisesByDate;
     }
 
-    //Gets all the exercise data from the db via the name
-    public LiveData<List<Exercise>> getListOfExercisesGraphical() { return listOfExercisesGraphical; }
-
     public MutableLiveData<Integer> getCurrentOrderPosition () { return  currentOrderPosition; }
-
-    public MutableLiveData<String> getCurrentName() { return currentName;}
 
     public MutableLiveData<String> getCurrentDate() {
         return currentDate;
@@ -70,10 +63,6 @@ public class ExerciseViewModel extends AndroidViewModel {
 
     public void setDate(String date) {
         currentDate.setValue(date);
-    }
-
-    public void setName(String name) {
-        currentName.setValue(name);
     }
 
     public void setPosition (Integer pos) {
@@ -94,10 +83,6 @@ public class ExerciseViewModel extends AndroidViewModel {
         } else {
             return "0" + (input);
         }
-    }
-
-    public float convertToFloat (double value) {
-        return (float)value;
     }
 
     public void setIndexInDatabase (List<Exercise> exercises){

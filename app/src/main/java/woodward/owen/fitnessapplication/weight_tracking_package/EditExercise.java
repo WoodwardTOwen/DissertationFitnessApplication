@@ -3,6 +3,7 @@ package woodward.owen.fitnessapplication.weight_tracking_package;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -99,9 +101,7 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
             return true;
         }
         if(item.getItemId() == R.id.exercise_graphical_analysis) {
-            Intent intent = new Intent (EditExercise.this, GraphicalLoadingScreen.class);
-            intent.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_TITLE, exerciseTitle.getText().toString());
-            startActivity(intent);
+            showDialogForGraphicalAnalysis();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -164,4 +164,43 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+
+    private void showDialogForGraphicalAnalysis() {
+        Dialog dialog = new Dialog(EditExercise.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_choose_graphical_option);
+
+        Button bntWeight = dialog.findViewById(R.id.graphical_Analysis_Max_Weight_Button);
+        Button bntVolume = dialog.findViewById(R.id.graphical_Analysis_Max_Volume_Button);
+        bntWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentMaxWeight = new Intent(EditExercise.this, GraphicalLoadingScreen.class);
+                intentMaxWeight.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_TITLE, exerciseTitle.getText().toString());
+                intentMaxWeight.putExtra(GraphicalLoadingScreen.EXTRA_GRAPHICAL_OPTION, "MaxWeight");
+                startActivity(intentMaxWeight);
+
+                dialog.dismiss();
+            }
+        });
+
+        bntVolume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentMaxVolume = new Intent(EditExercise.this, GraphicalLoadingScreen.class);
+                intentMaxVolume.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_TITLE, exerciseTitle.getText().toString());
+                intentMaxVolume.putExtra(GraphicalLoadingScreen.EXTRA_GRAPHICAL_OPTION, "MaxVolume");
+                startActivity(intentMaxVolume);
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
 }

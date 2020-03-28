@@ -24,12 +24,23 @@ public class Exercise implements Parcelable {
     private int sets;
 
     @Ignore
+    private double totalVolume; //For Graphical Analysis
+
+    @Ignore
     public Exercise (String exerciseName, int pReps, double pWeight, int pRPE, String date){
         this.exerciseName = exerciseName;
         this.date = date;
         this.reps = pReps;
         this.weight = pWeight;
         this.rpe = pRPE;
+    }
+
+    //Graphical Analysis constructor for totalVolume
+    @Ignore
+    public Exercise (String exerciseName, double totalVolume, String date){
+        this.exerciseName = exerciseName;
+        this.totalVolume = totalVolume;
+        this.date = date;
     }
 
     public Exercise() {
@@ -45,6 +56,7 @@ public class Exercise implements Parcelable {
         weight = in.readDouble();
         rpe = in.readInt();
         sets = in.readInt();
+        totalVolume = in.readDouble();
     }
 
     //Getters
@@ -111,6 +123,13 @@ public class Exercise implements Parcelable {
         this.sets = sets;
     }
 
+    public void setTotalVolume (double volume) {
+        this.totalVolume = volume;
+    }
+
+    public double getTotalVolume () {
+        return totalVolume;
+    }
 
 
     //Parcelable for the graphical analysis phase
@@ -128,6 +147,7 @@ public class Exercise implements Parcelable {
         dest.writeDouble(weight);
         dest.writeInt(rpe);
         dest.writeInt(sets);
+        dest.writeDouble(totalVolume);
     }
 
     public static final Creator<Exercise> CREATOR = new Creator<Exercise>() {

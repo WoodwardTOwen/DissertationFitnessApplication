@@ -28,6 +28,7 @@
     <string name="CatTitle">Categories</string>
     <string name="ExerciseTitle">Exercises</string>
     <string name="hintForEditTextBoxes">0</string>
+    <string name="workoutGenBtn">Workout Generator</string>
 
     //Recycler View Stuff
     <string name="recycleWeight">Kg</string>
@@ -61,5 +62,10 @@
 
     <string name="noCategoriesAvailable">No Categories Available \n\n Add Categories via the + Icon Button in the Top Right Corner</string>
     <string name="noExercisesAvailable">No Exercise Types Available \n\n\ Add Exercises via the + Icon Button \n in the Top Right Corner</string>
+
+    //Dialog
+    <string name="WarningForGraphical">Warning!</string>
+    <string name="WarningInformationforGraphical">Some Exercise Data Has Been Updated But Not Saved. \n Do You Wish to Continue?</string>
+    <string name="FurtherWarningInformation">(Note: Unsaved Changes Will NOT Display in the Graphical Analysis)</string>
 
 </resources>

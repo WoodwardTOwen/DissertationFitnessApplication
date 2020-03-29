@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
 
-public class EditExercise extends AppCompatActivity implements View.OnClickListener {
+public class ExerciseInfo extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_ID = "woodward.owen.fitnessapplication.EXTRA_ID";
     public static final String EXTRA_EXERCISE_NAME = "woodward.owen.fitnessapplication.EXTRA_NAME";
@@ -83,7 +83,7 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
             setResult(RESULT_OK, data);
             finish();
         } else {
-            Toast.makeText(EditExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ExerciseInfo.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -101,7 +101,13 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
             return true;
         }
         if(item.getItemId() == R.id.exercise_graphical_analysis) {
-            showDialogForGraphicalAnalysis();
+
+            if(CheckIfItemsHaveChanged()) {
+                ShowDialogForUnsavedChanges();
+            }
+            else  {
+                showDialogForGraphicalAnalysis();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -125,12 +131,12 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
         editRpeInput = findViewById(R.id.inputRPETxtBox);
         exerciseTitle = findViewById(R.id.editActivityExerciseName);
 
-        incrementWeight.setOnClickListener(EditExercise.this);
-        decrementWeight.setOnClickListener(EditExercise.this);
-        incrementReps.setOnClickListener(EditExercise.this);
-        decrementReps.setOnClickListener(EditExercise.this);
-        incrementRPE.setOnClickListener(EditExercise.this);
-        decrementRPE.setOnClickListener(EditExercise.this);
+        incrementWeight.setOnClickListener(ExerciseInfo.this);
+        decrementWeight.setOnClickListener(ExerciseInfo.this);
+        incrementReps.setOnClickListener(ExerciseInfo.this);
+        decrementReps.setOnClickListener(ExerciseInfo.this);
+        incrementRPE.setOnClickListener(ExerciseInfo.this);
+        decrementRPE.setOnClickListener(ExerciseInfo.this);
     }
 
     @SuppressLint("SetTextI18n")
@@ -167,40 +173,72 @@ public class EditExercise extends AppCompatActivity implements View.OnClickListe
 
 
     private void showDialogForGraphicalAnalysis() {
-        Dialog dialog = new Dialog(EditExercise.this);
+        Dialog dialog = new Dialog(ExerciseInfo.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_choose_graphical_option);
 
         Button bntWeight = dialog.findViewById(R.id.graphical_Analysis_Max_Weight_Button);
         Button bntVolume = dialog.findViewById(R.id.graphical_Analysis_Max_Volume_Button);
-        bntWeight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bntWeight.setOnClickListener(v -> {
 
-                Intent intentMaxWeight = new Intent(EditExercise.this, GraphicalLoadingScreen.class);
-                intentMaxWeight.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_TITLE, exerciseTitle.getText().toString());
-                intentMaxWeight.putExtra(GraphicalLoadingScreen.EXTRA_GRAPHICAL_OPTION, "MaxWeight");
-                startActivity(intentMaxWeight);
+            Intent intentMaxWeight = new Intent(ExerciseInfo.this, GraphicalLoadingScreen.class);
+            intentMaxWeight.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_TITLE, exerciseTitle.getText().toString());
+            intentMaxWeight.putExtra(GraphicalLoadingScreen.EXTRA_GRAPHICAL_OPTION, "MaxWeight");
+            startActivity(intentMaxWeight);
 
-                dialog.dismiss();
-            }
+            dialog.dismiss();
         });
 
-        bntVolume.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bntVolume.setOnClickListener(v -> {
 
-                Intent intentMaxVolume = new Intent(EditExercise.this, GraphicalLoadingScreen.class);
-                intentMaxVolume.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_TITLE, exerciseTitle.getText().toString());
-                intentMaxVolume.putExtra(GraphicalLoadingScreen.EXTRA_GRAPHICAL_OPTION, "MaxVolume");
-                startActivity(intentMaxVolume);
+            Intent intentMaxVolume = new Intent(ExerciseInfo.this, GraphicalLoadingScreen.class);
+            intentMaxVolume.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_TITLE, exerciseTitle.getText().toString());
+            intentMaxVolume.putExtra(GraphicalLoadingScreen.EXTRA_GRAPHICAL_OPTION, "MaxVolume");
+            startActivity(intentMaxVolume);
 
-                dialog.dismiss();
-            }
+            dialog.dismiss();
         });
 
         dialog.show();
     }
 
+    private boolean CheckIfItemsHaveChanged () {
+        String exerciseWeight = editWeightInput.getText().toString();
+        String exerciseReps = editRepInput.getText().toString();
+        String exerciseRPE = editRpeInput.getText().toString();
 
+        Intent intent = getIntent();
+        String exerciseValue = Double.toString(intent.getDoubleExtra(EXTRA_WEIGHT, 1.0));
+        String repValue = Integer.toString(intent.getIntExtra(EXTRA_REPS, 1));
+        String rpeValue = Integer.toString(intent.getIntExtra(EXTRA_RPE, 1));
+
+
+        boolean exerciseWeightBool = AddEditMethods.isTheSameValue(exerciseWeight, exerciseValue);
+        boolean exerciseRepBool = AddEditMethods.isTheSameValue(exerciseReps, repValue);
+        boolean exerciseRPEBool = AddEditMethods.isTheSameValue(exerciseRPE, rpeValue);
+
+        if(!exerciseWeightBool || !exerciseRepBool || !exerciseRPEBool){
+            Toast.makeText(ExerciseInfo.this, "Something Changed Boss", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+
+    }
+
+
+    private void ShowDialogForUnsavedChanges () {
+        Dialog dialog = new Dialog(ExerciseInfo.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_warning);
+
+        Button bntContinue = dialog.findViewById(R.id.continue_dialog_button_graphical);
+        Button btnReturn = dialog.findViewById(R.id.go_back_dialog_button);
+        bntContinue.setOnClickListener(v -> {
+            dialog.dismiss();
+            showDialogForGraphicalAnalysis();
+        });
+
+        btnReturn.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
 }

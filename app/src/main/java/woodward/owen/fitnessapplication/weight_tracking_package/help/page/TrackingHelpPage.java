@@ -40,7 +40,7 @@ public class TrackingHelpPage extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_help_page, new HelpPlateMathFragment()).commit();
                     break;
                 case 3:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_help_page, new HelpGraphicalAnaylsisFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_help_page, new HelpExerciseInfoFragment()).commit();
                     break;
             }
         }
@@ -61,7 +61,7 @@ public class TrackingHelpPage extends AppCompatActivity {
                     break;
                 case R.id.nav_help_page_item_3:
                     pageCounter=3;
-                    selectedFrag = new HelpGraphicalAnaylsisFragment();
+                    selectedFrag = new HelpExerciseInfoFragment();
                     break;
             }
 

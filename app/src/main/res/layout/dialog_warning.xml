@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp" android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:id="@+id/dialog_warning"
+    >
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:background="@color/colorDatePicker">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/info_icon"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/WarningForGraphical"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:text="@string/WarningInformationforGraphical"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textSize="12sp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/continue_dialog_button_graphical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/black"
+            android:text="Continue"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorLightGrey"
+            />
+
+        <Button
+            android:id="@+id/go_back_dialog_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_toEndOf="@id/continue_dialog_button_graphical"
+            android:textColor="@android:color/black"
+            android:text="Return"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorLightGrey"
+            />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:text="@string/FurtherWarningInformation"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textSize="10sp"/>
+
+</LinearLayout>

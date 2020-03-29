@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:paddingTop="30dp"
-    tools:context=".weight_tracking_package.EditExercise"
+    tools:context=".weight_tracking_package.ExerciseInfo"
     android:background="#35373b">
 
 

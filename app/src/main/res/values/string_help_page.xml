@@ -23,6 +23,9 @@
     <string name="CloseIconDescription">Closes the Add/Edit Exercise Page, disregards any changes</string>
 
     //PlateMathCalculator
-    <string name="InputBox"></string>
+    <string name="InputBoxPlateDescription">Input a Numeric Value Into the Input Field to be Calculated</string>
+    <string name="DropDownPlateDescription">Select a Barbell Associated with the One You are Currently Using or even Add Your Own by Visiting the Top Right Handed Corner of the Application</string>
+    <string name="CheckBoxPlateDescription">Select the Plates that are Currently Available for You. Checked Buttons Will be Used in the Calculation</string>
+    <string name="CalculateButtonPlateDescription">Once Everything is Set Up to Your Own Desire, Click the Calculate Result Button to See what Plates are Required for the Desired Lift</string>
 
 </resources>

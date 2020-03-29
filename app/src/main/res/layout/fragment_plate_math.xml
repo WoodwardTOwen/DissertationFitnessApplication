@@ -3,13 +3,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#35373b"
+    android:padding="30dp"
     >
 
     <TextView
+        android:id="@+id/plateMathHepTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Plate_Math_Help_Title"
         android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/input_textView_Help_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/input_box"
+        android:layout_below="@+id/plateMathHepTitle"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/input_textView_help_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/InputBoxPlateDescription"
+        android:layout_toEndOf="@id/input_textView_Help_icon"
+        android:layout_below="@id/plateMathHepTitle"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/dropDown_Help_Icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/dropdown_icon"
+        android:layout_below="@+id/input_textView_Help_icon"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/dropDown_Help_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/DropDownPlateDescription"
+        android:layout_toEndOf="@id/dropDown_Help_Icon"
+        android:layout_below="@id/input_textView_Help_icon"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/checkbox_Help_Icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/check_box_icon"
+        android:layout_below="@+id/dropDown_Help_TextView"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/checkbox_Help_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/CheckBoxPlateDescription"
+        android:layout_toEndOf="@id/checkbox_Help_Icon"
+        android:layout_below="@id/dropDown_Help_TextView"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/calculate_button_help_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/calculate_button"
+        android:layout_below="@+id/checkbox_Help_TextView"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/calculate_button_help_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/CalculateButtonPlateDescription"
+        android:layout_toEndOf="@id/calculate_button_help_icon"
+        android:layout_below="@id/checkbox_Help_TextView"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
 
 </RelativeLayout>

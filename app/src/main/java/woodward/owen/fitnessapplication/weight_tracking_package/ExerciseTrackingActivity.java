@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,7 +46,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import es.dmoral.toasty.Toasty;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathCalcActivity;
 import woodward.owen.fitnessapplication.R;
@@ -173,16 +171,16 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         if (requestCode == EDIT_EXERCISE_REQUEST && resultCode == RESULT_OK) {
 
             assert data != null;
-            int id = data.getIntExtra(EditExercise.EXTRA_ID, -1);
+            int id = data.getIntExtra(ExerciseInfo.EXTRA_ID, -1);
             if (id == -1) {
                 Toast.makeText(ExerciseTrackingActivity.this, "Exercise Cannot be Updated", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String name = data.getStringExtra(EditExercise.EXTRA_EXERCISE_NAME);
-            String weight = data.getStringExtra(EditExercise.EXTRA_WEIGHT);
-            String reps = data.getStringExtra(EditExercise.EXTRA_REPS);
-            String RPE = data.getStringExtra(EditExercise.EXTRA_RPE);
+            String name = data.getStringExtra(ExerciseInfo.EXTRA_EXERCISE_NAME);
+            String weight = data.getStringExtra(ExerciseInfo.EXTRA_WEIGHT);
+            String reps = data.getStringExtra(ExerciseInfo.EXTRA_REPS);
+            String RPE = data.getStringExtra(ExerciseInfo.EXTRA_RPE);
             String date = exerciseViewModel.getCurrentDate().getValue();
             //int order = exerciseViewModel.getCurrentOrderPosition().getValue();
 
@@ -295,12 +293,12 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     }
 
     private void callForUpdate(Exercise exercise) {
-        Intent intent = new Intent(ExerciseTrackingActivity.this, EditExercise.class);
-        intent.putExtra(EditExercise.EXTRA_ID, exercise.getId());
-        intent.putExtra(EditExercise.EXTRA_EXERCISE_NAME, exercise.getExerciseName());
-        intent.putExtra(EditExercise.EXTRA_WEIGHT, exercise.getWeight());
-        intent.putExtra(EditExercise.EXTRA_REPS, exercise.getReps());
-        intent.putExtra(EditExercise.EXTRA_RPE, exercise.getRpe());
+        Intent intent = new Intent(ExerciseTrackingActivity.this, ExerciseInfo.class);
+        intent.putExtra(ExerciseInfo.EXTRA_ID, exercise.getId());
+        intent.putExtra(ExerciseInfo.EXTRA_EXERCISE_NAME, exercise.getExerciseName());
+        intent.putExtra(ExerciseInfo.EXTRA_WEIGHT, exercise.getWeight());
+        intent.putExtra(ExerciseInfo.EXTRA_REPS, exercise.getReps());
+        intent.putExtra(ExerciseInfo.EXTRA_RPE, exercise.getRpe());
 
         startActivityForResult(intent, EDIT_EXERCISE_REQUEST);
     }

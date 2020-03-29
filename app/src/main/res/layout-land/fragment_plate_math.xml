@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:background="#35373b"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/plateMathHepTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Plate_Math_Help_Title"
+                android:textSize="30sp"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="20dp"
+                />
+
+            <ImageView
+                android:id="@+id/input_textView_Help_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="150dp"
+                android:src="@drawable/input_box"
+                android:layout_below="@+id/plateMathHepTitle"
+                android:layout_marginBottom="30dp"
+                />
+
+            <TextView
+                android:id="@+id/input_textView_help_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/InputBoxPlateDescription"
+                android:layout_centerHorizontal="true"
+                android:layout_toEndOf="@id/input_textView_Help_icon"
+                android:layout_below="@id/plateMathHepTitle"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="150dp"
+                />
+
+            <ImageView
+                android:id="@+id/dropDown_Help_Icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="150dp"
+                android:src="@drawable/dropdown_icon"
+                android:layout_below="@+id/input_textView_Help_icon"
+                android:layout_marginBottom="30dp"
+                />
+
+            <TextView
+                android:id="@+id/dropDown_Help_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DropDownPlateDescription"
+                android:layout_centerHorizontal="true"
+                android:layout_toEndOf="@id/dropDown_Help_Icon"
+                android:layout_below="@id/input_textView_Help_icon"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="150dp"
+                />
+
+            <ImageView
+                android:id="@+id/checkbox_Help_Icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="150dp"
+                android:src="@drawable/check_box_icon"
+                android:layout_below="@+id/dropDown_Help_TextView"
+                android:layout_marginBottom="30dp"
+                />
+
+            <TextView
+                android:id="@+id/checkbox_Help_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/CheckBoxPlateDescription"
+                android:layout_centerHorizontal="true"
+                android:layout_toEndOf="@id/checkbox_Help_Icon"
+                android:layout_below="@id/dropDown_Help_TextView"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="150dp"
+                />
+
+            <ImageView
+                android:id="@+id/calculate_button_help_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="150dp"
+                android:src="@drawable/calculate_button"
+                android:layout_below="@+id/checkbox_Help_TextView"
+                android:layout_marginBottom="30dp"
+                />
+
+            <TextView
+                android:id="@+id/calculate_button_help_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/CalculateButtonPlateDescription"
+                android:layout_centerHorizontal="true"
+                android:layout_toEndOf="@id/calculate_button_help_icon"
+                android:layout_below="@id/checkbox_Help_TextView"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="150dp"
+                />
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,21 +1,29 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.IMarker;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,16 +43,19 @@ public class GraphicalActivity extends AppCompatActivity {
     private LineChart lineChart;
     private GraphicalViewModel graphicalViewModel;
     private List<Exercise> currentExercises;
+    private TextView titleTextView;
     private String dateArray[];
     private String filter = "";
+    private String exerciseName = "";
     public static final String LIST_OF_EXERCISES = "ListOfExercises";
     public static final String FILTER_OPTION = "Filter";
-    //public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessapplication.EXTRA_EXERCISE_NAME";
+    public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessapplication.EXTRA_EXERCISE_NAME";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphical);
         lineChart = findViewById(R.id.lineChartView);
+        titleTextView = findViewById(R.id.Graphical_Analysis_Title);
 
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         graphicalViewModel = new ViewModelProvider(GraphicalActivity.this).get(GraphicalViewModel.class);
@@ -52,7 +63,10 @@ public class GraphicalActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = getIntent().getExtras();
         filter = intent.getStringExtra(FILTER_OPTION);
+        exerciseName = intent.getStringExtra(EXTRA_EXERCISE_NAME);
         currentExercises = bundle.getParcelableArrayList(LIST_OF_EXERCISES);
+
+        titleTextView.setText(filter + " for " + exerciseName);
 
         dateArray = new String[currentExercises.size()];
 
@@ -78,15 +92,18 @@ public class GraphicalActivity extends AppCompatActivity {
         entries = createEntries(filter, currentExercises);
         LineDataSet lineDataSet = new LineDataSet(entries, "The Data Ting"); //This is where it would place the information to be display
 
-        lineDataSet.setColor(Color.BLUE);
-        lineDataSet.setFillColor(Color.WHITE);
-        lineDataSet.setValueTextColor(Color.WHITE);
-        lineDataSet.setCircleColor(Color.WHITE);
-        lineDataSet.setCircleRadius(5f);
-        lineDataSet.setValueTextSize(10);
-        lineDataSet.setLineWidth(1f);
+        int color = ContextCompat.getColor(getApplicationContext(), R.color.colorDatePicker);
 
-        lineDataSet.setFillAlpha(110);
+        lineDataSet.setColor(Color.BLACK);
+        lineDataSet.setDrawFilled(true);
+        lineDataSet.setFillColor(color);
+        lineDataSet.setValueTextColor(Color.WHITE);
+        lineDataSet.setCircleColor(color);
+        lineDataSet.setCircleRadius(5f);
+        lineDataSet.setValueTextSize(12);
+        lineDataSet.setLineWidth(2f);
+
+        lineDataSet.setFillAlpha(80);
 
         XAxis xAxis = lineChart.getXAxis();
 
@@ -111,7 +128,11 @@ public class GraphicalActivity extends AppCompatActivity {
         lineChart.setData(lineData);
         lineChart.animateX(2000);
         lineChart.invalidate();
+
+        IMarker marker = new CustomMarketView(getApplicationContext(), R.layout.marker_layout);
+        lineChart.setMarker(marker);
         lineChart.getLegend().setEnabled(false);
+        lineChart.setExtraRightOffset(30);
         lineChart.getDescription().setEnabled(false);
         lineChart.notifyDataSetChanged();
     }
@@ -164,6 +185,45 @@ public class GraphicalActivity extends AppCompatActivity {
             catch (Exception ex) {
                 return "ERROR";
             }
+        }
+    }
+
+
+    public class CustomMarketView extends MarkerView {
+
+        private TextView textview;
+        /**
+         * Constructor. Sets up the MarkerView with a custom layout resource.
+         *
+         * @param context
+         * @param layoutResource the layout resource to use for the MarkerView
+         */
+        public CustomMarketView(Context context, int layoutResource) {
+            super(context, layoutResource);
+
+            //NEED TO ESTABLISH TEXTVIEW HERE ONCE LAYOUT HAS BEEN CREATED
+            textview = findViewById(R.id.marketContentTV);
+        }
+
+        @Override
+        public void refreshContent (Entry e, Highlight highlight) {
+            int xValue = (int) e.getX();
+
+            String value = GraphicalAnalysisMethods.FindXAxisValue(currentExercises, xValue);
+
+            textview.setText(value);
+            super.refreshContent(e, highlight);
+        }
+
+        private MPPointF offset;
+
+        @Override
+        public MPPointF getOffset() {
+            if(offset == null) {
+                offset = new MPPointF(-(getWidth()), -getHeight());
+            }
+
+            return offset;
         }
     }
 }

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     public static final String EXTRA_GRAPHICAL_OPTION= "woodward.owen.fitnessapplication.EXTRA_GRAPHICAL_OPTION";
     public static final String LIST_OF_EXERCISES = "ListOfExercises";
     private static final int TIME_OUT = 1000;
+    private TextView titleTextView;
     private GraphicalViewModel graphicalViewModel;
     private String graphicalOption = "";
     private ArrayList<Exercise> currentExercises = new ArrayList<>();
@@ -36,6 +38,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_screen);
+        titleTextView = findViewById(R.id.Info_Title_Loading_Screen);
 
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         graphicalViewModel = new ViewModelProvider(GraphicalLoadingScreen.this).get(GraphicalViewModel.class);
@@ -46,20 +49,23 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
             graphicalOption = intent.getStringExtra(EXTRA_GRAPHICAL_OPTION);
         }
 
+        titleTextView.setText("Loading " + graphicalOption + " Analysis");
         Observe();
         ObserveNameChange();
+
 
         new Handler().postDelayed(() -> {
             Intent graphical = new Intent(GraphicalLoadingScreen.this, GraphicalActivity.class);
 
-            graphicalViewModel.convertDates(currentExercises);
-            graphicalViewModel.sortDatesInOrder(currentExercises);
+            GraphicalAnalysisMethods.convertDates(currentExercises);
+            GraphicalAnalysisMethods.sortDatesInOrder(currentExercises);
             FilterData(graphicalOption);
 
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(LIST_OF_EXERCISES, reformedListOfExercises);
             graphical.putExtras(bundle);
             graphical.putExtra(GraphicalActivity.FILTER_OPTION, graphicalOption);
+            graphical.putExtra(GraphicalActivity.EXTRA_EXERCISE_NAME, graphicalViewModel.getCurrentName().getValue());
             startActivity(graphical);
             finish();
         }, TIME_OUT);
@@ -81,7 +87,6 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         graphicalViewModel.getCurrentName().observe(GraphicalLoadingScreen.this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                Toast.makeText(GraphicalLoadingScreen.this, "The Name has been changed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -89,10 +94,10 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     private void FilterData (String filterOption) {
         switch (filterOption) {
             case "MaxWeight":
-                reformedListOfExercises = (ArrayList<Exercise>) graphicalViewModel.sortDataForWeightEntries(currentExercises);
+                reformedListOfExercises = (ArrayList<Exercise>) GraphicalAnalysisMethods.sortDataForWeightEntries(currentExercises);
                 return;
             case "MaxVolume":
-                reformedListOfExercises = (ArrayList<Exercise>) graphicalViewModel.sortDataForVolumeDisplay(currentExercises);
+                reformedListOfExercises = (ArrayList<Exercise>) GraphicalAnalysisMethods.sortDataForVolumeDisplay(currentExercises);
         }
     }
 }

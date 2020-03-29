@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:paddingTop="24dp"
     android:paddingBottom="16dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:background="#35373b"
     tools:context=".weight_tracking_package.GraphicalActivity">
 
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:text="PlaceHolder"/>
 
 

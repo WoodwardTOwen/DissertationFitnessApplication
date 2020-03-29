@@ -10,18 +10,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".weight_tracking_package.GraphicalLoadingScreen"></activity>
+        <activity android:name=".weight_tracking_package.GraphicalLoadingScreen"/>
         <activity android:name=".weight_tracking_package.new_cat_or_exercise_name_package.AddExerciseName" />
         <activity android:name=".weight_tracking_package.new_cat_or_exercise_name_package.AddCategory" />
         <activity android:name=".weight_tracking_package.ExerciseRecyclerView" />
         <activity android:name=".weight_tracking_package.CategoryRecyclerView" />
-        <activity android:name=".weight_tracking_package.GraphicalActivity" />
+        <activity android:name=".weight_tracking_package.GraphicalActivity"
+            android:parentActivityName=".weight_tracking_package.EditExercise"
+            />
         <activity
             android:name=".weight_tracking_package.help.page.TrackingHelpPage"
             android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity" />
-        <activity
-            android:name=".weight_tracking_package.timer.TimerPopUp"
-            android:theme="@style/AppTheme.CustomTheme.NoTitle" />
         <activity
             android:name=".weight_tracking_package.EditExercise"
             android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity" />

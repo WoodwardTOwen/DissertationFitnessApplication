@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +34,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     private String graphicalOption = "";
     private ArrayList<Exercise> currentExercises = new ArrayList<>();
     private ArrayList<Exercise> reformedListOfExercises = new ArrayList<>();
+    private static MyRunnable mRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,41 +55,36 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         Observe();
         ObserveNameChange();
 
-
-        new Handler().postDelayed(() -> {
-            Intent graphical = new Intent(GraphicalLoadingScreen.this, GraphicalActivity.class);
-
-            GraphicalAnalysisMethods.convertDates(currentExercises);
-            GraphicalAnalysisMethods.sortDatesInOrder(currentExercises);
-            FilterData(graphicalOption);
-
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(LIST_OF_EXERCISES, reformedListOfExercises);
-            graphical.putExtras(bundle);
-            graphical.putExtra(GraphicalActivity.FILTER_OPTION, graphicalOption);
-            graphical.putExtra(GraphicalActivity.EXTRA_EXERCISE_NAME, graphicalViewModel.getCurrentName().getValue());
-            startActivity(graphical);
-            finish();
-        }, TIME_OUT);
+        mRunnable = new MyRunnable(this);
+        mHandler.postDelayed(mRunnable, TIME_OUT);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mHandler.removeCallbacks(mRunnable);
+    }
+
+    //Activity LifeCycle Handling
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //To Stop Memory Leaks from the callbacks
+        mHandler.removeCallbacks(mRunnable);
+    }
+
+
     private void Observe() {
-        graphicalViewModel.getListOfExercisesGraphical().observe(GraphicalLoadingScreen.this, new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(List<Exercise> exercises) {
-                if(currentExercises.size() != 0){
-                    currentExercises.clear();
-                }
-                currentExercises = (ArrayList<Exercise>) exercises;
+        graphicalViewModel.getListOfExercisesGraphical().observe(GraphicalLoadingScreen.this, exercises -> {
+            if(currentExercises.size() != 0){
+                currentExercises.clear();
             }
+            currentExercises = (ArrayList<Exercise>) exercises;
         });
     }
 
     private void ObserveNameChange () {
-        graphicalViewModel.getCurrentName().observe(GraphicalLoadingScreen.this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-            }
+        graphicalViewModel.getCurrentName().observe(GraphicalLoadingScreen.this, s -> {
         });
     }
 
@@ -99,4 +97,41 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
                 reformedListOfExercises = (ArrayList<Exercise>) GraphicalAnalysisMethods.sortDataForVolumeDisplay(currentExercises);
         }
     }
+
+    private void completeTask () {
+        Intent graphical = new Intent(GraphicalLoadingScreen.this, GraphicalActivity.class);
+
+        GraphicalAnalysisMethods.convertDates(currentExercises);
+        GraphicalAnalysisMethods.sortDatesInOrder(currentExercises);
+        FilterData(graphicalOption);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(LIST_OF_EXERCISES, reformedListOfExercises);
+        graphical.putExtras(bundle);
+        graphical.putExtra(GraphicalActivity.FILTER_OPTION, graphicalOption);
+        graphical.putExtra(GraphicalActivity.EXTRA_EXERCISE_NAME, graphicalViewModel.getCurrentName().getValue());
+        startActivity(graphical);
+        finish();
+    }
+
+
+    private static class MyHandler extends Handler {}
+    private final MyHandler mHandler = new MyHandler();
+
+    public class MyRunnable implements Runnable {
+        private final WeakReference<Activity> mActivity;
+
+        MyRunnable(Activity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void run() {
+            Activity activity = mActivity.get();
+            if (activity != null) {
+                completeTask();
+            }
+        }
+    }
+
 }

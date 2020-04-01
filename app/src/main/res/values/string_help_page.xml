@@ -3,7 +3,8 @@
 
     <string name="Home_Help_Title">Main Home Page</string>
     <string name="Plate_Math_Help_Title">Plate Math Calculator</string>
-    <string name="Option3Help">Graphical Analysis</string>
+    <string name="OptionsHelp">Add Exercise/ Exercise Information</string>
+    <string name="ExerciseData">Exercise Data</string>
 
     <string name="TimerDescription">Launches a timer to start/pause/reset, Used for Rest Times</string>
     <string name="DateTimePickerDescription">Launches the date time picker, Changes Date to View Exercise Data on Different Days</string>
@@ -13,14 +14,12 @@
     <string name="EditExerciseDescription">Tap on an Exercise to Update Contents of the Exercise OR Open Graphical Analysis</string>
 
 
-    //Add/Edit Pages
-    <string name="AddButtonWeightDescription">Button Increments Value in Input Boxes by 2.5kg</string>
-    <string name="SubtractButtonWeightDescription">Button Decrements Value in Input Boxes by 2.5kg</string>
-    <string name="AddButtonRPERepsDescription">Button Increments value in Reps/RPE Input Boxes by 1</string>
-    <string name="SubtractButtonRPERepsDescription">Button Increments value in Reps/RPE Input Boxes by 1</string>
-
+    //Add/Exercise Info Pages
+    <string name="AddButtonDescription">Button Increments the Value in the Input Field</string>
+    <string name="SubtractButtonDescription">Button Decrements the Value in the Input Field</string>
     <string name="SaveIconDescription">Saves the Exercises with new/updated exercise</string>
-    <string name="CloseIconDescription">Closes the Add/Edit Exercise Page, disregards any changes</string>
+    <string name="CloseIconDescription">Closes the Add/Exercise info Page, disregards any changes</string>
+    <string name="GraphicalAnalysisDescription">Allows the User Visually See Their Personal Progress in a Graph Format (Available by Clicking on Stored Exercise Data)</string>
 
     //PlateMathCalculator
     <string name="InputBoxPlateDescription">Input a Numeric Value Into the Input Field to be Calculated</string>

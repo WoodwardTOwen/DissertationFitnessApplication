@@ -14,5 +14,5 @@
     <item
         android:id="@+id/nav_help_page_item_3"
         android:icon="@drawable/save_white"
-        android:title="@string/Option3Help"/>
+        android:title="@string/ExerciseData"/>
 </menu>

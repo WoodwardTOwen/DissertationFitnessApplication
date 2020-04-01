@@ -1,6 +1,7 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Update;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
@@ -217,10 +219,7 @@ public class ExerciseInfo extends AppCompatActivity implements View.OnClickListe
         boolean exerciseRepBool = AddEditMethods.isTheSameValue(exerciseReps, repValue);
         boolean exerciseRPEBool = AddEditMethods.isTheSameValue(exerciseRPE, rpeValue);
 
-        if(!exerciseWeightBool || !exerciseRepBool || !exerciseRPEBool){
-            return true;
-        }
-        return false;
+        return !exerciseWeightBool || !exerciseRepBool || !exerciseRPEBool;
 
     }
 
@@ -239,5 +238,67 @@ public class ExerciseInfo extends AppCompatActivity implements View.OnClickListe
 
         btnReturn.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(CheckIfItemsHaveChanged()){
+
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+    private void unSavedChangesDialog () {
+        Dialog dialog = new Dialog(ExerciseInfo.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_alert_unsaved_changes);
+
+        Button applyChanges = dialog.findViewById(R.id.apply_changes_unsaved_changes_dialog);
+        Button neglectChanges = dialog.findViewById(R.id.do_not_apply_changes_un_saved_changes_dialog);
+        TextView weightTV = dialog.findViewById(R.id.weightTextViewUnsavedChanges), repTV = dialog.findViewById(R.id.repsTextViewUnsavedChanges),
+                rpeTV = dialog.findViewById(R.id.rpeTextViewUnsavedChanges), newWeightTV = dialog.findViewById(R.id.newWeightTextViewUnsavedChange),
+                newRepsTV = dialog.findViewById(R.id.newRepsTextViewUnsavedChanges), newRpeTV = dialog.findViewById(R.id.newRPETextViewUnsavedChanges);
+
+        Intent intent = getIntent();
+        String exerciseValue = Double.toString(intent.getDoubleExtra(EXTRA_WEIGHT, 1.0)),
+                repValue = Integer.toString(intent.getIntExtra(EXTRA_REPS, 1)),
+                rpeValue = Integer.toString(intent.getIntExtra(EXTRA_RPE, 1));
+
+        String exerciseWeight = editWeightInput.getText().toString(), exerciseReps = editRepInput.getText().toString(),
+                exerciseRPE = editRpeInput.getText().toString();
+
+
+
+        weightTV.setText(exerciseValue); weightTV.setTextColor(Color.RED);
+        repTV.setText(repValue); repTV.setTextColor(Color.RED);
+        rpeTV.setText(rpeValue); rpeTV.setTextColor(Color.RED);
+
+        newWeightTV.setText(exerciseWeight); newWeightTV.setTextColor(Color.GREEN);
+        newRepsTV.setText(exerciseReps); newRepsTV.setTextColor(Color.GREEN);
+        newRpeTV.setText(exerciseRPE); newRpeTV.setTextColor(Color.GREEN);
+
+
+        applyChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateExercise();
+                dialog.dismiss();
+                ExerciseInfo.super.onBackPressed();
+            }
+        });
+
+        neglectChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                ExerciseInfo.super.onBackPressed();
+            }
+        });
+
+        dialog.show();
+
     }
 }

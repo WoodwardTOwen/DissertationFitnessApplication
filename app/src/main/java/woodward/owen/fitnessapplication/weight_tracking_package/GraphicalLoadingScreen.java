@@ -2,7 +2,6 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -12,16 +11,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
-import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.ExerciseViewModel;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.GraphicalViewModel;
 
 public class GraphicalLoadingScreen extends AppCompatActivity {
@@ -34,7 +30,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     private String graphicalOption = "";
     private ArrayList<Exercise> currentExercises = new ArrayList<>();
     private ArrayList<Exercise> reformedListOfExercises = new ArrayList<>();
-    private static MyRunnable mRunnable;
+    private static GraphicalRunnable mRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +51,14 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         Observe();
         ObserveNameChange();
 
-        mRunnable = new MyRunnable(this);
-        mHandler.postDelayed(mRunnable, TIME_OUT);
+        mRunnable = new GraphicalRunnable(this);
+        handler.postDelayed(mRunnable, TIME_OUT);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mHandler.removeCallbacks(mRunnable);
+        handler.removeCallbacks(mRunnable);
     }
 
     //Activity LifeCycle Handling
@@ -70,7 +66,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         //To Stop Memory Leaks from the callbacks
-        mHandler.removeCallbacks(mRunnable);
+        handler.removeCallbacks(mRunnable);
     }
 
 
@@ -115,13 +111,14 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     }
 
 
-    private static class MyHandler extends Handler {}
-    private final MyHandler mHandler = new MyHandler();
+    private static class GraphicalHandler extends Handler {}
+    private final GraphicalHandler handler = new GraphicalHandler();
 
-    public class MyRunnable implements Runnable {
+    public class GraphicalRunnable implements Runnable {
+        //Can be garbage collected whenever
         private final WeakReference<Activity> mActivity;
 
-        MyRunnable(Activity activity) {
+        GraphicalRunnable(Activity activity) {
             mActivity = new WeakReference<>(activity);
         }
 

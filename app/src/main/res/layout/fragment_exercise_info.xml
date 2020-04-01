@@ -3,13 +3,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#35373b"
+    android:padding="30dp"
     >
 
     <TextView
+        android:id="@+id/addEditHelpTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Navigation_Graphical_Analysis_Title"
+        android:text="@string/OptionsHelp"
         android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/helpPageIncrementBntIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/increment_button"
+        android:layout_below="@+id/addEditHelpTitle"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/helpPageIncrementTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/AddButtonDescription"
+        android:layout_toEndOf="@id/helpPageIncrementBntIcon"
+        android:layout_below="@id/addEditHelpTitle"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/helpPageDecrementBntIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/decrement_button"
+        android:layout_below="@+id/helpPageIncrementBntIcon"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/helpPageDecrementBnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SubtractButtonDescription"
+        android:layout_toEndOf="@id/helpPageDecrementBntIcon"
+        android:layout_below="@id/helpPageIncrementBntIcon"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/helpPageGraphicalAnalysisIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/graphical_menu"
+        android:layout_below="@+id/helpPageDecrementBntIcon"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/helpPageGraphicalAnalysisTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/GraphicalAnalysisDescription"
+        android:layout_toEndOf="@id/helpPageDecrementBntIcon"
+        android:layout_below="@id/helpPageDecrementBntIcon"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/helpPageSaveICon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/save_white"
+        android:layout_below="@+id/helpPageGraphicalAnalysisTextView"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/helpPageSaveIconTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SaveIconDescription"
+        android:layout_toEndOf="@id/helpPageDecrementBntIcon"
+        android:layout_below="@id/helpPageGraphicalAnalysisTextView"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/helpPageCloseIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/close_white"
+        android:layout_below="@+id/helpPageSaveICon"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/helpPageCloseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/CloseIconDescription"
+        android:layout_toEndOf="@id/helpPageDecrementBntIcon"
+        android:layout_below="@id/helpPageSaveICon"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        />
 
 </RelativeLayout>

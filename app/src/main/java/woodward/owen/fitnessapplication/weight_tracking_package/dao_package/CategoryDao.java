@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -25,4 +26,7 @@ public interface CategoryDao {
 
     @Query("SELECT * FROM Category_Table ORDER BY categoryName ASC")
     LiveData<List<Category>> getAllCategories();
+
+    @Query ("SELECT * FROM CATEGORY_TABLE")
+    LiveData<List<Category>> FindCatNames ();
 }

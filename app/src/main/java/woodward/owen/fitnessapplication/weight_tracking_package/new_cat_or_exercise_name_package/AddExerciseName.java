@@ -1,6 +1,7 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.new_cat_or_exercise_name_package;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
@@ -25,8 +27,8 @@ import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packg
 
 public class AddExerciseName extends AppCompatActivity {
 
-    public static final String EXTRA_CATEGORY_ID = "woodward.owen.fitnessapplication.EXTRA_CATEGORY_ID";
-    public static final String EXTRA_CATEGORY_NAME = "woodward.owen.fitnessapplication.EXTRA_CATEGORY_NAME";
+    public static final String EXTRA_CATEGORY_ID = "woodward.owen.fitnessApplication.EXTRA_CATEGORY_ID";
+    public static final String EXTRA_CATEGORY_NAME = "woodward.owen.fitnessApplication.EXTRA_CATEGORY_NAME";
     private TextView categoryTitleTextView;
     private EditText inputExerciseTextView;
     private AddExerciseNameViewModel addExerciseNameViewModel;
@@ -37,6 +39,7 @@ public class AddExerciseName extends AppCompatActivity {
         setContentView(R.layout.activity_add_exercise_name);
         setToolBar();
         addExerciseNameViewModel = new ViewModelProvider(AddExerciseName.this).get(AddExerciseNameViewModel.class);
+        Observe();
 
         Intent i = getIntent();
         if (i.hasExtra(EXTRA_CATEGORY_ID)) {
@@ -82,17 +85,31 @@ public class AddExerciseName extends AppCompatActivity {
 
         //Verifies whether the input is valid or not
         boolean verify = AddEditMethods.isVerifiedCatExercise(exerciseName);
+        boolean verifyDifferentName = AddEditMethods.isTheSameExerciseName(Objects.requireNonNull(addExerciseNameViewModel.getAllExercisesForCategory().getValue()), exerciseName);
         if (verify) {
-            ExerciseName exerciseName1 = new ExerciseName(exerciseName, categoryID);
-            addExerciseNameViewModel.Insert(exerciseName1);
-            Toast.makeText(AddExerciseName.this, "New Exercise Type Saved", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(AddExerciseName.this, ExerciseTrackingActivity.class);
-            startActivity(intent);
-            finish();
+            if(!verifyDifferentName) {
+
+                ExerciseName exerciseName1 = new ExerciseName(exerciseName, categoryID);
+                addExerciseNameViewModel.Insert(exerciseName1);
+                Toast.makeText(AddExerciseName.this, "New Exercise Type Saved", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(AddExerciseName.this, ExerciseTrackingActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                Toast.makeText(this, "Exercise Already Exists Within the Selected Category", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(AddExerciseName.this, "Please Enter a Valid Exercise Type", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void Observe() {
+        addExerciseNameViewModel.getAllExercisesForCategory().observe(this, exerciseNames -> {
+
+        });
     }
 
 }

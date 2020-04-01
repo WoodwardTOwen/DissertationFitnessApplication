@@ -10,12 +10,10 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.INotificationSideChannel;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import io.grpc.SynchronizationContext;
 import woodward.owen.fitnessapplication.R;
 
 public class NotificationHelp extends ContextWrapper {

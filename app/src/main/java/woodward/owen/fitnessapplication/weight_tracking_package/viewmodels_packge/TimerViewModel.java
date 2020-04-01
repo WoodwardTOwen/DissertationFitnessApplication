@@ -15,14 +15,13 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class TimerViewModel extends AndroidViewModel {
 
-    private long START_TIME_IN_MILLIS= 1000;
+    private long START_TIME_IN_MILLIS= 60000;
     private long endTime;
     private static final String START_BUTTON_NAME = "Start";
     private static final String PAUSE_BUTTON_NAME = "Pause";
     private static final String RESET_BUTTON_NAME = "Reset";
     private boolean timerRunning;
     private long timeLeftInMillis;
-    private NotificationHelp notificationHelp;
     private static final String SHARED_PREFS = "timerPrefs";
     private static final String START_TIME = "StartTime";
     private final SharedPreferences sharedPreferences = getApplication().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);

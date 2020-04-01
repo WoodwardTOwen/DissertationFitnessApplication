@@ -11,6 +11,8 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 import woodward.owen.fitnessapplication.R;
 
 public class TrackingHelpPage extends AppCompatActivity {
@@ -20,7 +22,7 @@ public class TrackingHelpPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking_help_page);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
+        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
 
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_Help_Page);

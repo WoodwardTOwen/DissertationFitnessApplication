@@ -43,10 +43,8 @@ public class GraphicalActivity extends AppCompatActivity {
     private LineChart lineChart;
     private GraphicalViewModel graphicalViewModel;
     private List<Exercise> currentExercises;
-    private TextView titleTextView;
-    private String dateArray[];
+    private String[] dateArray;
     private String filter = "";
-    private String exerciseName = "";
     public static final String LIST_OF_EXERCISES = "ListOfExercises";
     public static final String FILTER_OPTION = "Filter";
     public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessapplication.EXTRA_EXERCISE_NAME";
@@ -55,7 +53,7 @@ public class GraphicalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphical);
         lineChart = findViewById(R.id.lineChartView);
-        titleTextView = findViewById(R.id.Graphical_Analysis_Title);
+        TextView titleTextView = findViewById(R.id.Graphical_Analysis_Title);
 
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         graphicalViewModel = new ViewModelProvider(GraphicalActivity.this).get(GraphicalViewModel.class);
@@ -63,10 +61,10 @@ public class GraphicalActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = getIntent().getExtras();
         filter = intent.getStringExtra(FILTER_OPTION);
-        exerciseName = intent.getStringExtra(EXTRA_EXERCISE_NAME);
+        String exerciseName = intent.getStringExtra(EXTRA_EXERCISE_NAME);
         currentExercises = bundle.getParcelableArrayList(LIST_OF_EXERCISES);
 
-        titleTextView.setText(filter + " for " + exerciseName);
+        titleTextView.setText(String.format("%s for %s", filter, exerciseName));
 
         dateArray = new String[currentExercises.size()];
 
@@ -154,38 +152,6 @@ public class GraphicalActivity extends AppCompatActivity {
                 return entries;
         }
         return entries;
-    }
-
-    private static class myAxisFormatter extends ValueFormatter {
-        private long referenceTimeStamp;
-        private DateFormat dateFormat;
-        private Date date;
-
-        public myAxisFormatter(long referenceTimeStamp) {
-            this.referenceTimeStamp = referenceTimeStamp;
-            this.dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            this.date = new Date();
-        }
-
-        @Override
-        public String getFormattedValue(float value){
-
-            long convertedTimeStamp = (long) value;
-            //retrieve original timestamp
-            long originalTime = referenceTimeStamp + convertedTimeStamp;
-            //Convert timestamp
-            return getDateString(originalTime);
-        }
-
-        private String getDateString(long timestamp) {
-            try {
-                date.setTime(timestamp);
-                return dateFormat.format(date);
-            }
-            catch (Exception ex) {
-                return "ERROR";
-            }
-        }
     }
 
 

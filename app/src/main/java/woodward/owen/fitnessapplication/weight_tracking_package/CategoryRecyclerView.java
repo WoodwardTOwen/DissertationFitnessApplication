@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,9 +18,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +44,6 @@ public class CategoryRecyclerView extends AppCompatActivity {
     private CategoryAdapter adapter;
     private CategoryViewModel categoryViewModel;
     public static final String EXTRA_DATE_CATEGORY = "woodward.owen.fitnessapplication.EXTRA_DATE_CATEGORY";
-    private String dateForExercise;
     private TextView emptyView;
 
     @Override
@@ -54,7 +57,7 @@ public class CategoryRecyclerView extends AppCompatActivity {
         //Attempt to get intent in order to maintain persists of date for the inputted exercise
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_DATE_CATEGORY)) {
-            dateForExercise = intent.getStringExtra(EXTRA_DATE_CATEGORY);
+            String dateForExercise = intent.getStringExtra(EXTRA_DATE_CATEGORY);
             categoryViewModel.setDate(dateForExercise);
         }
 
@@ -69,33 +72,7 @@ public class CategoryRecyclerView extends AppCompatActivity {
         //Implemented Adapter Listener
         adapter.setOnItemClickListener(this::openExerciseItemList);
         adapter.setOnItemLongClickListener(category -> {
-            AlertDialog.Builder diaLogBuilder = new AlertDialog.Builder(CategoryRecyclerView.this);
-            diaLogBuilder.setTitle("Confirmation of Category Deletion");
-            diaLogBuilder.setMessage("Are you sure you want to delete " + category.getCategoryName() + "?");
-            diaLogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Do nothing but close the dialog
-                    categoryViewModel.Delete(category);
-                    Toast.makeText(getApplicationContext(), "Successfully Removed " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                    Intent intent1 = new Intent(CategoryRecyclerView.this, ExerciseTrackingActivity.class);
-                    startActivity(intent1);
-                    finish();
-                }
-            });
-            diaLogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //Cancel Procedure -> do NOT remove barbell
-                    Toast.makeText(CategoryRecyclerView.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = diaLogBuilder.create();
-            alert.show();
+            DisplayDialogBox(category);
             return true;
         });
 
@@ -139,5 +116,32 @@ public class CategoryRecyclerView extends AppCompatActivity {
     private void setToolBar() {
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         getSupportActionBar().setTitle(R.string.ChooseCategoryHeading);
+    }
+
+    private void DisplayDialogBox (Category category) {
+        Dialog dialog = new Dialog(CategoryRecyclerView.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_remove_warning);
+
+        //Setting up controls
+        Button bntRemoveNo = dialog.findViewById(R.id.remove_button_no), bntRemoveYes = dialog.findViewById(R.id.remove_button_yes);
+        TextView currentItem = dialog.findViewById(R.id.nameOfItemWishingToDelete); currentItem.setText(category.getCategoryName());
+
+        bntRemoveYes.setOnClickListener(v -> {
+            categoryViewModel.Delete(category);
+            Toast.makeText(getApplicationContext(), "Successfully Removed " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            Intent intent1 = new Intent(CategoryRecyclerView.this, ExerciseTrackingActivity.class);
+            startActivity(intent1);
+            finish();
+        });
+
+        bntRemoveNo.setOnClickListener(v -> {
+            //Cancel Procedure -> do NOT remove barbell
+            Toast.makeText(CategoryRecyclerView.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

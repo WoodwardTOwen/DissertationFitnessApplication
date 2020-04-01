@@ -67,6 +67,7 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         listView = findViewById(R.id.resultsListView);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
+        getSupportActionBar().setTitle("Plate Math Calculator");
 
         setSpinnerData();
         CheckSelectedItem();

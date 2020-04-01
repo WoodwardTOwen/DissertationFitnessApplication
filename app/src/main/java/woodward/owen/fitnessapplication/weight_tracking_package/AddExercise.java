@@ -39,7 +39,6 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     private TextView exerciseTextView;
     private TextView categoryTextView;
     private String dateForExercise;
-    private int size;
     private AddExerciseViewModel addExerciseViewModel;
 
     @Override
@@ -56,7 +55,6 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         addExerciseViewModel = new ViewModelProvider(AddExercise.this).get(AddExerciseViewModel.class);
 
-
         ObserveListSize();
         listen();
 
@@ -72,20 +70,16 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     }
 
     private void saveExercise() {
-        String exerciseName = exerciseTextView.getText().toString();
-        String exerciseWeight = weightInput.getText().toString();
-        String exerciseReps = repInput.getText().toString();
-        String exerciseRPE = rpeInput.getText().toString();
+        String exerciseName = exerciseTextView.getText().toString(), exerciseWeight = weightInput.getText().toString(), exerciseReps = repInput.getText().toString(),
+                exerciseRPE = rpeInput.getText().toString();
 
         boolean verify = AddEditMethods.isVerified(exerciseWeight, exerciseReps, exerciseRPE);
         if (verify) {
             addExerciseViewModel.setDate(dateForExercise);
             Exercise exercise = new Exercise(exerciseName, Integer.parseInt(exerciseReps), Double.parseDouble(exerciseWeight), Integer.parseInt(exerciseRPE), dateForExercise);
             addExerciseViewModel.Insert(exercise);
-            addExerciseViewModel.cleanSharedPreferences();
-            repInput.getText().clear();
-            weightInput.getText().clear();
-            rpeInput.getText().clear();
+            clearSharedPrefData();
+
             Toast.makeText(AddExercise.this, "Exercise Saved", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(AddExercise.this, ExerciseTrackingActivity.class);
@@ -97,6 +91,14 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
             Toast.makeText(AddExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    //Clears the cached data
+    private void clearSharedPrefData () {
+        addExerciseViewModel.cleanSharedPreferences();
+        repInput.getText().clear();
+        weightInput.getText().clear();
+        rpeInput.getText().clear();
     }
 
     @Override
@@ -116,12 +118,7 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     }
 
     private void listen() {
-        Button buttonIncrementWeight;
-        Button buttonDecrementWeight;
-        Button buttonIncrementRep;
-        Button buttonDecrementRep;
-        Button buttonDecrementRPE;
-        Button buttonIncrementRPE;
+        Button buttonIncrementWeight, buttonDecrementWeight, buttonIncrementRep, buttonDecrementRep, buttonDecrementRPE, buttonIncrementRPE;
 
         exerciseTextView = findViewById(R.id.exerciseSpinnerTitle);
         categoryTextView = findViewById(R.id.catSpinnerTitle);
@@ -147,9 +144,9 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
-        String tempInput = weightInput.getText().toString().trim();
-        String inputRep = repInput.getText().toString().trim();
-        String inputRPE = rpeInput.getText().toString().trim();
+        String tempInput = weightInput.getText().toString().trim(), inputRep = repInput.getText().toString().trim(),
+                inputRPE = rpeInput.getText().toString().trim();
+
         switch (v.getId()) {
             case R.id.incrementWeightBnt:
                 weightInput.setText(Double.toString(AddEditMethods.incrementWeight(tempInput)));
@@ -180,33 +177,19 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     protected void onPause() {
         super.onPause();
         addExerciseViewModel.saveSharedPrefData(weightInput.getText().toString(), repInput.getText().toString(), rpeInput.getText().toString());
-        Log.i("onPause", "The app has saved the preference");
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-//Gathers stored variables in the onResume state from shared preferences
+    //Gathers stored variables in the onResume state from shared preferences
     @Override
     protected void onResume() {
         super.onResume();
         weightInput.setText(addExerciseViewModel.loadWeightSharedPreference());
         repInput.setText(addExerciseViewModel.loadRepsSharedPreference());
         rpeInput.setText(addExerciseViewModel.loadRPESharedPreference());
-        Log.i("onResume", "The app has loaded the data");
     }
 
     private void ObserveListSize () {
-        addExerciseViewModel.getTotalExercise().observe(this, new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(List<Exercise> exercises) {
-                if (exercises == null) {
-                    size = 0;
-                }else {
-                    size = exercises.size();
-                }
-            }
+        addExerciseViewModel.getTotalExercise().observe(this, exercises -> {
         });
     }
 }

@@ -26,6 +26,7 @@ public class PlateMathBarbellEditPop extends Activity {
         setContentView(R.layout.barbell_edit_popup);
 
         Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
         final ArrayList<BarbellType> retrievedListOfBarbells = bundle.getParcelableArrayList("barbellList");
         Display();
 

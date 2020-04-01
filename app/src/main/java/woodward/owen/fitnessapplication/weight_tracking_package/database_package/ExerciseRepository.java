@@ -25,7 +25,7 @@ public class ExerciseRepository {
     private LiveData<List<ExerciseName>> allExerciseNames;
     private LiveData<List<Category>> allCategories;
 
-    public ExerciseRepository(Application application) {
+    private ExerciseRepository(Application application) {
         ExerciseDatabase database = ExerciseDatabase.getInstance(application);
         exerciseDao = database.exerciseDao();
         exerciseNameDao = database.exerciseNameDao();
@@ -93,8 +93,9 @@ public class ExerciseRepository {
         new InsertCategoryAsyncTask(catDao).execute(category);
     }
 
-    public void UpdateCategory(Category category) {
-        new UpdateCategoryAsyncTask(catDao).execute(category);
+    public LiveData<List<Category>> FindCatNames () {
+        allCategories = catDao.FindCatNames();
+        return allCategories;
     }
 
     public void DeleteCategory(Category category) {
@@ -262,7 +263,4 @@ public class ExerciseRepository {
             return null;
         }
     }
-
-
-
 }

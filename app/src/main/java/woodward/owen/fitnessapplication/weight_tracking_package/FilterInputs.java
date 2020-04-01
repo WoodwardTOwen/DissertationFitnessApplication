@@ -7,12 +7,7 @@ public class FilterInputs implements InputFilter {
     private int min;
     private int max;
 
-    public FilterInputs (int min, int max) {
-        this.min = min;
-        this.max = max;
-    }
-
-    public FilterInputs (String min, String max){
+    FilterInputs(String min, String max){
         this.min = Integer.parseInt(min);
         this.max = Integer.parseInt(max);
     }

@@ -1,5 +1,7 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
+import android.annotation.SuppressLint;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +14,7 @@ import woodward.owen.fitnessapplication.exercise_package.Exercise;
 
 public class GraphicalAnalysisMethods {
     //The dates are stored in a different way in comparison to the standard for simpleDateFormat thus need to be converted for sorting
-    public static void convertDates (List<Exercise> exercises) {
+    static void convertDates(List<Exercise> exercises) {
         String str;
         for(int x= 0; x< exercises.size(); x++){
             str = exercises.get(x).getDate();
@@ -22,8 +24,9 @@ public class GraphicalAnalysisMethods {
     }
 
     //Gets all the dates in order so they are not all over the place
-    public static void sortDatesInOrder(List<Exercise> exercises) {
+    static void sortDatesInOrder(List<Exercise> exercises) {
         Collections.sort(exercises, new Comparator<Exercise>() {
+            @SuppressLint("SimpleDateFormat")
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             @Override
             public int compare(Exercise exerciseDate1, Exercise exerciseDate2) {
@@ -43,7 +46,7 @@ public class GraphicalAnalysisMethods {
      * @return the new list of exercises that will be thrown over to the graphical analysis activity
      */
 
-    public static List<Exercise> sortDataForWeightEntries(List<Exercise> exercises) {
+    static List<Exercise> sortDataForWeightEntries(List<Exercise> exercises) {
         String currentDate = "";
         List<Exercise> tempStorageList = new ArrayList<>(); // Every exercise for one a certain date
         List<Exercise> newExerciseData = new ArrayList<>(); // Finalised list that will be used for graphical analysis
@@ -88,7 +91,7 @@ public class GraphicalAnalysisMethods {
     }
 
 
-    public static List<Exercise> sortDataForVolumeDisplay(List<Exercise> exercises) {
+    static List<Exercise> sortDataForVolumeDisplay(List<Exercise> exercises) {
         String currentDate = "";
         List<Exercise> tempStorageList = new ArrayList<>(); // Every exercise for one a certain date
         List<Exercise> newExerciseData = new ArrayList<>(); // Finalised list that will be used for graphical analysis
@@ -135,7 +138,7 @@ public class GraphicalAnalysisMethods {
     }
 
 
-    public static String FindXAxisValue(List<Exercise> exercises, int xValue) {
+    static String FindXAxisValue(List<Exercise> exercises, int xValue) {
         int counter = 0;
         for(Exercise ex : exercises) {
             if(counter == xValue) {

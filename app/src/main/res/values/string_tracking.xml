@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    //Main
+    <string name ="app_name">Gainz Tracker</string>
+
     //Menu Stuff
     <string name="openCalender">Open Calender</string>
     <string name="deleteAllExercises">Delete Exercises</string>
@@ -51,6 +54,10 @@
 
     <string name="AddCategoryName">Add Category</string>
     <string name="AddExerciseName">Add Exercise</string>
+
+    <string name="RemoveYes">Yes</string>
+    <string name="RemoveNo">No</string>
+    <string name="VerificationRemoval">Are You Sure You Want to Delete</string>
 
     //Graphical Analysis Prompt
     <string name="GraphicalAnalysisPrompt">What Statistics Would You Like To View?</string>

@@ -24,6 +24,12 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
 
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/logo_new_blue"/>
+
             <TextView
                 android:id="@+id/mainUITextViewDate"
                 android:layout_width="match_parent"

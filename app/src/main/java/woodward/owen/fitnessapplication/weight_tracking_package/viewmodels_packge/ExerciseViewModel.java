@@ -17,7 +17,6 @@ public class ExerciseViewModel extends AndroidViewModel {
     private static ExerciseRepository repository;
     private static MutableLiveData<Exercise> cachedExercise;
     private MutableLiveData<String> currentDate = new MutableLiveData<>();
-    private MutableLiveData<Integer> currentOrderPosition = new MutableLiveData<>();
     private LiveData<List<Exercise>> allExercisesByDate = Transformations.switchMap(currentDate, (date) -> repository.GetAllExercisesByDate(date));
 
     public ExerciseViewModel(@NonNull Application application) {
@@ -51,8 +50,6 @@ public class ExerciseViewModel extends AndroidViewModel {
         return allExercisesByDate;
     }
 
-    public MutableLiveData<Integer> getCurrentOrderPosition () { return  currentOrderPosition; }
-
     public MutableLiveData<String> getCurrentDate() {
         return currentDate;
     }
@@ -63,10 +60,6 @@ public class ExerciseViewModel extends AndroidViewModel {
 
     public void setDate(String date) {
         currentDate.setValue(date);
-    }
-
-    public void setPosition (Integer pos) {
-        currentOrderPosition.setValue(pos);
     }
 
     public void setCachedExercise(Exercise e) {
@@ -82,12 +75,6 @@ public class ExerciseViewModel extends AndroidViewModel {
             return String.valueOf(input);
         } else {
             return "0" + (input);
-        }
-    }
-
-    public void setIndexInDatabase (List<Exercise> exercises){
-        for(Exercise ex : exercises){
-            repository.Update(ex);
         }
     }
 }

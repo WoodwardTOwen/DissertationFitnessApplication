@@ -18,7 +18,6 @@ public class GraphicalAnalysisMethodsTest {
 
     private List<Exercise> exercises = new ArrayList<>();
 
-
     @Test
     public void convertDates() {
         GraphicalAnalysisMethods.convertDates(exercises);

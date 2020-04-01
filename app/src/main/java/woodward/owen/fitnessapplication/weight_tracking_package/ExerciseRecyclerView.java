@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.exercise_package.Category;
+import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.exercise_package.ExerciseName;
 import woodward.owen.fitnessapplication.weight_tracking_package.adapters_package.ExerciseNameAdapter;
 import woodward.owen.fitnessapplication.weight_tracking_package.new_cat_or_exercise_name_package.AddExerciseName;
@@ -73,35 +77,7 @@ public class ExerciseRecyclerView extends AppCompatActivity {
             startActivity(intent);
         });
 
-        adapter.setOnItemLongClickListener(exerciseName -> {
-            AlertDialog.Builder diaLogBuilder = new AlertDialog.Builder(ExerciseRecyclerView.this);
-            diaLogBuilder.setTitle("Confirmation of Exercise Type Deletion");
-            diaLogBuilder.setMessage("Are you sure you want to delete " + exerciseName.getExerciseName() + "?");
-            diaLogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Do nothing but close the dialog
-                    exerciseNameViewModel.DeleteExerciseName(exerciseName);
-                    Toast.makeText(getApplicationContext(), "Successfully Removed " + exerciseName.getExerciseName(), Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                    Intent intent = new Intent(ExerciseRecyclerView.this, ExerciseTrackingActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            diaLogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //Cancel Procedure -> do NOT remove barbell
-                    Toast.makeText(ExerciseRecyclerView.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = diaLogBuilder.create();
-            alert.show();
-        });
+        adapter.setOnItemLongClickListener(this::DisplayDialogBox);
     }
 
     @Override
@@ -124,22 +100,45 @@ public class ExerciseRecyclerView extends AppCompatActivity {
     }
 
     private void Observe() {
-        exerciseNameViewModel.getAllExercisesForCategory().observe(this, new Observer<List<ExerciseName>>() {
-            @Override
-            public void onChanged(List<ExerciseName> exerciseNames) {
-                adapter.submitList(exerciseNames);
-                if (exerciseNames.size() == 0) {
-                    emptyView.setVisibility(View.VISIBLE);
-                } else {
-                    emptyView.setVisibility(View.GONE);
-                }
+        exerciseNameViewModel.getAllExercisesForCategory().observe(this, exerciseNames -> {
+            adapter.submitList(exerciseNames);
+            if (exerciseNames.size() == 0) {
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                emptyView.setVisibility(View.GONE);
             }
-
         });
     }
 
     private void setToolBar() {
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         getSupportActionBar().setTitle(R.string.ChooseExerciseNameHeading);
+    }
+
+    private void DisplayDialogBox (ExerciseName exerciseName) {
+        Dialog dialog = new Dialog(ExerciseRecyclerView.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_remove_warning);
+
+        //Setting up controls
+        Button bntRemoveNo = dialog.findViewById(R.id.remove_button_no), bntRemoveYes = dialog.findViewById(R.id.remove_button_yes);
+        TextView currentItem = dialog.findViewById(R.id.nameOfItemWishingToDelete); currentItem.setText(exerciseName.getExerciseName());
+
+        bntRemoveYes.setOnClickListener(v -> {
+            exerciseNameViewModel.DeleteExerciseName(exerciseName);
+            Toast.makeText(getApplicationContext(), "Successfully Removed " + exerciseName.getExerciseName(), Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            Intent intent1 = new Intent(ExerciseRecyclerView.this, ExerciseTrackingActivity.class);
+            startActivity(intent1);
+            finish();
+        });
+
+        bntRemoveNo.setOnClickListener(v -> {
+            //Cancel Procedure -> do NOT remove barbell
+            Toast.makeText(ExerciseRecyclerView.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

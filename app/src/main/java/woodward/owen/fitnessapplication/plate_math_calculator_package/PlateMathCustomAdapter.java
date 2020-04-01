@@ -1,6 +1,7 @@
 package woodward.owen.fitnessapplication.plate_math_calculator_package;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Intege
         super(context, android.R.layout.simple_list_item_2, map);
     }
 
+    @SuppressLint("DefaultLocale")
     @NonNull @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View currentItemView = convertView != null ? convertView :
@@ -31,7 +33,7 @@ public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Intege
         TextView textViewValue = currentItemView.findViewById(android.R.id.text2);
 
         textViewKey.setText(currentEntry.getKey() + "kg");
-        textViewValue.setText("Number of plates: " + currentEntry.getValue() + " (" +currentEntry.getValue() / 2 + " Plates Each side)" );
+        textViewValue.setText(String.format("Number of plates: %d (%d Plates Each side)", currentEntry.getValue(), currentEntry.getValue() / 2));
 
         textViewKey.setTextColor(Color.parseColor("#FFFFFF"));
         textViewValue.setTextColor(Color.parseColor("#FFFFFF"));

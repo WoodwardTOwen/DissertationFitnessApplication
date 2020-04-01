@@ -28,7 +28,6 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     public static final String EXTRA_GRAPHICAL_OPTION= "woodward.owen.fitnessapplication.EXTRA_GRAPHICAL_OPTION";
     public static final String LIST_OF_EXERCISES = "ListOfExercises";
     private static final int TIME_OUT = 1000;
-    private TextView titleTextView;
     private GraphicalViewModel graphicalViewModel;
     private String graphicalOption = "";
     private ArrayList<Exercise> currentExercises = new ArrayList<>();
@@ -38,7 +37,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_screen);
-        titleTextView = findViewById(R.id.Info_Title_Loading_Screen);
+        TextView titleTextView = findViewById(R.id.Info_Title_Loading_Screen);
 
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         graphicalViewModel = new ViewModelProvider(GraphicalLoadingScreen.this).get(GraphicalViewModel.class);
@@ -49,7 +48,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
             graphicalOption = intent.getStringExtra(EXTRA_GRAPHICAL_OPTION);
         }
 
-        titleTextView.setText("Loading " + graphicalOption + " Analysis");
+        titleTextView.setText(String.format("Loading %s Analysis", graphicalOption));
         Observe();
         ObserveNameChange();
 

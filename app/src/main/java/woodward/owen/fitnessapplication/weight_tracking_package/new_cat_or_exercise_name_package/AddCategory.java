@@ -1,12 +1,14 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.new_cat_or_exercise_name_package;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
@@ -27,12 +30,14 @@ public class AddCategory extends AppCompatActivity {
 
     private AddCategoryViewModel addCategoryViewModel;
     private EditText inputValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
         setToolBar();
         addCategoryViewModel = new ViewModelProvider(AddCategory.this).get(AddCategoryViewModel.class);
+        Observe();
     }
 
     private void setToolBar() {
@@ -61,17 +66,29 @@ public class AddCategory extends AppCompatActivity {
         String categoryName = inputValue.getText().toString();
 
         boolean verify = AddEditMethods.isVerifiedCatExercise(categoryName);
-        if (verify) {
-            Category category = new Category(categoryName);
-            addCategoryViewModel.Insert(category);
-            Toast.makeText(AddCategory.this, "New Category Type Saved", Toast.LENGTH_SHORT).show();
+        boolean verifyDifferentName = AddEditMethods.isTheSameCategoryName(Objects.requireNonNull(addCategoryViewModel.getAllCategories().getValue()), categoryName);
 
-            Intent intent = new Intent(AddCategory.this, ExerciseTrackingActivity.class);
-            startActivity(intent);
-            finish();
+        if (verify) {
+            if (!verifyDifferentName) {
+                Category category = new Category(categoryName);
+                addCategoryViewModel.Insert(category);
+                Toast.makeText(AddCategory.this, "New Category Type Saved", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(AddCategory.this, ExerciseTrackingActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                Toast.makeText(this, "This Category Name Already Exists, Please Enter Another Category Name", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(AddCategory.this, "Please Enter a Valid Category Type", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void Observe () {
+        addCategoryViewModel.getAllCategories().observe(this, categories -> {
+        });
     }
 }

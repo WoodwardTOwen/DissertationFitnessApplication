@@ -31,53 +31,51 @@ public class PlateMathBarbellDeletePopUp extends Activity {
         mBarbellSpinnerRemover = findViewById(R.id.BarbellRemoverSpinner);
 
         Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
         retrievedListOfBarbells = bundle.getParcelableArrayList("barbellList");
         setSpinnerData();
         Display();
 
         Button b = findViewById(R.id.deleteRemoveBarbellBnt);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BarbellType barbellObj = (BarbellType) mBarbellSpinnerRemover.getSelectedItem();
-                final String barbellName = (barbellObj.getBarbellName());
+        b.setOnClickListener(v -> {
+            BarbellType barbellObj = (BarbellType) mBarbellSpinnerRemover.getSelectedItem();
+            final String barbellName = (barbellObj.getBarbellName());
 
-                AlertDialog.Builder diaLogBuilder = new AlertDialog.Builder(PlateMathBarbellDeletePopUp.this);
-                diaLogBuilder.setTitle("Confirmation of Barbell Deletion");
-                diaLogBuilder.setMessage("Are you sure you want to delete " + barbellName + "?");
+            AlertDialog.Builder diaLogBuilder = new AlertDialog.Builder(PlateMathBarbellDeletePopUp.this);
+            diaLogBuilder.setTitle("Confirmation of Barbell Deletion");
+            diaLogBuilder.setMessage("Are you sure you want to delete " + barbellName + "?");
 
-                diaLogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing but close the dialog
-                        for (BarbellType str : retrievedListOfBarbells) {
-                            if (str.getBarbellName().equals(barbellName)) {
-                                retrievedListOfBarbells.remove(str);
-                                break;
-                            }
+            diaLogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do nothing but close the dialog
+                    for (BarbellType str : retrievedListOfBarbells) {
+                        if (str.getBarbellName().equals(barbellName)) {
+                            retrievedListOfBarbells.remove(str);
+                            break;
                         }
-                        Toast.makeText(getApplicationContext(), "Successfully Removed " + barbellName, Toast.LENGTH_SHORT).show();
-
-                        dialog.dismiss();
-                        Intent intent = new Intent();
-                        intent.putExtra("AddedBarbellList", retrievedListOfBarbells);
-                        setResult(RESULT_OK, intent);
-                        finish();
                     }
-                });
-                diaLogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    Toast.makeText(getApplicationContext(), "Successfully Removed " + barbellName, Toast.LENGTH_SHORT).show();
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Cancel Procedure -> do NOT remove barbell
-                        Toast.makeText(getApplicationContext(), "Transaction Cancelled", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                });
+                    dialog.dismiss();
+                    Intent intent = new Intent();
+                    intent.putExtra("AddedBarbellList", retrievedListOfBarbells);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            });
+            diaLogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-                AlertDialog alert = diaLogBuilder.create();
-                alert.show();
-            }
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Cancel Procedure -> do NOT remove barbell
+                    Toast.makeText(getApplicationContext(), "Transaction Cancelled", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = diaLogBuilder.create();
+            alert.show();
         });
 
     }

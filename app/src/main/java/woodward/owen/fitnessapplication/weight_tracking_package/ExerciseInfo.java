@@ -44,7 +44,7 @@ public class ExerciseInfo extends AppCompatActivity implements View.OnClickListe
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.close_white);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         Listen();
-        setTitle("Update Exercise");
+        setTitle("Exercise Information");
 
         Intent intent = getIntent();
 
@@ -218,7 +218,6 @@ public class ExerciseInfo extends AppCompatActivity implements View.OnClickListe
         boolean exerciseRPEBool = AddEditMethods.isTheSameValue(exerciseRPE, rpeValue);
 
         if(!exerciseWeightBool || !exerciseRepBool || !exerciseRPEBool){
-            Toast.makeText(ExerciseInfo.this, "Something Changed Boss", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;

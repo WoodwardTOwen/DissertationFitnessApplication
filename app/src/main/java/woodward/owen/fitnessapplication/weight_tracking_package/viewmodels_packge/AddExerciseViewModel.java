@@ -18,7 +18,7 @@ import woodward.owen.fitnessapplication.weight_tracking_package.database_package
 public class AddExerciseViewModel extends AndroidViewModel {
     private final ExerciseRepository repository;
     private final MutableLiveData<String> currentDate = new MutableLiveData<>();
-    private LiveData<List<Exercise>> totalExerciseCount;
+    private final LiveData<List<Exercise>> totalExerciseCount;
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String WEIGHT = "Weight";
     private static final String REPS = "Reps";

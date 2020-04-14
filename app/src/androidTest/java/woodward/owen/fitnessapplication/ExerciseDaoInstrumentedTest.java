@@ -49,7 +49,7 @@ public class ExerciseDaoInstrumentedTest {
     }
 
     @Test
-    public void getAllExercises() throws Exception {
+    public void getAllExercises() {
         Exercise exercise = new Exercise("aaa", 0, 1, 3, "00/00/20");
         exerciseDao.Insert(exercise);
         Exercise exercise2 = new Exercise("bbb", 4, 2, 5, "00/00/20");

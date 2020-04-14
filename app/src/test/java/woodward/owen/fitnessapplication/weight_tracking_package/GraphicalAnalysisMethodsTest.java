@@ -41,7 +41,9 @@ public class GraphicalAnalysisMethodsTest {
 
     @Test
     public void sortDataForWeightEntries() {
-
+        GraphicalAnalysisMethods.convertDates(exercises);
+        GraphicalAnalysisMethods.sortDatesInOrder(exercises);
+        GraphicalAnalysisMethods.sortDataForWeightEntries(exercises);
     }
 
     @Test

@@ -4,8 +4,8 @@ import android.text.InputFilter;
 import android.text.Spanned;
 
 public class FilterInputs implements InputFilter {
-    private int min;
-    private int max;
+    private final int min;
+    private final int max;
 
     FilterInputs(String min, String max){
         this.min = Integer.parseInt(min);

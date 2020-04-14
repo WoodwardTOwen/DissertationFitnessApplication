@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import woodward.owen.fitnessapplication.databinding.ExerciseItemBinding;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseDao;
@@ -21,7 +22,6 @@ import woodward.owen.fitnessapplication.weight_tracking_package.database_package
 
 public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder> {
     private onItemClickListener listener;
-    private List<Exercise> exercises;
 
     //Defines Comparison Logic between two lists
     public ExerciseAdapter() {

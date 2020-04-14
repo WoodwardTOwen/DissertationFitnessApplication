@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 
-public class GraphicalAnalysisMethods {
+class GraphicalAnalysisMethods {
     //The dates are stored in a different way in comparison to the standard for simpleDateFormat thus need to be converted for sorting
     static void convertDates(List<Exercise> exercises) {
         String str;
@@ -31,7 +32,7 @@ public class GraphicalAnalysisMethods {
             @Override
             public int compare(Exercise exerciseDate1, Exercise exerciseDate2) {
                 try{
-                    return format.parse(exerciseDate1.getDate()).compareTo(format.parse(exerciseDate2.getDate()));
+                    return Objects.requireNonNull(format.parse(exerciseDate1.getDate())).compareTo(format.parse(exerciseDate2.getDate()));
                 }
                 catch (ParseException ex) {
                     throw new IllegalArgumentException(ex);

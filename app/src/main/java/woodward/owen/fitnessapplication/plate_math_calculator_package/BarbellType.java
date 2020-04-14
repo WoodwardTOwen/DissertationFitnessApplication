@@ -37,7 +37,7 @@ public class BarbellType implements Parcelable {
         destination.writeInt(barbellWeight);
     }
 
-    public BarbellType (Parcel in) {
+    private BarbellType(Parcel in) {
         barbellName = in.readString();
         barbellWeight = in.readInt();
     }

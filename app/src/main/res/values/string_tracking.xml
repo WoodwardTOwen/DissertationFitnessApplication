@@ -17,9 +17,7 @@
     <string name="Navigation_Tracking_Title">Tracking</string>
     <string name="Navigation_Navigation_Title">Navigation</string>
     <string name="Navigation_AddExercise_Title">Add Exercise</string>
-    <string name="Navigation_Graphical_Analysis_Title">Graphical Analysis</string>
     <string name="Navigation_Plate_Math_Calculator_Title">Plate Math Calculator</string>
-    <string name="Navigation_Home_Title">Home Page</string>
     <string name="Navigation_Help_Title">Help</string>
     <string name="ChangeTimer">Set Time</string>
 
@@ -34,15 +32,10 @@
     <string name="workoutGenBtn">Workout Generator</string>
 
     //Recycler View Stuff
-    <string name="recycleWeight">Kg</string>
-    <string name="recycleReps"><b>Reps: </b></string>
-    <string name="recycleRPE"><b>RPE: </b></string>
-    <string name="recycleDate"><b>Date: </b></string>
     <string name="noDataAvailable">No Data Available for the Selected Date \n\n Add Exercises via the Button in the \n Right Corner or by Using the Navigation Bar</string>
 
     //Timer
     <string name="startTimerButton">Start</string>
-    <string name="pauseTimerButton">Pause</string>
     <string name="restTimerButton">Reset</string>
     <string name="timesUp">Rest Period Over</string>
     <string name="gainzMsg">Keep the Intensity High and Make Gainz</string>
@@ -51,9 +44,6 @@
     //Category/ ExerciseName
     <string name="ChooseCategoryHeading">Pick a Category</string>
     <string name="ChooseExerciseNameHeading">Pick an Exercise</string>
-
-    <string name="AddCategoryName">Add Category</string>
-    <string name="AddExerciseName">Add Exercise</string>
 
     <string name="RemoveYes">Yes</string>
     <string name="RemoveNo">No</string>

@@ -27,7 +27,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -70,7 +69,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     private NotificationHelp notificationHelp;
     private List<Exercise> mExercises = new ArrayList<>();
     public static final int EDIT_EXERCISE_REQUEST = 1;
-    public static final String EXTRA_DATE_MAIN_UI = "woodward.owen.fitnessapplication.EXTRA_DATE_MAIN_UI";
+    public static final String EXTRA_DATE_MAIN_UI = "woodward.owen.fitnessApplication.EXTRA_DATE_MAIN_UI";
     private static final String TIMER_PREFS = "timerPrefs";
     private static final String MILLIS_LEFT = "millisLeft";
     private static final String TIMER_RUNNING = "timerRunning";
@@ -144,23 +143,16 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
                 Snackbar.make(viewHolder.itemView, "Deleted Exercise: " + exerciseViewModel.getCurrentCachedExercise().getValue().getExerciseName(), Snackbar.LENGTH_LONG)
                         .setActionTextColor(ContextCompat.getColor(ExerciseTrackingActivity.this, R.color.colorDatePicker))
-                        .setAction("UNDO", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                exerciseViewModel.Insert(exerciseViewModel.getCurrentCachedExercise().getValue()); //If undo is required, re insert exercise
-                            }
+                        .setAction("UNDO", v -> {
+                            exerciseViewModel.Insert(exerciseViewModel.getCurrentCachedExercise().getValue()); //If undo is required, re insert exercise
                         }).show();
             }
         }).attachToRecyclerView(recyclerView);
 
 
         //Update Functionality -> sending over the contents to another activity
-        adapter.setOnItemClickListener(new ExerciseAdapter.onItemClickListener() { //Implemented Adapter Listener
-            @Override
-            public void onItemClick(Exercise exercise) {
-                callForUpdate(exercise);
-            }
-        });
+        //Implemented Adapter Listener
+        adapter.setOnItemClickListener(this::callForUpdate);
 
     }
 
@@ -182,7 +174,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             String reps = data.getStringExtra(ExerciseInfo.EXTRA_REPS);
             String RPE = data.getStringExtra(ExerciseInfo.EXTRA_RPE);
             String date = exerciseViewModel.getCurrentDate().getValue();
-            //int order = exerciseViewModel.getCurrentOrderPosition().getValue();
 
             assert reps != null;
             assert weight != null;
@@ -304,38 +295,27 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     }
 
     private void Observe() {
-        exerciseViewModel.GetAllExercisesByDate().observe(this, new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(List<Exercise> exercises) {
-                adapter.submitList(exercises);
-                if (exercises.size() == 0) {
-                    emptyView.setVisibility(View.VISIBLE);
-                } else {
-                    emptyView.setVisibility(View.GONE);
-                }
-
+        exerciseViewModel.GetAllExercisesByDate().observe(this, exercises -> {
+            adapter.submitList(exercises);
+            if (exercises.size() == 0) {
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                emptyView.setVisibility(View.GONE);
             }
+
         });
     }
 
     private void ObserveDateChange() {
-        exerciseViewModel.getCurrentDate().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                dateDisplayTV.setText(s);
-            }
-        });
+        exerciseViewModel.getCurrentDate().observe(this, s -> dateDisplayTV.setText(s));
     }
 
     private void setFloatingButton() {
         FloatingActionButton addExerciseButton = findViewById(R.id.button_add_Exercise);
-        addExerciseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentActivity = new Intent(ExerciseTrackingActivity.this, CategoryRecyclerView.class);
-                intentActivity.putExtra(CategoryRecyclerView.EXTRA_DATE_CATEGORY, exerciseViewModel.getCurrentDate().getValue());
-                startActivity(intentActivity);
-            }
+        addExerciseButton.setOnClickListener(v -> {
+            Intent intentActivity = new Intent(ExerciseTrackingActivity.this, CategoryRecyclerView.class);
+            intentActivity.putExtra(CategoryRecyclerView.EXTRA_DATE_CATEGORY, exerciseViewModel.getCurrentDate().getValue());
+            startActivity(intentActivity);
         });
     }
 
@@ -489,21 +469,13 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     }
 
     private void timerListenersForBottomSheet() {
-        bottomSheetStartPauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!timerViewModel.getIsTimerRunning()) {
-                    startTimer();
-                }
+        bottomSheetStartPauseButton.setOnClickListener(v -> {
+            if (!timerViewModel.getIsTimerRunning()) {
+                startTimer();
             }
         });
 
-        bottomSheetResetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetTimer();
-            }
-        });
+        bottomSheetResetButton.setOnClickListener(v -> resetTimer());
     }
 
     //Send a notification once the timer has been executed successfully
@@ -518,14 +490,11 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         dialog.setContentView(R.layout.dialog_design);
 
         Button bnt = dialog.findViewById(R.id.continue_timer_button);
-        bnt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timerViewModel.setTimeRemaining(timerViewModel.getStartTimeInMillis());
-                UpdateCountDownText();
-                UpdateButtons();
-                dialog.dismiss();
-            }
+        bnt.setOnClickListener(v -> {
+            timerViewModel.setTimeRemaining(timerViewModel.getStartTimeInMillis());
+            UpdateCountDownText();
+            UpdateButtons();
+            dialog.dismiss();
         });
         dialog.show();
     }
@@ -537,23 +506,20 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
 
         EditText edit = dialog.findViewById(R.id.editTextTimerChange);
         Button bnt = dialog.findViewById(R.id.confirm_timer_change_Bnt);
-        bnt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bnt.setOnClickListener(v -> {
 
-                if (edit.getText().toString().equals("0")) {
-                    Toast.makeText(ExerciseTrackingActivity.this, "Please Enter a Value Greater than 0", Toast.LENGTH_SHORT).show();
-                } else if (!AddEditMethods.isVerifiedTime(edit.getText().toString()) || edit.getText().toString().equals("")){
-                    Toast.makeText(ExerciseTrackingActivity.this, "Please Enter a Valid Time (in Seconds)", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    timerViewModel.setStartTimeInMillis(Long.parseLong(edit.getText().toString()));
-                    resetTimer();
-                    UpdateButtons();
-                    UpdateCountDownText();
-                    Toast.makeText(ExerciseTrackingActivity.this, "Timer Value Changed Successfully", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
+            if (edit.getText().toString().equals("0")) {
+                Toast.makeText(ExerciseTrackingActivity.this, "Please Enter a Value Greater than 0", Toast.LENGTH_SHORT).show();
+            } else if (!AddEditMethods.isVerifiedTime(edit.getText().toString()) || edit.getText().toString().equals("")){
+                Toast.makeText(ExerciseTrackingActivity.this, "Please Enter a Valid Time (in Seconds)", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                timerViewModel.setStartTimeInMillis(Long.parseLong(edit.getText().toString()));
+                resetTimer();
+                UpdateButtons();
+                UpdateCountDownText();
+                Toast.makeText(ExerciseTrackingActivity.this, "Timer Value Changed Successfully", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
 

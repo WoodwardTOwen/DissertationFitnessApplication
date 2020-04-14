@@ -19,7 +19,7 @@ public class AddExerciseNameViewModel extends AndroidViewModel {
     private final MutableLiveData<Integer> catID = new MutableLiveData<>();
     private final MutableLiveData<String> catName = new MutableLiveData<>();
     private ExerciseRepository repository;
-    private LiveData<List<ExerciseName>> allExercisesForCategory = Transformations.switchMap(catID, (currentCategory) -> repository.FindExercisesForCategory(catID.getValue()));
+    private final LiveData<List<ExerciseName>> allExercisesForCategory = Transformations.switchMap(catID, (currentCategory) -> repository.FindExercisesForCategory(catID.getValue()));
 
     public AddExerciseNameViewModel(@NonNull Application application) {
         super(application);

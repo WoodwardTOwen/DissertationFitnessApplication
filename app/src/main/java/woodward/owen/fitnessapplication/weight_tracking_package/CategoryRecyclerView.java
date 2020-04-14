@@ -2,6 +2,8 @@ package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.databinding.ActivityCategoryRecyclerViewBinding;
 import woodward.owen.fitnessapplication.exercise_package.Category;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.BarbellType;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathBarbellDeletePopUp;
@@ -43,17 +46,17 @@ public class CategoryRecyclerView extends AppCompatActivity {
 
     private CategoryAdapter adapter;
     private CategoryViewModel categoryViewModel;
-    public static final String EXTRA_DATE_CATEGORY = "woodward.owen.fitnessapplication.EXTRA_DATE_CATEGORY";
+    public static final String EXTRA_DATE_CATEGORY = "woodward.owen.fitnessApplication.EXTRA_DATE_CATEGORY";
     private TextView emptyView;
+    private ViewDataBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_recycler_view);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_category_recycler_view);
         setToolBar();
         categoryViewModel = new ViewModelProvider(CategoryRecyclerView.this).get(CategoryViewModel.class);
         emptyView = findViewById(R.id.no_categories_available_TextView);
-
         //Attempt to get intent in order to maintain persists of date for the inputted exercise
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_DATE_CATEGORY)) {

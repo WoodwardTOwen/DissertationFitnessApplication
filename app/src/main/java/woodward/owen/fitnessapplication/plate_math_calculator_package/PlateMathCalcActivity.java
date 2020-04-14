@@ -373,14 +373,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
         Toast.makeText(this, "Barbell: " + name + "\nWeight: " + weight + "kg", Toast.LENGTH_SHORT).show();
     }
 
-
-    //Checking whether there is a preset of plates to configure
-    public ArrayList<Float> plateConfig () {
-
-        ArrayList<Float> configList = new ArrayList<>();
-        return configList;
-    }
-
     private void closeKeyBoard () {
         InputMethodManager input = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);

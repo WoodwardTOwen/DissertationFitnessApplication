@@ -18,8 +18,8 @@ import woodward.owen.fitnessapplication.weight_tracking_package.database_package
 
 public class AddCategoryViewModel extends AndroidViewModel {
 
-    private ExerciseRepository repository;
-    private LiveData<List<Category>> retrievedListOfCategories;
+    private final ExerciseRepository repository;
+    private final LiveData<List<Category>> retrievedListOfCategories;
 
     public AddCategoryViewModel(@NonNull Application application) {
         super(application);

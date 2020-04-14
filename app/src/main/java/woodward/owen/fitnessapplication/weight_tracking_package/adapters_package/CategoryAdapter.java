@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.databinding.CategoryItemBinding;
 import woodward.owen.fitnessapplication.exercise_package.Category;
 
 public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.CategoryHolder> {
@@ -37,23 +38,23 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
     @NonNull
     @Override
     public CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false);
-        return new CategoryHolder(itemView);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        CategoryItemBinding itemBinding = CategoryItemBinding.inflate(layoutInflater, parent, false);
+        return new CategoryHolder(itemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
         Category currentCategory = getItem(position);
-        holder.categoryName.setText(currentCategory.getCategoryName());
+        holder.bind(currentCategory);
     }
 
     class CategoryHolder extends RecyclerView.ViewHolder {
-        private final TextView categoryName;
+        private CategoryItemBinding binding;
 
-        public CategoryHolder(@NonNull View itemView) {
-            super(itemView);
-            categoryName = itemView.findViewById(R.id.recyclerViewCategoryTextView);
-
+        CategoryHolder(CategoryItemBinding categoryItemBinding) {
+            super(categoryItemBinding.getRoot());
+            this.binding = categoryItemBinding;
             //setting listener on cardView
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
@@ -73,6 +74,11 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
             });
 
         }
+
+        public void bind(Category category) {
+            binding.setCategory(category);
+            binding.executePendingBindings();
+        }
     }
 
     public interface onItemClickListener {
@@ -88,8 +94,5 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
     }
 
     public void setOnItemLongClickListener(onItemLongClickListener listener) {this.longListener = listener;}
-
-
-
 
 }

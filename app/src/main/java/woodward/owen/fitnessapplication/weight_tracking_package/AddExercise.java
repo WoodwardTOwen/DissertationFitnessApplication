@@ -32,7 +32,7 @@ import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packg
 
 public class AddExercise extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String EXTRA_DATE = "woodward.owen.fitnessapplication.EXTRA_DATE";
+    public static final String EXTRA_DATE = "woodward.owen.fitnessApplication.EXTRA_DATE";
     private EditText weightInput;
     private EditText repInput;
     private EditText rpeInput;

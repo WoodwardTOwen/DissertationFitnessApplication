@@ -37,7 +37,7 @@ public class ExerciseRecyclerView extends AppCompatActivity {
 
     private ExerciseNameAdapter adapter;
     private ExerciseNameViewModel exerciseNameViewModel;
-    public static final String EXTRA_DATE_EXERCISE = "woodward.owen.fitnessapplication.EXTRA_EXERCISE";
+    public static final String EXTRA_DATE_EXERCISE = "woodward.owen.fitnessApplication.EXTRA_EXERCISE";
     private String currentDate;
     private TextView emptyView;
 

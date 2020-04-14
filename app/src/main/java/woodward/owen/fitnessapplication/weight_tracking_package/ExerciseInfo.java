@@ -27,11 +27,11 @@ import woodward.owen.fitnessapplication.R;
 
 public class ExerciseInfo extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String EXTRA_ID = "woodward.owen.fitnessapplication.EXTRA_ID";
-    public static final String EXTRA_EXERCISE_NAME = "woodward.owen.fitnessapplication.EXTRA_NAME";
-    public static final String EXTRA_WEIGHT = "woodward.owen.fitnessapplication.EXTRA_WEIGHT";
-    public static final String EXTRA_REPS = "woodward.owen.fitnessapplication.EXTRA_REPS";
-    public static final String EXTRA_RPE = "woodward.owen.fitnessapplication.EXTRA_RPE";
+    public static final String EXTRA_ID = "woodward.owen.fitnessApplication.EXTRA_ID";
+    public static final String EXTRA_EXERCISE_NAME = "woodward.owen.fitnessApplication.EXTRA_NAME";
+    public static final String EXTRA_WEIGHT = "woodward.owen.fitnessApplication.EXTRA_WEIGHT";
+    public static final String EXTRA_REPS = "woodward.owen.fitnessApplication.EXTRA_REPS";
+    public static final String EXTRA_RPE = "woodward.owen.fitnessApplication.EXTRA_RPE";
     private EditText editWeightInput;
     private EditText editRepInput;
     private EditText editRpeInput;
@@ -244,7 +244,7 @@ public class ExerciseInfo extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
 
         if(CheckIfItemsHaveChanged()){
-
+            unSavedChangesDialog();
         }
         else {
             super.onBackPressed();
@@ -281,21 +281,15 @@ public class ExerciseInfo extends AppCompatActivity implements View.OnClickListe
         newRpeTV.setText(exerciseRPE); newRpeTV.setTextColor(Color.GREEN);
 
 
-        applyChanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UpdateExercise();
-                dialog.dismiss();
-                ExerciseInfo.super.onBackPressed();
-            }
+        applyChanges.setOnClickListener(v -> {
+            UpdateExercise();
+            dialog.dismiss();
+            ExerciseInfo.super.onBackPressed();
         });
 
-        neglectChanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                ExerciseInfo.super.onBackPressed();
-            }
+        neglectChanges.setOnClickListener(v -> {
+            dialog.dismiss();
+            ExerciseInfo.super.onBackPressed();
         });
 
         dialog.show();

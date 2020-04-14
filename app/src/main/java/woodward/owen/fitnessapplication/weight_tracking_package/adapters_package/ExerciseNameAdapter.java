@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import woodward.owen.fitnessapplication.R;
+import woodward.owen.fitnessapplication.databinding.ExercisenameItemBinding;
+import woodward.owen.fitnessapplication.exercise_package.Category;
 import woodward.owen.fitnessapplication.exercise_package.ExerciseName;
 
 public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameAdapter.ExerciseNameHolder> {
@@ -33,26 +35,26 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
         }
     };
 
-
     @NonNull
     @Override
     public ExerciseNameHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercisename_item, parent, false);
-        return new ExerciseNameHolder(itemView);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        ExercisenameItemBinding itemBinding = ExercisenameItemBinding.inflate(layoutInflater, parent, false);
+        return new ExerciseNameHolder(itemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseNameHolder holder, int position) {
-        ExerciseName currentExercise = getItem(position);
-        holder.exerciseName.setText(currentExercise.getExerciseName());
+        ExerciseName exerciseName = getItem(position);
+        holder.bind(exerciseName);
     }
 
     class ExerciseNameHolder extends RecyclerView.ViewHolder {
-        private final TextView exerciseName;
+        private ExercisenameItemBinding binding;
 
-        public ExerciseNameHolder(@NonNull View itemView) {
-            super(itemView);
-            exerciseName = itemView.findViewById(R.id.recyclerViewExerciseTextView);
+        ExerciseNameHolder(ExercisenameItemBinding exercisenameItemBinding) {
+            super(exercisenameItemBinding.getRoot());
+            this.binding = exercisenameItemBinding;
 
             //setting listener on cardView
             itemView.setOnClickListener(v -> {
@@ -71,6 +73,11 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
                return false;
             });
 
+        }
+
+        public void bind(ExerciseName exerciseName) {
+            binding.setExerciseName(exerciseName);
+            binding.executePendingBindings();
         }
     }
 

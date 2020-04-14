@@ -47,7 +47,7 @@ public class GraphicalActivity extends AppCompatActivity {
     private String filter = "";
     public static final String LIST_OF_EXERCISES = "ListOfExercises";
     public static final String FILTER_OPTION = "Filter";
-    public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessapplication.EXTRA_EXERCISE_NAME";
+    public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessApplication.EXTRA_EXERCISE_NAME";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +87,7 @@ public class GraphicalActivity extends AppCompatActivity {
     private void setEntries (List<Exercise> exercises) {
         //Enables dragging of the graph on the UI
         List<Entry> entries = new ArrayList<>();
-        entries = createEntries(filter, currentExercises);
+        entries = createEntries(filter, exercises);
         LineDataSet lineDataSet = new LineDataSet(entries, "The Data Ting"); //This is where it would place the information to be display
 
         int color = ContextCompat.getColor(getApplicationContext(), R.color.colorDatePicker);

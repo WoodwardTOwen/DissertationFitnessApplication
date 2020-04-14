@@ -1,6 +1,7 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge;
 
 import android.app.Application;
+import android.os.Parcel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

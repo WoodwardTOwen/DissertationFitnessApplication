@@ -75,7 +75,7 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.Categ
 
         }
 
-        public void bind(Category category) {
+        void bind(Category category) {
             binding.setCategory(category);
             binding.executePendingBindings();
         }

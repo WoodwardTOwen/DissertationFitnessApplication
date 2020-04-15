@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -45,15 +47,21 @@ public class GraphicalActivity extends AppCompatActivity {
     private List<Exercise> currentExercises;
     private String[] dateArray;
     private String filter = "";
+    private String exerciseName = "";
+    private String firstDate = "";
+    private String lastDate = "";
     public static final String LIST_OF_EXERCISES = "ListOfExercises";
     public static final String FILTER_OPTION = "Filter";
-    public static final String EXTRA_EXERCISE_NAME = "woodard.owen.fitnessApplication.EXTRA_EXERCISE_NAME";
+    public static final String EXTRA_EXERCISE_NAME = "woodward.owen.fitnessApplication.EXTRA_EXERCISE_NAME";
+    public static final String EXTRA_FIRST_DATE= "woodward.owen.fitnessApplication.EXTRA_FIRST_DATE";
+    public static final String EXTRA_LAST_DATE="woodward.owen.fitnessApplication.EXTRA_LAST_DATE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphical);
         lineChart = findViewById(R.id.lineChartView);
         TextView titleTextView = findViewById(R.id.Graphical_Analysis_Title);
+        TextView titleTextViewDates = findViewById(R.id.Dates_GraphicalAnalysis_Title);
 
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#86b8ff")));
         graphicalViewModel = new ViewModelProvider(GraphicalActivity.this).get(GraphicalViewModel.class);
@@ -61,11 +69,27 @@ public class GraphicalActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = getIntent().getExtras();
         filter = intent.getStringExtra(FILTER_OPTION);
-        String exerciseName = intent.getStringExtra(EXTRA_EXERCISE_NAME);
+
+        if (intent.hasExtra(EXTRA_EXERCISE_NAME)) {
+            exerciseName = intent.getStringExtra(EXTRA_EXERCISE_NAME);
+            titleTextView.setText(String.format("%s for %s", filter, exerciseName));
+        }else if(intent.hasExtra(EXTRA_FIRST_DATE) && intent.hasExtra(EXTRA_LAST_DATE)){
+            firstDate = intent.getStringExtra(EXTRA_FIRST_DATE);
+            lastDate = intent.getStringExtra(EXTRA_LAST_DATE);
+
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                // In Portrait
+                titleTextView.setText(R.string.TitleForDateAnalysis);
+                titleTextViewDates.setVisibility(View.VISIBLE);
+                titleTextViewDates.setText(String.format("%s - %s", firstDate, lastDate));
+            } else {
+                // In LandScape
+                titleTextView.setText(String.format("Total Workout Volume for Dates %s - %s", firstDate, lastDate));
+            }
+        }
+
         currentExercises = bundle.getParcelableArrayList(LIST_OF_EXERCISES);
-
-        titleTextView.setText(String.format("%s for %s", filter, exerciseName));
-
         dateArray = new String[currentExercises.size()];
 
         for(int x = 0; x < currentExercises.size(); x++){
@@ -86,7 +110,7 @@ public class GraphicalActivity extends AppCompatActivity {
 
     private void setEntries (List<Exercise> exercises) {
         //Enables dragging of the graph on the UI
-        List<Entry> entries = new ArrayList<>();
+        List<Entry> entries;
         entries = createEntries(filter, exercises);
         LineDataSet lineDataSet = new LineDataSet(entries, "The Data Ting"); //This is where it would place the information to be display
 
@@ -145,11 +169,13 @@ public class GraphicalActivity extends AppCompatActivity {
                 }
                 return entries;
             case "MaxVolume":
+            case "WeeklyVolume":
                 for(int i = 0; i < exercises.size(); i++){
                     entries.add(new Entry(i,
                             graphicalViewModel.convertToFloat(exercises.get(i).getTotalVolume())));
                 }
                 return entries;
+
         }
         return entries;
     }

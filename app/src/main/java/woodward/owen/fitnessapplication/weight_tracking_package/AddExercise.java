@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,13 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.core.content.IntentCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
@@ -83,9 +80,12 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
             Toast.makeText(AddExercise.this, "Exercise Saved", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(AddExercise.this, ExerciseTrackingActivity.class);
+            //So the UI doesn't reset to the present time, resets to old currently viewed date
             intent.putExtra(ExerciseTrackingActivity.EXTRA_DATE_MAIN_UI, addExerciseViewModel.getCurrentDate().getValue());
-            startActivity(intent);
 
+            //Clears the stack before returning to Main UI
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
             finish();
         } else {
             Toast.makeText(AddExercise.this, "Please Ensure All Fields Have an Inputted Value", Toast.LENGTH_SHORT).show();

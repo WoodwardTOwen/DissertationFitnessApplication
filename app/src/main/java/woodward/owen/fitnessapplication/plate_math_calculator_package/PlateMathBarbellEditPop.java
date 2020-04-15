@@ -32,48 +32,45 @@ public class PlateMathBarbellEditPop extends Activity {
 
 
         Button b = (findViewById(R.id.SubmitBarbellBnt));
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        b.setOnClickListener(v -> {
 
-                //Call methods to check whether values are valid for input and assign it to the boolean values below
-                barbellName = findViewById(R.id.barbellTypeTB);
-                barbellWeight = findViewById(R.id.barbellWeightTb);
+            //Call methods to check whether values are valid for input and assign it to the boolean values below
+            barbellName = findViewById(R.id.barbellTypeTB);
+            barbellWeight = findViewById(R.id.barbellWeightTb);
 
-                boolean isValidBarbell = ValidateBarbell(barbellName.getText().toString());
-                boolean isValidWeightNumber = ValidateWeightNumber(barbellWeight.getText().toString());
+            boolean isValidBarbell = ValidateBarbell(barbellName.getText().toString());
+            boolean isValidWeightNumber = ValidateWeightNumber(barbellWeight.getText().toString());
 
-                if(isValidBarbell && isValidWeightNumber) {
-                    //Perform addition to spinner
-                    try {
-                        String barbellNameStr = barbellName.getText().toString();
-                        int barbellWeightStr = Integer.parseInt(barbellWeight.getText().toString());
+            if(isValidBarbell && isValidWeightNumber) {
+                //Perform addition to spinner
+                try {
+                    String barbellNameStr = barbellName.getText().toString();
+                    int barbellWeightStr = Integer.parseInt(barbellWeight.getText().toString());
 
-                        boolean checker = CheckIfExists(barbellNameStr, retrievedListOfBarbells);
+                    boolean checker = CheckIfExists(barbellNameStr, retrievedListOfBarbells);
 
-                        if(checker) {
-                            BarbellType tempBarbell = new BarbellType(barbellNameStr, barbellWeightStr);
-                            retrievedListOfBarbells.add(tempBarbell);
-                            ToastMsgSuccess(tempBarbell);
+                    if(checker) {
+                        BarbellType tempBarbell = new BarbellType(barbellNameStr, barbellWeightStr);
+                        retrievedListOfBarbells.add(tempBarbell);
+                        ToastMsgSuccess(tempBarbell);
 
-                            Intent intent = new Intent();
-                            intent.putExtra("AddedBarbellList", retrievedListOfBarbells);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                        }
-                        else {
-                            ToastMsgAlreadyExists();
-                        }
-
+                        Intent intent = new Intent();
+                        intent.putExtra("AddedBarbellList", retrievedListOfBarbells);
+                        setResult(RESULT_OK, intent);
+                        finish();
                     }
-                    catch (Exception ex) {
-                        ex.printStackTrace();
+                    else {
+                        ToastMsgAlreadyExists();
                     }
+
                 }
-                else {
-                    //send toast message that it has failed -> dont add item to spinner
-                    ToastMsgDenied();
+                catch (Exception ex) {
+                    ex.printStackTrace();
                 }
+            }
+            else {
+                //send toast message that it has failed -> dont add item to spinner
+                ToastMsgDenied();
             }
         });
 

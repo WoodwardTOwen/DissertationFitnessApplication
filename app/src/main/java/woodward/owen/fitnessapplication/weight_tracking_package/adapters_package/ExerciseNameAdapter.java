@@ -75,7 +75,7 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
 
         }
 
-        public void bind(ExerciseName exerciseName) {
+        void bind(ExerciseName exerciseName) {
             binding.setExerciseName(exerciseName);
             binding.executePendingBindings();
         }

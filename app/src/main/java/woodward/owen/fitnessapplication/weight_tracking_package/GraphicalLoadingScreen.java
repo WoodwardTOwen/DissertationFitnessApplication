@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
@@ -24,6 +25,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
 
     public static final String EXTRA_EXERCISE_TITLE= "woodward.owen.fitnessapplication.EXTRA_EXERCISE_NAME";
     public static final String EXTRA_GRAPHICAL_OPTION= "woodward.owen.fitnessapplication.EXTRA_GRAPHICAL_OPTION";
+    public static final String EXTRA_EXERCISE_DATE="woodward.owen.fitnessapplication.EXTRA_EXERCISE_DATE";
     public static final String LIST_OF_EXERCISES = "ListOfExercises";
     private static final int TIME_OUT = 1000;
     private GraphicalViewModel graphicalViewModel;
@@ -45,23 +47,31 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         if (intent.hasExtra(EXTRA_EXERCISE_TITLE)) {
             graphicalViewModel.setName(intent.getStringExtra(EXTRA_EXERCISE_TITLE));
             graphicalOption = intent.getStringExtra(EXTRA_GRAPHICAL_OPTION);
+        }else if(intent.hasExtra(EXTRA_EXERCISE_DATE)){
+            //Call Converter Method here
+            graphicalViewModel.setExerciseDates(WeeklyDates(intent.getStringExtra(EXTRA_EXERCISE_DATE)));
+            graphicalOption = intent.getStringExtra(EXTRA_GRAPHICAL_OPTION);
+
         }
 
         titleTextView.setText(String.format("Loading %s Analysis", graphicalOption));
+
+        //Observers
         Observe();
         ObserveNameChange();
+        ObserveWeeklyList();
 
         mRunnable = new GraphicalRunnable(this);
         handler.postDelayed(mRunnable, TIME_OUT);
     }
 
+    //Activity LifeCycle Handling
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         handler.removeCallbacks(mRunnable);
     }
 
-    //Activity LifeCycle Handling
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -69,7 +79,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         handler.removeCallbacks(mRunnable);
     }
 
-
+    //Observers
     private void Observe() {
         graphicalViewModel.getListOfExercisesGraphical().observe(GraphicalLoadingScreen.this, exercises -> {
             if(currentExercises.size() != 0){
@@ -84,6 +94,26 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         });
     }
 
+    private void ObserveWeeklyList() {
+        graphicalViewModel.getListOfExercisesGraphicalWeekly().observe(GraphicalLoadingScreen.this, exercises -> {
+            if(currentExercises.size() != 0){
+                currentExercises.clear();
+            }
+            currentExercises = (ArrayList<Exercise>) exercises;
+        });
+    }
+
+    //Graphical Analysis Set Up
+    private List<String> WeeklyDates (String date) {
+        int weekNumber, year; List<String> dates;
+
+        date = GraphicalAnalysisMethods.convertDate(date);
+        weekNumber = GraphicalAnalysisMethods.findCalenderWeek(date);
+        year = GraphicalAnalysisMethods.findCalenderYear(date);
+        dates = GraphicalAnalysisMethods.findDatesForCalenderWeek(weekNumber, year);
+        return dates;
+    }
+
     private void FilterData (String filterOption) {
         switch (filterOption) {
             case "MaxWeight":
@@ -91,13 +121,16 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
                 return;
             case "MaxVolume":
                 reformedListOfExercises = (ArrayList<Exercise>) GraphicalAnalysisMethods.sortDataForVolumeDisplay(currentExercises);
+                return;
+            case "WeeklyVolume":
+                reformedListOfExercises = (ArrayList<Exercise>) GraphicalAnalysisMethods.sortDataForWeeklyVolume(currentExercises);
         }
     }
 
+
     private void completeTask () {
         Intent graphical = new Intent(GraphicalLoadingScreen.this, GraphicalActivity.class);
-
-        GraphicalAnalysisMethods.convertDates(currentExercises);
+        GraphicalAnalysisMethods.convertListOfDates(currentExercises);
         GraphicalAnalysisMethods.sortDatesInOrder(currentExercises);
         FilterData(graphicalOption);
 
@@ -105,11 +138,17 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         bundle.putParcelableArrayList(LIST_OF_EXERCISES, reformedListOfExercises);
         graphical.putExtras(bundle);
         graphical.putExtra(GraphicalActivity.FILTER_OPTION, graphicalOption);
-        graphical.putExtra(GraphicalActivity.EXTRA_EXERCISE_NAME, graphicalViewModel.getCurrentName().getValue());
+
+        if(graphicalOption.equals("WeeklyVolume")){
+            graphical.putExtra(GraphicalActivity.EXTRA_FIRST_DATE, graphicalViewModel.getExerciseDates().getValue().get(0));
+            graphical.putExtra(GraphicalActivity.EXTRA_LAST_DATE, graphicalViewModel.getExerciseDates().getValue().get(6));
+        }
+        else {
+            graphical.putExtra(GraphicalActivity.EXTRA_EXERCISE_NAME, graphicalViewModel.getCurrentName().getValue());
+        }
         startActivity(graphical);
         finish();
     }
-
 
     private static class GraphicalHandler extends Handler {}
     private final GraphicalHandler handler = new GraphicalHandler();

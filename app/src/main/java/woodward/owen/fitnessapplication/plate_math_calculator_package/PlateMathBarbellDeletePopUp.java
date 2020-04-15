@@ -45,33 +45,26 @@ public class PlateMathBarbellDeletePopUp extends Activity {
             diaLogBuilder.setTitle("Confirmation of Barbell Deletion");
             diaLogBuilder.setMessage("Are you sure you want to delete " + barbellName + "?");
 
-            diaLogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Do nothing but close the dialog
-                    for (BarbellType str : retrievedListOfBarbells) {
-                        if (str.getBarbellName().equals(barbellName)) {
-                            retrievedListOfBarbells.remove(str);
-                            break;
-                        }
+            diaLogBuilder.setPositiveButton("YES", (dialog, which) -> {
+                // Do nothing but close the dialog
+                for (BarbellType str : retrievedListOfBarbells) {
+                    if (str.getBarbellName().equals(barbellName)) {
+                        retrievedListOfBarbells.remove(str);
+                        break;
                     }
-                    Toast.makeText(getApplicationContext(), "Successfully Removed " + barbellName, Toast.LENGTH_SHORT).show();
-
-                    dialog.dismiss();
-                    Intent intent = new Intent();
-                    intent.putExtra("AddedBarbellList", retrievedListOfBarbells);
-                    setResult(RESULT_OK, intent);
-                    finish();
                 }
+                Toast.makeText(getApplicationContext(), "Successfully Removed " + barbellName, Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
+                Intent intent = new Intent();
+                intent.putExtra("AddedBarbellList", retrievedListOfBarbells);
+                setResult(RESULT_OK, intent);
+                finish();
             });
-            diaLogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //Cancel Procedure -> do NOT remove barbell
-                    Toast.makeText(getApplicationContext(), "Transaction Cancelled", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
+            diaLogBuilder.setNegativeButton("NO", (dialog, which) -> {
+                //Cancel Procedure -> do NOT remove barbell
+                Toast.makeText(getApplicationContext(), "Transaction Cancelled", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             });
 
             AlertDialog alert = diaLogBuilder.create();

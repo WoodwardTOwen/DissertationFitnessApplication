@@ -18,8 +18,6 @@ public class TimerViewModel extends AndroidViewModel {
     private long START_TIME_IN_MILLIS= 60000;
     private long endTime;
     private static final String START_BUTTON_NAME = "Start";
-    private static final String PAUSE_BUTTON_NAME = "Pause";
-    private static final String RESET_BUTTON_NAME = "Reset";
     private boolean timerRunning;
     private long timeLeftInMillis;
     private static final String SHARED_PREFS = "timerPrefs";
@@ -74,8 +72,6 @@ public class TimerViewModel extends AndroidViewModel {
     }
 
     public String getStartButtonName() { return START_BUTTON_NAME; }
-    public String getPauseButtonName() { return PAUSE_BUTTON_NAME; }
-    public String getResetButtonName() { return RESET_BUTTON_NAME; }
 
     public long getEndTime() { return endTime; }
 

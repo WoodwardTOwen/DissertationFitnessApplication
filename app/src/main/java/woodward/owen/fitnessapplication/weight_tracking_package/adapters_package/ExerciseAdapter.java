@@ -87,13 +87,10 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
             textViewDate = itemView.findViewById(R.id.textViewDate);
 
             //setting listener on cardView
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (listener != null && pos != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(getItem(pos));
-                    }
+            itemView.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                if (listener != null && pos != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(getItem(pos));
                 }
             });
 

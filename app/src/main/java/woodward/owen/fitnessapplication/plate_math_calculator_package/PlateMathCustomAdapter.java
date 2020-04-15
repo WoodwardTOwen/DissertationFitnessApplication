@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Integer>> {
 
@@ -23,7 +24,7 @@ public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Intege
 
     @SuppressLint("DefaultLocale")
     @NonNull @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View currentItemView = convertView != null ? convertView :
                 LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2,parent,false);
 
@@ -32,7 +33,7 @@ public class PlateMathCustomAdapter extends ArrayAdapter<Map.Entry<Float, Intege
         TextView textViewKey = currentItemView.findViewById(android.R.id.text1);
         TextView textViewValue = currentItemView.findViewById(android.R.id.text2);
 
-        textViewKey.setText(currentEntry.getKey() + "kg");
+        textViewKey.setText(String.format("%skg", Objects.requireNonNull(currentEntry).getKey()));
         textViewValue.setText(String.format("Number of plates: %d (%d Plates Each side)", currentEntry.getValue(), currentEntry.getValue() / 2));
 
         textViewKey.setTextColor(Color.parseColor("#FFFFFF"));

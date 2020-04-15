@@ -1,12 +1,14 @@
 package woodward.owen.fitnessapplication.exercise_package;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
 @Entity(tableName = "Category_Table")
-public class Category implements Serializable {
+public class Category extends BaseObservable implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -34,5 +36,6 @@ public class Category implements Serializable {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+        notifyPropertyChanged(BR.category);
     }
 }

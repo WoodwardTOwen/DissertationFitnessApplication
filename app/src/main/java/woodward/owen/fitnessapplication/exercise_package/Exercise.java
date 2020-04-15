@@ -44,6 +44,13 @@ public class Exercise implements Parcelable {
         this.date = date;
     }
 
+    //Graphical Analysis for Weekly Volume
+    @Ignore
+    public Exercise(double totalVolume, String date){
+        this.totalVolume = totalVolume;
+        this.date = date;
+    }
+
     public Exercise() {
 
     }

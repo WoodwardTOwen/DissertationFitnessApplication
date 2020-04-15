@@ -18,6 +18,7 @@
     <string name="Navigation_Navigation_Title">Navigation</string>
     <string name="Navigation_AddExercise_Title">Add Exercise</string>
     <string name="Navigation_Plate_Math_Calculator_Title">Plate Math Calculator</string>
+    <string name="Navigation_Weekly_Volume">Weekly Volume Analysis</string>
     <string name="Navigation_Help_Title">Help</string>
     <string name="ChangeTimer">Set Time</string>
 
@@ -54,6 +55,7 @@
     <string name="GraphicalAnalysisFurtherInformation">(Statistics Measured Per Day)</string>
     <string name="GraphicalAnalysisMaxWeight">Max Weight</string>
     <string name="GraphicalAnalysisMaxVolume">Max Volume</string>
+    <string name="TitleForDateAnalysis">Total Workout Volume for Dates</string>
 
     <string name="EnterExerciseName">Please Input an Exercise Name to be Saved</string>
 

@@ -1,5 +1,7 @@
 package woodward.owen.fitnessapplication.exercise_package;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -15,7 +17,7 @@ import static androidx.room.ForeignKey.CASCADE;
         childColumns = "CategoryID",
         onDelete = CASCADE, onUpdate = CASCADE), indices = @Index("CategoryID")) //Refers to if one category is deleted, all the exercises are deleted with it (one to many)
 
-public class ExerciseName {
+public class ExerciseName extends BaseObservable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String exerciseName;
@@ -46,6 +48,7 @@ public class ExerciseName {
 
     public void setExerciseName(String exerciseName) {
         this.exerciseName = exerciseName;
+        notifyPropertyChanged(BR.exerciseName);
     }
 
     public int getCategoryID() {

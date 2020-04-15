@@ -9,16 +9,13 @@ public class BarbellType implements Parcelable {
     private String barbellName;
     private int barbellWeight;
 
-    public BarbellType (String pBarbellName, int pBarbellWeight) {
+    BarbellType(String pBarbellName, int pBarbellWeight) {
         this.barbellName = pBarbellName;
         this.barbellWeight = pBarbellWeight;
     }
 
-    public String getBarbellName () { return barbellName; }
-    public int getBarbellWeight() { return barbellWeight; }
-
-    public void setBarbellName(String pBarbellName) { this.barbellName = pBarbellName; }
-    public void setBarbellWeight(int pBarbellWeight) { this.barbellWeight = pBarbellWeight; }
+    String getBarbellName() { return barbellName; }
+    int getBarbellWeight() { return barbellWeight; }
 
     @NonNull
     @Override

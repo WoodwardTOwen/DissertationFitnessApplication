@@ -56,6 +56,11 @@ public class ExerciseRepository {
         new DeleteAllExerciseAsyncTask(exerciseDao).execute(date);
     }
 
+    public LiveData<List<Exercise>> GetAllExercisesWeeklyVolume(String date1, String date2, String date3, String date4, String date5, String date6, String date7){
+        allExercisesGraphics = exerciseDao.GetAllExercisesWeeklyVolume(date1, date2, date3, date4, date5, date6, date7);
+        return  allExercisesGraphics;
+    }
+
     public LiveData<List<Exercise>> GetAllExercisesByDate(String date) {
         allExercises = exerciseDao.GetAllExercisesByDate(date);
         return allExercises;
@@ -136,19 +141,6 @@ public class ExerciseRepository {
             return null;
         }
     }
-
-   /* private static class UpdateMovedExercisesAsyncTask extends AsyncTask<Exercise, Void, Void> {
-        private ExerciseDao exerciseDao;
-        private UpdateMovedExercisesAsyncTask(ExerciseDao dao) {
-            this.exerciseDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(Exercise... exercises) {
-            exerciseDao.updateMovementOfItems(exercises[0]);
-            return null;
-        }
-    }*/
 
     private static class DeleteExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
         private ExerciseDao exerciseDao; //needed for database operations

@@ -23,7 +23,7 @@ public interface ExerciseDao {
     void Delete (Exercise exercise);
 
     //Delete all exercises for a specific date
-    @Query("DElETE FROM exercise_table WHERE date LIKE :date")
+    @Query("DElETE FROM exercise_table WHERE date = :date")
     void DeleteAllExercises(String date);
 
     //Select All Exercises From the table
@@ -31,10 +31,16 @@ public interface ExerciseDao {
     LiveData<List<Exercise>> GetEveryExercise();
 
     //Get all exercises that match the current date
-    @Query("SELECT * FROM exercise_table WHERE date LIKE :date")
+    @Query("SELECT * FROM exercise_table WHERE date = :date")
     LiveData<List<Exercise>> GetAllExercisesByDate(String date);
 
     //Get all exercises that match the current username
     @Query("SELECT * FROM exercise_table WHERE exerciseName = :exerciseName")
     LiveData<List<Exercise>> GetSpecificExercisesByName(String exerciseName);
+
+    //Weekly Volume Query
+    @Query("SELECT * FROM exercise_table WHERE date = :date1 OR date = :date2 OR date = :date3 OR date = :date4 " +
+            "OR date = :date5 OR date = :date6 OR date = :date7")
+    LiveData<List<Exercise>> GetAllExercisesWeeklyVolume(String date1, String date2, String date3, String date4,
+                                                         String date5, String date6, String date7);
 }

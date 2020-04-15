@@ -24,10 +24,6 @@ public class ExerciseViewModel extends AndroidViewModel {
         repository = ExerciseRepository.getInstance(application);
     }
 
-    private static LiveData<List<Exercise>> ProcessData (String name) {
-            return repository.GetAllDataForExerciseType(name);
-    }
-
     //Wrapper methods for the repository from the ViewModel
     public void Insert(Exercise exercise) {
         repository.Insert(exercise);

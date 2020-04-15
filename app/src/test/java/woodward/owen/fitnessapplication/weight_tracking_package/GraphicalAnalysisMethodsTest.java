@@ -1,8 +1,5 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
-import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.GraphicalViewModel;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +16,7 @@ public class GraphicalAnalysisMethodsTest {
 
     @Test
     public void convertDates() {
-        GraphicalAnalysisMethods.convertDates(exercises);
+        GraphicalAnalysisMethods.convertListOfDates(exercises);
         String output = exercises.get(0).getDate();
         String output2 = exercises.get(4).getDate();
 
@@ -30,7 +26,7 @@ public class GraphicalAnalysisMethodsTest {
 
     @Test
     public void sortDatesInOrder() {
-        GraphicalAnalysisMethods.convertDates(exercises); //Requires convert to turn hyphens to forward slashes for date time conversion
+        GraphicalAnalysisMethods.convertListOfDates(exercises); //Requires convert to turn hyphens to forward slashes for date time conversion
         GraphicalAnalysisMethods.sortDatesInOrder(exercises);
         String startValue = exercises.get(0).getDate();
         String endValue = exercises.get(5).getDate();
@@ -41,7 +37,7 @@ public class GraphicalAnalysisMethodsTest {
 
     @Test
     public void sortDataForWeightEntries() {
-        GraphicalAnalysisMethods.convertDates(exercises);
+        GraphicalAnalysisMethods.convertListOfDates(exercises);
         GraphicalAnalysisMethods.sortDatesInOrder(exercises);
         GraphicalAnalysisMethods.sortDataForWeightEntries(exercises);
     }

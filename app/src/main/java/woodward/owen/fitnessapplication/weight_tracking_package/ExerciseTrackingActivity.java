@@ -115,18 +115,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                mExercises = exerciseViewModel.GetAllExercisesByDate().getValue();
-                if (dragged.getAdapterPosition() < target.getAdapterPosition()) {
-                    for (int i = dragged.getAdapterPosition(); i < target.getAdapterPosition(); i++) {
-                        Collections.swap(mExercises, i, i + 1);
-
-                    }
-                } else {
-                    for (int i = dragged.getAdapterPosition(); i > target.getAdapterPosition(); i--) {
-                        Collections.swap(mExercises, i, i - 1);
-
-                    }
-                }
                 adapter.notifyItemMoved(dragged.getAdapterPosition(), target.getAdapterPosition());
                 return true;
             }
@@ -148,10 +136,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                         }).show();
             }
         }).attachToRecyclerView(recyclerView);
-
-
-        //Update Functionality -> sending over the contents to another activity
-        //Implemented Adapter Listener
         adapter.setOnItemClickListener(this::callForUpdate);
 
     }
@@ -175,9 +159,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
             String RPE = data.getStringExtra(ExerciseInfo.EXTRA_RPE);
             String date = exerciseViewModel.getCurrentDate().getValue();
 
-            assert reps != null;
-            assert weight != null;
-            assert RPE != null;
+            assert reps != null; assert weight != null; assert RPE != null;
             Exercise exercise = new Exercise(name, Integer.parseInt(reps), Double.parseDouble(weight), Integer.parseInt(RPE), date);
             exercise.setId(id);
             exerciseViewModel.Update(exercise);
@@ -213,6 +195,13 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 return true;
             case R.id.nav_workout_generator:
                 Toast.makeText(ExerciseTrackingActivity.this, "Currently Under Construction", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nav_weekly_volume:
+                Intent graphicalAnalysis = new Intent(ExerciseTrackingActivity.this, GraphicalLoadingScreen.class);
+                graphicalAnalysis.putExtra(GraphicalLoadingScreen.EXTRA_EXERCISE_DATE, exerciseViewModel.getCurrentDate().getValue());
+                graphicalAnalysis.putExtra(GraphicalLoadingScreen.EXTRA_GRAPHICAL_OPTION, "WeeklyVolume");
+                startActivity(graphicalAnalysis);
+                closeDrawer();
                 return true;
             case R.id.nav_plateMath:
                 Intent intentPlate = new Intent(ExerciseTrackingActivity.this, PlateMathCalcActivity.class);

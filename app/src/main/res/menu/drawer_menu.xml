@@ -20,6 +20,10 @@
                     android:id="@+id/nav_help"
                     android:icon="@drawable/nav_help"
                     android:title="@string/Navigation_Help_Title" />
+                <item
+                    android:id="@+id/nav_weekly_volume"
+                    android:icon="@drawable/graphical_analysis_black"
+                    android:title="@string/Navigation_Weekly_Volume"/>
             </menu>
         </item>
 

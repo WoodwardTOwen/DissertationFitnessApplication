@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.MarkerView;
@@ -26,17 +25,14 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
-import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.ExerciseViewModel;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.GraphicalViewModel;
 
 public class GraphicalActivity extends AppCompatActivity {
@@ -59,6 +55,7 @@ public class GraphicalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphical);
+        setTitle("Graphical Analysis");
         lineChart = findViewById(R.id.lineChartView);
         TextView titleTextView = findViewById(R.id.Graphical_Analysis_Title);
         TextView titleTextViewDates = findViewById(R.id.Dates_GraphicalAnalysis_Title);
@@ -95,27 +92,17 @@ public class GraphicalActivity extends AppCompatActivity {
         for(int x = 0; x < currentExercises.size(); x++){
             dateArray[x] = currentExercises.get(x).getDate();
         }
-
-
         setEntries(currentExercises);
-        //Enables Dragging/ Scaling of the UI
-        lineChart.setDragEnabled(true);
-        lineChart.setScaleEnabled(true);
-        lineChart.setDrawGridBackground(false);
-
-        //Removes axis on the right side of the graph
-        lineChart.getAxisRight().setEnabled(false);
-
     }
 
     private void setEntries (List<Exercise> exercises) {
         //Enables dragging of the graph on the UI
         List<Entry> entries;
         entries = createEntries(filter, exercises);
-        LineDataSet lineDataSet = new LineDataSet(entries, "The Data Ting"); //This is where it would place the information to be display
-
+        LineDataSet lineDataSet = new LineDataSet(entries, "DateSet1"); //This is where it would place the information to be display
         int color = ContextCompat.getColor(getApplicationContext(), R.color.colorDatePicker);
 
+        //LineDataSet Layout
         lineDataSet.setColor(Color.BLACK);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setFillColor(color);
@@ -124,11 +111,10 @@ public class GraphicalActivity extends AppCompatActivity {
         lineDataSet.setCircleRadius(5f);
         lineDataSet.setValueTextSize(12);
         lineDataSet.setLineWidth(2f);
-
         lineDataSet.setFillAlpha(80);
 
+        //XAxis Layout
         XAxis xAxis = lineChart.getXAxis();
-
         xAxis.setTextColor(Color.WHITE);
         xAxis.setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(dateArray));       //<-- requires values to be passed in as array
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -138,25 +124,36 @@ public class GraphicalActivity extends AppCompatActivity {
         xAxis.setDrawGridLines(false);
         xAxis.setLabelRotationAngle(-45);
 
-
+        //YAxis Layout
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setTextColor(Color.WHITE);
-
         yAxis.setTextSize(12); xAxis.setTextSize(12);
 
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(lineDataSet);
-        LineData lineData = new LineData(dataSets);
-        lineChart.setData(lineData);
+        //LineChart Setup
+        if(entries.size() == 0){ //Checks to see if any data is available or not
+            lineChart.setNoDataText("No Data Available");
+        }else {
+            //DataSet Setup
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(lineDataSet);
+            LineData lineData = new LineData(dataSets);
+            //Formats Decimal Values -> prevents automatic rounding up
+            lineData.setValueFormatter(new DecimalFormatter());
+            lineChart.setData(lineData);
+        }
+
         lineChart.animateX(2000);
         lineChart.invalidate();
-
         IMarker marker = new CustomMarketView(getApplicationContext(), R.layout.marker_layout);
         lineChart.setMarker(marker);
         lineChart.getLegend().setEnabled(false);
         lineChart.setExtraRightOffset(30);
         lineChart.getDescription().setEnabled(false);
         lineChart.notifyDataSetChanged();
+        lineChart.setDragEnabled(true);
+        lineChart.setScaleEnabled(true);
+        lineChart.setDrawGridBackground(false);
+        lineChart.getAxisRight().setEnabled(false);
     }
 
     private List<Entry> createEntries (String filter, List<Exercise> exercises) {
@@ -182,40 +179,37 @@ public class GraphicalActivity extends AppCompatActivity {
 
 
     public class CustomMarketView extends MarkerView {
-
         private TextView textview;
-        /**
-         * Constructor. Sets up the MarkerView with a custom layout resource.
-         *
-         * @param context
-         * @param layoutResource the layout resource to use for the MarkerView
-         */
+        private MPPointF offset;
+
         public CustomMarketView(Context context, int layoutResource) {
             super(context, layoutResource);
-
-            //NEED TO ESTABLISH TEXTVIEW HERE ONCE LAYOUT HAS BEEN CREATED
             textview = findViewById(R.id.marketContentTV);
         }
 
         @Override
         public void refreshContent (Entry e, Highlight highlight) {
             int xValue = (int) e.getX();
-
             String value = GraphicalAnalysisMethods.FindXAxisValue(currentExercises, xValue);
-
             textview.setText(value);
+
             super.refreshContent(e, highlight);
         }
-
-        private MPPointF offset;
 
         @Override
         public MPPointF getOffset() {
             if(offset == null) {
                 offset = new MPPointF(-(getWidth()), -getHeight());
             }
-
             return offset;
+        }
+    }
+
+    //Stops library from automatically converting values
+    public static class DecimalFormatter extends ValueFormatter {
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return String.valueOf(value);
         }
     }
 }

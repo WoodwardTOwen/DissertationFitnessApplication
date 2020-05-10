@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="250dp"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:text="Loading PlaceHolder"/>
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginBottom="40dp"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:layout_below="@id/Info_Title_Loading_Screen"
         android:text="Please Wait..."/>
 

@@ -23,6 +23,7 @@
     <string name="ChangeTimer">Set Time</string>
 
     <string name="AddExerciseTitle">Add Exercise</string>
+    <string name="AddCategoryTitle">Add Category</string>
     <string name="EditExerciseTitle">Edit Exercise</string>
     <string name="WeightKGTitle">Weight (Kg)</string>
     <string name="repTitle">Reps</string>

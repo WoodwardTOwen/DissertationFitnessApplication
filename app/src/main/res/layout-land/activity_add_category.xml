@@ -12,7 +12,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="52dp"
         android:layout_marginBottom="40dp"
-        android:text="@string/AddExerciseTitle"
+        android:text="@string/AddCategoryTitle"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 

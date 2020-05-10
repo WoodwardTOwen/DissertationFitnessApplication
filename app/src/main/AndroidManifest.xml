@@ -16,7 +16,7 @@
         <activity android:name=".weight_tracking_package.ExerciseRecyclerView" />
         <activity android:name=".weight_tracking_package.CategoryRecyclerView" />
         <activity android:name=".weight_tracking_package.GraphicalActivity"
-            android:parentActivityName=".weight_tracking_package.ExerciseInfo"
+            android:parentActivityName=".weight_tracking_package.ExerciseTrackingActivity"
             />
         <activity
             android:name=".weight_tracking_package.help.page.TrackingHelpPage"

@@ -18,11 +18,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.IntentCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Objects;
 
+import woodward.owen.fitnessapplication.databinding.AddExerciseLayoutFileBinding;
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.AddExerciseViewModel;
@@ -37,12 +37,12 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     private TextView categoryTextView;
     private String dateForExercise;
     private AddExerciseViewModel addExerciseViewModel;
+    private AddExerciseLayoutFileBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_exercise_layout_file);
-
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_DATE)) {
             dateForExercise = intent.getStringExtra(EXTRA_DATE);

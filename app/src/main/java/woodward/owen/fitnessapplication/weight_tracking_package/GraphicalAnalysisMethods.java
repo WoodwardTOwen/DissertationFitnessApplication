@@ -31,6 +31,7 @@ class GraphicalAnalysisMethods {
     static void sortDatesInOrder(List<Exercise> exercises) {
         Collections.sort(exercises, new Comparator<Exercise>() {
             @SuppressLint("SimpleDateFormat")
+            final
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
             @Override
@@ -132,13 +133,12 @@ class GraphicalAnalysisMethods {
 
         for (int x = 0; x < exercises.size(); x++) {
             totalVolume = totalVolume + (exercises.get(x).getWeight() * exercises.get(x).getReps());
-            if (x == exercises.size() - 1) { //To stop exerciseName and Date being continuously reassigned every iteration (unneeded reassignments)
+            //To stop exerciseName and Date being continuously reassigned every iteration (unneeded reassignments)
+            if (x == exercises.size() - 1) {
                 name = exercises.get(x).getExerciseName();
                 date = exercises.get(x).getDate();
             }
-        }
-
-        return new Exercise(name, totalVolume, date);
+        } return new Exercise(name, totalVolume, date);
     }
 
     static String FindXAxisValue(List<Exercise> exercises, int xValue) {
@@ -160,12 +160,10 @@ class GraphicalAnalysisMethods {
 
     static int findCalenderWeek(String date) {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(Objects.requireNonNull(format.parse(date)));
             return calendar.get(Calendar.WEEK_OF_YEAR);
-
         } catch (ParseException ex) {
             throw new IllegalArgumentException(ex);
         }
@@ -229,16 +227,13 @@ class GraphicalAnalysisMethods {
     }
 
     private static Exercise findWeeklyVolume(List<Exercise> exercises) {
-        String date = "";
-        double totalVolume = 0;
-
+        String date = ""; double totalVolume = 0;
         for (int x = 0; x < exercises.size(); x++) {
             totalVolume = totalVolume + (exercises.get(x).getWeight() * exercises.get(x).getReps());
-            if (x == exercises.size() - 1) { //To stop exerciseName and Date being continuously reassigned every iteration (unneeded reassignments)
+            if (x == exercises.size() - 1) { //To prevent date being continuously reassigned every iteration
                 date = exercises.get(x).getDate();
             }
         }
-
         return new Exercise(totalVolume, date);
     }
 

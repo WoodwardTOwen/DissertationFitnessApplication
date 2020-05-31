@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import java.util.List;
-import java.util.Objects;
 
 import woodward.owen.fitnessapplication.exercise_package.Category;
 import woodward.owen.fitnessapplication.exercise_package.ExerciseName;
@@ -17,10 +16,12 @@ import woodward.owen.fitnessapplication.weight_tracking_package.database_package
 
 public class ExerciseNameViewModel extends AndroidViewModel {
 
-    private MutableLiveData<Category> currentCategory = new MutableLiveData<>();
-    private MutableLiveData<String> currentDate = new MutableLiveData<>();
+    private final MutableLiveData<Category> currentCategory = new MutableLiveData<>();
+    private final MutableLiveData<String> currentDate = new MutableLiveData<>();
     private ExerciseRepository repository;
-    private LiveData<List<ExerciseName>> allExercisesForCategory = Transformations.switchMap(currentCategory, (currentCategory) -> repository.FindExercisesForCategory(currentCategory.getId()));
+    private final LiveData<List<ExerciseName>> allExercisesForCategory =
+            Transformations.switchMap(currentCategory, (currentCategory)
+                    -> repository.FindExercisesForCategory(currentCategory.getId()));
 
     public ExerciseNameViewModel(@NonNull Application application) {
         super(application);
@@ -28,8 +29,6 @@ public class ExerciseNameViewModel extends AndroidViewModel {
     }
 
     public void DeleteExerciseName (ExerciseName exerciseName) {repository.DeleteExerciseName(exerciseName);}
-
-    /*public void UpdateExerciseName (ExerciseName exerciseName) {repository.UpdateExerciseName(exerciseName);}*/
 
     public void setDate(String date) {
         currentDate.setValue(date);

@@ -4,11 +4,8 @@ package woodward.owen.fitnessapplication.exercise_package;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "exercise_table")
@@ -51,12 +48,13 @@ public class Exercise implements Parcelable {
         this.date = date;
     }
 
+    //Empty constructor needed to initialise database
     public Exercise() {
 
     }
 
     //Parcelable Constructor
-    protected Exercise(Parcel in) { //Might need to change level of protection to public instead of protected
+    protected Exercise(Parcel in) {
         id = in.readInt();
         exerciseName = in.readString();
         date = in.readString();
@@ -99,8 +97,6 @@ public class Exercise implements Parcelable {
     }
 
     //Setters
-
-
     public void setExerciseName(String exerciseName) { this.exerciseName = exerciseName; }
 
     public void setId(int id) {

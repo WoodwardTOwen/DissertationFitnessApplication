@@ -1,7 +1,6 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Update;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -19,8 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Collections;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;

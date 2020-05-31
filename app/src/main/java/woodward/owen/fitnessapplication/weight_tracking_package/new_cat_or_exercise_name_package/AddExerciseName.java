@@ -1,7 +1,6 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.new_cat_or_exercise_name_package;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
@@ -95,6 +93,7 @@ public class AddExerciseName extends AppCompatActivity {
                 Toast.makeText(AddExerciseName.this, "New Exercise Type Saved", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(AddExerciseName.this, ExerciseTrackingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 finish();
             }

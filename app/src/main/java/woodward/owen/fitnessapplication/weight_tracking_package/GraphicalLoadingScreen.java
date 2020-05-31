@@ -103,7 +103,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         });
     }
 
-    //Graphical Analysis Set Up
+    //Graphical Analysis Set Up For Weekly Volume
     private List<String> WeeklyDates (String date) {
         int weekNumber, year; List<String> dates;
 
@@ -140,7 +140,7 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
         graphical.putExtra(GraphicalActivity.FILTER_OPTION, graphicalOption);
 
         if(graphicalOption.equals("WeeklyVolume")){
-            graphical.putExtra(GraphicalActivity.EXTRA_FIRST_DATE, graphicalViewModel.getExerciseDates().getValue().get(0));
+            graphical.putExtra(GraphicalActivity.EXTRA_FIRST_DATE, Objects.requireNonNull(graphicalViewModel.getExerciseDates().getValue()).get(0));
             graphical.putExtra(GraphicalActivity.EXTRA_LAST_DATE, graphicalViewModel.getExerciseDates().getValue().get(6));
         }
         else {
@@ -154,9 +154,8 @@ public class GraphicalLoadingScreen extends AppCompatActivity {
     private final GraphicalHandler handler = new GraphicalHandler();
 
     public class GraphicalRunnable implements Runnable {
-        //Can be garbage collected whenever
+        //Weak Reference because it can be garbage collected whenever
         private final WeakReference<Activity> mActivity;
-
         GraphicalRunnable(Activity activity) {
             mActivity = new WeakReference<>(activity);
         }

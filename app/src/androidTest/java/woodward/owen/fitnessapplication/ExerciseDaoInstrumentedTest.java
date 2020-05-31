@@ -3,7 +3,6 @@ package woodward.owen.fitnessapplication;
 import android.content.Context;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -14,13 +13,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.ExerciseDao;
 import woodward.owen.fitnessapplication.weight_tracking_package.database_package.ExerciseDatabase;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;
 
 /**
@@ -32,7 +32,6 @@ import static org.junit.Assert.*;
 public class ExerciseDaoInstrumentedTest {
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-
     private ExerciseDao exerciseDao;
     private ExerciseDatabase mDb;
 
@@ -49,17 +48,12 @@ public class ExerciseDaoInstrumentedTest {
     }
 
     @Test
-    public void getAllExercises() {
-        Exercise exercise = new Exercise("aaa", 0, 1, 3, "00/00/20");
-        exerciseDao.Insert(exercise);
-        Exercise exercise2 = new Exercise("bbb", 4, 2, 5, "00/00/20");
-        exerciseDao.Insert(exercise2);
-        Exercise exercise3 = new Exercise("ccc", 2, 20, 8, "00/00/20");
-        exerciseDao.Insert(exercise2);
+    public void FindExercise() {
 
-        LiveData<List<Exercise>> exerciseList = exerciseDao.GetAllExercisesByDate("00/00/20");
-        assertEquals(Objects.requireNonNull(exerciseList.getValue()).get(0).getExerciseName(), exercise.getExerciseName());
-        assertEquals(exerciseList.getValue().get(1).getReps(), exercise2.getReps());
-        assertEquals(exerciseList.getValue().get(2).getDate(), exercise3.getDate());
+        Exercise exercise = new Exercise("Lat PullDown", 0, 40, 8, "00/00/20");
+        Exercise exercise1 = new Exercise("Chest Press", 10, 50, 10,  "00/01/21");
+        exerciseDao.Insert(exercise); exerciseDao.Insert(exercise1);
+        List<Exercise> exerciseList = exerciseDao.TestGetSpecificExercise("Chest Press");
+        assertThat(exerciseList.get(0), equalTo(exercise1));
     }
 }

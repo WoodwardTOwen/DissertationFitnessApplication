@@ -49,16 +49,6 @@ public class PlateMathCalcActivity extends AppCompatActivity {
 
    //endregion
 
-    //region checkboxes
-    private CheckBox mOneTwoFiveCb;
-    private CheckBox mTwoFiveCb;
-    private CheckBox mFiveCb;
-    private CheckBox mTenCb;
-    private CheckBox mFifteenCb;
-    private CheckBox mTwentyCb;
-    private CheckBox mTwentyFiveCb;
-//endregion
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,20 +157,9 @@ public class PlateMathCalcActivity extends AppCompatActivity {
     }
 
     public void calcPlates (View view) {
-
-        //region Setting variable data
         mCalculateResultBnt = findViewById(R.id.calculatePMCBnt);
         mInputWeightValueTb = findViewById(R.id.inputWeightTxtBox);
-        mOneTwoFiveCb = findViewById(R.id.weight125Cb);
-        mTwoFiveCb = findViewById(R.id.weight25SmallCb);
-        mFiveCb = findViewById(R.id.weight5Cb);
-        mTenCb = findViewById(R.id.weight10Cb);
-        mFifteenCb = findViewById(R.id.weight15Cb);
-        mTwentyCb = findViewById(R.id.weight20Cb);
-        mTwentyFiveCb = findViewById(R.id.weight25Cb);
         closeKeyBoard();
-
-        //endregion
 
                 try {
 

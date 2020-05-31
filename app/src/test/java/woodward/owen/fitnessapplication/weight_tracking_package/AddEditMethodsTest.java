@@ -1,6 +1,5 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

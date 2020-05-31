@@ -3,7 +3,6 @@ package woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_pack
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -18,7 +17,7 @@ public class AddExerciseNameViewModel extends AndroidViewModel {
 
     private final MutableLiveData<Integer> catID = new MutableLiveData<>();
     private final MutableLiveData<String> catName = new MutableLiveData<>();
-    private ExerciseRepository repository;
+    private static ExerciseRepository repository;
     private final LiveData<List<ExerciseName>> allExercisesForCategory = Transformations.switchMap(catID, (currentCategory) -> repository.FindExercisesForCategory(catID.getValue()));
 
     public AddExerciseNameViewModel(@NonNull Application application) {

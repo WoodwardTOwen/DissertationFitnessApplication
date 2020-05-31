@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class BarbellType implements Parcelable {
-    private String barbellName;
-    private int barbellWeight;
+    private final String barbellName;
+    private final int barbellWeight;
 
     BarbellType(String pBarbellName, int pBarbellWeight) {
         this.barbellName = pBarbellName;

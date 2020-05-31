@@ -1,23 +1,19 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.new_cat_or_exercise_name_package;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
 import java.util.Objects;
 
 import woodward.owen.fitnessapplication.R;
@@ -75,6 +71,7 @@ public class AddCategory extends AppCompatActivity {
                 Toast.makeText(AddCategory.this, "New Category Type Saved", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(AddCategory.this, ExerciseTrackingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 finish();
             }

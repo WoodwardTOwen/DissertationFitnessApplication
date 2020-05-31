@@ -2,12 +2,10 @@ package woodward.owen.fitnessapplication.plate_math_calculator_package;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.View;
+
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -21,8 +19,8 @@ import woodward.owen.fitnessapplication.R;
 public class PlateMathBarbellDeletePopUp extends Activity {
 
     private ArrayList<BarbellType> retrievedListOfBarbells;
-
     private Spinner mBarbellSpinnerRemover;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) { //Changed from NoNull to Nullable
 
@@ -78,13 +76,7 @@ public class PlateMathBarbellDeletePopUp extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int width = displayMetrics.widthPixels, height = displayMetrics.heightPixels;
-        int screenOrientation = getResources().getConfiguration().orientation;
-
-        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In landscape
-        } else {
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In portrait
-        }
+        getWindow().setLayout((int) (width * .8), (int) (height * .7));
     }
 
     private void setSpinnerData() {

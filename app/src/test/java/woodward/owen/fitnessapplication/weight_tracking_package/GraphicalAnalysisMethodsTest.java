@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class GraphicalAnalysisMethodsTest {
 
-    private List<Exercise> exercises = new ArrayList<>();
+    private final List<Exercise> exercises = new ArrayList<>();
 
     @Test
     public void convertDates() {

@@ -17,9 +17,9 @@ import woodward.owen.fitnessapplication.weight_tracking_package.dao_package.Exer
 public class ExerciseRepository {
 
     private static ExerciseRepository exerciseRepository;
-    private ExerciseDao exerciseDao;
-    private ExerciseNameDao exerciseNameDao;
-    private CategoryDao catDao;
+    private final ExerciseDao exerciseDao;
+    private final ExerciseNameDao exerciseNameDao;
+    private final CategoryDao catDao;
     private LiveData<List<Exercise>> allExercises;
     private LiveData<List<Exercise>> allExercisesGraphics;
     private LiveData<List<ExerciseName>> allExerciseNames;
@@ -115,8 +115,7 @@ public class ExerciseRepository {
 
     //Exercise Async tasks
     private static class InsertExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
-        private ExerciseDao exerciseDao; //needed for database operations
-
+        private final ExerciseDao exerciseDao;
         private InsertExerciseAsyncTask(ExerciseDao dao) {
             this.exerciseDao = dao;
         }
@@ -129,7 +128,7 @@ public class ExerciseRepository {
     }
 
     private static class UpdateExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
-        private ExerciseDao exerciseDao; //needed for database operations
+        private final ExerciseDao exerciseDao; //needed for database operations
 
         private UpdateExerciseAsyncTask(ExerciseDao dao) {
             this.exerciseDao = dao;
@@ -143,7 +142,7 @@ public class ExerciseRepository {
     }
 
     private static class DeleteExerciseAsyncTask extends AsyncTask<Exercise, Void, Void> {
-        private ExerciseDao exerciseDao; //needed for database operations
+        private final ExerciseDao exerciseDao; //needed for database operations
 
         private DeleteExerciseAsyncTask(ExerciseDao dao) {
             this.exerciseDao = dao;
@@ -157,7 +156,7 @@ public class ExerciseRepository {
     }
 
     private static class DeleteAllExerciseAsyncTask extends AsyncTask<String, Void, Void> {
-        private ExerciseDao exerciseDao; //needed for database operations
+        private final ExerciseDao exerciseDao; //needed for database operations
 
         private DeleteAllExerciseAsyncTask(ExerciseDao dao) {
             this.exerciseDao = dao;
@@ -172,7 +171,7 @@ public class ExerciseRepository {
 
     //ExerciseName Async Tasks
     private static class InsertExerciseNameAsyncTask extends AsyncTask<ExerciseName, Void, Void> {
-        private ExerciseNameDao exerciseNameDao; //needed for database operations
+        private final ExerciseNameDao exerciseNameDao; //needed for database operations
 
         private InsertExerciseNameAsyncTask(ExerciseNameDao dao) {
             this.exerciseNameDao = dao;
@@ -186,7 +185,7 @@ public class ExerciseRepository {
     }
 
     private static class UpdateExerciseNameAsyncTask extends AsyncTask<ExerciseName, Void, Void> {
-        private ExerciseNameDao exerciseNameDao; //needed for database operations
+        private final ExerciseNameDao exerciseNameDao; //needed for database operations
 
         private UpdateExerciseNameAsyncTask(ExerciseNameDao dao) {
             this.exerciseNameDao = dao;
@@ -200,7 +199,7 @@ public class ExerciseRepository {
     }
 
     private static class DeleteExerciseNameAsyncTask extends AsyncTask<ExerciseName, Void, Void> {
-        private ExerciseNameDao exerciseNameDao; //needed for database operations
+        private final ExerciseNameDao exerciseNameDao; //needed for database operations
 
         private DeleteExerciseNameAsyncTask(ExerciseNameDao dao) {
             this.exerciseNameDao = dao;
@@ -215,7 +214,7 @@ public class ExerciseRepository {
 
     //Category Async Tasks
     private static class InsertCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
-        private CategoryDao categoryDao; //needed for database operations
+        private final CategoryDao categoryDao; //needed for database operations
 
         private InsertCategoryAsyncTask(CategoryDao dao) {
             this.categoryDao = dao;
@@ -229,7 +228,7 @@ public class ExerciseRepository {
     }
 
     private static class UpdateCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
-        private CategoryDao categoryDao; //needed for database operations
+        private final CategoryDao categoryDao; //needed for database operations
 
         private UpdateCategoryAsyncTask(CategoryDao dao) {
             this.categoryDao = dao;
@@ -243,7 +242,7 @@ public class ExerciseRepository {
     }
 
     private static class DeleteCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
-        private CategoryDao categoryDao; //needed for database operations
+        private final CategoryDao categoryDao; //needed for database operations
 
         private DeleteCategoryAsyncTask(CategoryDao dao) {
             this.categoryDao = dao;

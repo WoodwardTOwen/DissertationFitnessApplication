@@ -10,7 +10,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
-import java.util.Objects;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.weight_tracking_package.database_package.ExerciseRepository;

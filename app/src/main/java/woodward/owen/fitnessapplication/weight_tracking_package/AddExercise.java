@@ -37,7 +37,6 @@ public class AddExercise extends AppCompatActivity implements View.OnClickListen
     private TextView categoryTextView;
     private String dateForExercise;
     private AddExerciseViewModel addExerciseViewModel;
-    private AddExerciseLayoutFileBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

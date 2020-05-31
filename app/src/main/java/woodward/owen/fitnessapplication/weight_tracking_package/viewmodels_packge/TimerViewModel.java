@@ -3,15 +3,8 @@ package woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_pack
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.AndroidViewModel;
-
-import woodward.owen.fitnessapplication.weight_tracking_package.ExerciseTrackingActivity;
-import woodward.owen.fitnessapplication.weight_tracking_package.NotificationHelp;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class TimerViewModel extends AndroidViewModel {
 
@@ -66,7 +59,6 @@ public class TimerViewModel extends AndroidViewModel {
     public int calculateMinutesRemaining() {
         return (int) (timeLeftInMillis / 1000) / 60;
     }
-
     public int calculateSecondsRemaining() {
         return (int) (timeLeftInMillis / 1000) % 60;
     }

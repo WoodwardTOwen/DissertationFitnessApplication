@@ -31,13 +31,13 @@ public abstract class ExerciseDatabase extends RoomDatabase {
     public abstract ExerciseNameDao exerciseNameDao();
     public abstract CategoryDao categoryDao();
 
-    static synchronized ExerciseDatabase getInstance(Context context) { //synchronized means only one thread at a time can access the method
+    static synchronized ExerciseDatabase getInstance(Context context) { //Checks if Instance exists
         if (instance == null) {
-            synchronized (ExerciseDatabase.class) { //This was altered here with an extra synchronized
+            synchronized (ExerciseDatabase.class) { //Synchronized means only one thread at a time can access the method
                 if (instance == null) {
                     instance = Room.databaseBuilder(context.getApplicationContext(), ExerciseDatabase.class, "exericse_database")
-                            .fallbackToDestructiveMigration()
-                            .addCallback(callBack)
+                            .fallbackToDestructiveMigration() //FallBack Procedure
+                            .addCallback(callBack) //CallBack to Create and pre-populate DB
                             .build();
                 }
             }
@@ -45,7 +45,7 @@ public abstract class ExerciseDatabase extends RoomDatabase {
         return instance;
     }
 
-    private static RoomDatabase.Callback callBack = new RoomDatabase.Callback() {
+    private static final RoomDatabase.Callback callBack = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
@@ -54,9 +54,9 @@ public abstract class ExerciseDatabase extends RoomDatabase {
     };
 
     private static class prePopulate extends AsyncTask<Void, Void, Void> {
-        private ExerciseDao exerciseDao;
-        private ExerciseNameDao exerciseNameDao;
-        private CategoryDao categoryDao;
+        private final ExerciseDao exerciseDao;
+        private final ExerciseNameDao exerciseNameDao;
+        private final CategoryDao categoryDao;
 
         private prePopulate(ExerciseDatabase db) {
             exerciseDao = db.exerciseDao();

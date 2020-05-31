@@ -38,12 +38,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import woodward.owen.fitnessapplication.exercise_package.Exercise;
 import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathCalcActivity;
@@ -67,7 +65,6 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
     private Button bottomSheetResetButton;
     private Button bottomSheetStartPauseButton;
     private NotificationHelp notificationHelp;
-    private List<Exercise> mExercises = new ArrayList<>();
     public static final int EDIT_EXERCISE_REQUEST = 1;
     public static final String EXTRA_DATE_MAIN_UI = "woodward.owen.fitnessApplication.EXTRA_DATE_MAIN_UI";
     private static final String TIMER_PREFS = "timerPrefs";
@@ -129,7 +126,7 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
                 exerciseViewModel.setCachedExercise(adapter.getExercisePosition(viewHolder.getAdapterPosition())); //Cache exercise for undo exercise
                 exerciseViewModel.Delete(adapter.getExercisePosition(viewHolder.getAdapterPosition())); //delete selected exercise
 
-                Snackbar.make(viewHolder.itemView, "Deleted Exercise: " + exerciseViewModel.getCurrentCachedExercise().getValue().getExerciseName(), Snackbar.LENGTH_LONG)
+                Snackbar.make(viewHolder.itemView, "Deleted Exercise: " + Objects.requireNonNull(exerciseViewModel.getCurrentCachedExercise().getValue()).getExerciseName(), Snackbar.LENGTH_LONG)
                         .setActionTextColor(ContextCompat.getColor(ExerciseTrackingActivity.this, R.color.colorDatePicker))
                         .setAction("UNDO", v -> {
                             exerciseViewModel.Insert(exerciseViewModel.getCurrentCachedExercise().getValue()); //If undo is required, re insert exercise
@@ -445,11 +442,9 @@ public class ExerciseTrackingActivity extends AppCompatActivity implements DateP
         activeActivity = false; //Manages whether the dialog box should be shown or not
         SharedPreferences prefs = getSharedPreferences(TIMER_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-
         editor.putLong(MILLIS_LEFT, timerViewModel.getTimeRemaining());
         editor.putBoolean(TIMER_RUNNING, timerViewModel.getIsTimerRunning());
         editor.putLong(END_TIME, timerViewModel.getEndTime());
-
         editor.apply();
     }
 

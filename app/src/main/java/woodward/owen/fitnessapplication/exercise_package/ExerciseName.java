@@ -24,6 +24,7 @@ public class ExerciseName extends BaseObservable {
     @ColumnInfo(name = "CategoryID")
     private int categoryID;
 
+    //Empty constructor for database initialisation
     public ExerciseName () {
 
     }

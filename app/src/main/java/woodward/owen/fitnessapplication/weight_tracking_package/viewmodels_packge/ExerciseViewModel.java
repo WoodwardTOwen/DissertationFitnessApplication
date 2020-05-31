@@ -16,27 +16,30 @@ import woodward.owen.fitnessapplication.weight_tracking_package.database_package
 public class ExerciseViewModel extends AndroidViewModel {
     private static ExerciseRepository repository;
     private static MutableLiveData<Exercise> cachedExercise;
-    private MutableLiveData<String> currentDate = new MutableLiveData<>();
-    private LiveData<List<Exercise>> allExercisesByDate = Transformations.switchMap(currentDate, (date) -> repository.GetAllExercisesByDate(date));
+    private final MutableLiveData<String> currentDate = new MutableLiveData<>();
+    private final LiveData<List<Exercise>> allExercisesByDate = Transformations.switchMap(currentDate, (date) -> repository.GetAllExercisesByDate(date));
 
     public ExerciseViewModel(@NonNull Application application) {
         super(application);
         repository = ExerciseRepository.getInstance(application);
     }
 
-    //Wrapper methods for the repository from the ViewModel
+    //Used for UNDO function when deleting exercises was by accident
     public void Insert(Exercise exercise) {
         repository.Insert(exercise);
     }
 
+    //Update Exercise Data in Model
     public void Update(Exercise exercise) {
         repository.Update(exercise);
     }
 
+    //Remove Exercise Data from Model
     public void Delete(Exercise exercise) {
         repository.Delete(exercise);
     }
 
+    //Removes all exercise data for a specific date
     public void DeleteAllExercises(String date) {
         repository.DeleteAllExercises(date);
     }

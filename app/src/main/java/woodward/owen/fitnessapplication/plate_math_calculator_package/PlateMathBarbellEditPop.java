@@ -2,10 +2,8 @@ package woodward.owen.fitnessapplication.plate_math_calculator_package;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 import woodward.owen.fitnessapplication.R;
 
 public class PlateMathBarbellEditPop extends Activity {
@@ -26,8 +26,7 @@ public class PlateMathBarbellEditPop extends Activity {
         setContentView(R.layout.barbell_edit_popup);
 
         Bundle bundle = getIntent().getExtras();
-        assert bundle != null;
-        final ArrayList<BarbellType> retrievedListOfBarbells = bundle.getParcelableArrayList("barbellList");
+        final ArrayList<BarbellType> retrievedListOfBarbells = Objects.requireNonNull(bundle).getParcelableArrayList("barbellList");
         Display();
 
 
@@ -47,7 +46,7 @@ public class PlateMathBarbellEditPop extends Activity {
                     String barbellNameStr = barbellName.getText().toString();
                     int barbellWeightStr = Integer.parseInt(barbellWeight.getText().toString());
 
-                    boolean checker = CheckIfExists(barbellNameStr, retrievedListOfBarbells);
+                    boolean checker = CheckIfExists(barbellNameStr, Objects.requireNonNull(retrievedListOfBarbells));
 
                     if(checker) {
                         BarbellType tempBarbell = new BarbellType(barbellNameStr, barbellWeightStr);
@@ -81,13 +80,7 @@ public class PlateMathBarbellEditPop extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int width = displayMetrics.widthPixels, height = displayMetrics.heightPixels;
-        int screenOrientation = getResources().getConfiguration().orientation;
-
-        if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In landscape
-        } else {
-            getWindow().setLayout((int) (width * .8), (int) (height * .7));  // In portrait
-        }
+        getWindow().setLayout((int) (width * .8), (int) (height * .7));
     }
 
 

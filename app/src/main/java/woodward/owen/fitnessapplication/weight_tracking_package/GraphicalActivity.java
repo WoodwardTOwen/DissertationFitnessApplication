@@ -86,8 +86,8 @@ public class GraphicalActivity extends AppCompatActivity {
             }
         }
 
-        currentExercises = bundle.getParcelableArrayList(LIST_OF_EXERCISES);
-        dateArray = new String[currentExercises.size()];
+        currentExercises = Objects.requireNonNull(bundle).getParcelableArrayList(LIST_OF_EXERCISES);
+        dateArray = new String[Objects.requireNonNull(currentExercises).size()];
 
         for(int x = 0; x < currentExercises.size(); x++){
             dateArray[x] = currentExercises.get(x).getDate();
@@ -179,7 +179,7 @@ public class GraphicalActivity extends AppCompatActivity {
 
 
     public class CustomMarketView extends MarkerView {
-        private TextView textview;
+        private final TextView textview;
         private MPPointF offset;
 
         public CustomMarketView(Context context, int layoutResource) {

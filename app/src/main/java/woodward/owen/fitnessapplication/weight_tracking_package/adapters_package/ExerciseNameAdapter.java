@@ -1,18 +1,14 @@
 package woodward.owen.fitnessapplication.weight_tracking_package.adapters_package;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import woodward.owen.fitnessapplication.R;
 import woodward.owen.fitnessapplication.databinding.ExercisenameItemBinding;
-import woodward.owen.fitnessapplication.exercise_package.Category;
 import woodward.owen.fitnessapplication.exercise_package.ExerciseName;
 
 public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameAdapter.ExerciseNameHolder> {
@@ -54,7 +50,7 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
 
         ExerciseNameHolder(ExercisenameItemBinding exercisenameItemBinding) {
             super(exercisenameItemBinding.getRoot());
-            this.binding = exercisenameItemBinding;
+            this.binding = exercisenameItemBinding; // Setting the Binding
 
             //setting listener on cardView
             itemView.setOnClickListener(v -> {
@@ -63,7 +59,7 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
                     listener.onItemClick(getItem(pos));
                 }
             });
-
+            //OnLongPress for Removal Of Items
             itemView.setOnLongClickListener(v -> {
                int pos = getAdapterPosition();
                if(longClickListener != null && pos != RecyclerView.NO_POSITION) {
@@ -72,9 +68,7 @@ public class ExerciseNameAdapter extends ListAdapter<ExerciseName, ExerciseNameA
                }
                return false;
             });
-
         }
-
         void bind(ExerciseName exerciseName) {
             binding.setExerciseName(exerciseName);
             binding.executePendingBindings();

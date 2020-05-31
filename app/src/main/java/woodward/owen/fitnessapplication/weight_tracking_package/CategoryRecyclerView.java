@@ -1,17 +1,13 @@
 package woodward.owen.fitnessapplication.weight_tracking_package;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,23 +20,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
 import java.util.Objects;
-
 import woodward.owen.fitnessapplication.R;
-import woodward.owen.fitnessapplication.databinding.ActivityCategoryRecyclerViewBinding;
 import woodward.owen.fitnessapplication.exercise_package.Category;
-import woodward.owen.fitnessapplication.plate_math_calculator_package.BarbellType;
-import woodward.owen.fitnessapplication.plate_math_calculator_package.PlateMathBarbellDeletePopUp;
 import woodward.owen.fitnessapplication.weight_tracking_package.adapters_package.CategoryAdapter;
-import woodward.owen.fitnessapplication.weight_tracking_package.adapters_package.ExerciseNameAdapter;
 import woodward.owen.fitnessapplication.weight_tracking_package.new_cat_or_exercise_name_package.AddCategory;
 import woodward.owen.fitnessapplication.weight_tracking_package.viewmodels_packge.CategoryViewModel;
-
-import static woodward.owen.fitnessapplication.weight_tracking_package.AddExercise.EXTRA_DATE;
 
 public class CategoryRecyclerView extends AppCompatActivity {
 
@@ -135,6 +120,7 @@ public class CategoryRecyclerView extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Successfully Removed " + category.getCategoryName(), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
             Intent intent1 = new Intent(CategoryRecyclerView.this, ExerciseTrackingActivity.class);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent1);
             finish();
         });

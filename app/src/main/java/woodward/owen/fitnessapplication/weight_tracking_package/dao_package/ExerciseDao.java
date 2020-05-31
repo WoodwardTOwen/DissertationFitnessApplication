@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 import java.util.List;
@@ -34,9 +33,13 @@ public interface ExerciseDao {
     @Query("SELECT * FROM exercise_table WHERE date = :date")
     LiveData<List<Exercise>> GetAllExercisesByDate(String date);
 
-    //Get all exercises that match the current username
+    //Get all exercises that match the current exerciseName
     @Query("SELECT * FROM exercise_table WHERE exerciseName = :exerciseName")
     LiveData<List<Exercise>> GetSpecificExercisesByName(String exerciseName);
+
+    //Used for testing purposes -> live data is lazily loaded struggles to operate
+    @Query("SELECT * FROM exercise_table WHERE exerciseName = :exerciseName")
+    List<Exercise> TestGetSpecificExercise(String exerciseName);
 
     //Weekly Volume Query
     @Query("SELECT * FROM exercise_table WHERE date = :date1 OR date = :date2 OR date = :date3 OR date = :date4 " +
